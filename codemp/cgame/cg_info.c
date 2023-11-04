@@ -232,10 +232,14 @@ void CG_DrawInformation(void)
 	}
 
 	CG_LoadBar();
+	LoadTips();
 
-	if (com_rend2.integer != 1) //rend2 is off
+	if (cg.loadLCARSStage <= 6)
 	{
-		LoadTips();
+		if (com_rend2.integer == 1) //rend2 is on
+		{
+			CG_DrawProportionalString(300, 2, CG_GetStringEdString("LOADTIPS-MP", "REND2TIP"), UI_CENTER | UI_SMALLFONT | UI_DROPSHADOW, colorWhite);
+		}
 	}
 
 	int y = 180 - 32;
@@ -487,14 +491,6 @@ void CG_LoadBar(void)
 
 	if (cg.loadLCARSStage >= 3)
 	{
-		if (cg.loadLCARSStage <= 6)
-		{
-			if (com_rend2.integer == 1) //rend2 is on
-			{
-				CG_DrawProportionalString(300, 2, CG_GetStringEdString("LOADTIPS-MP", "REND2TIP"), UI_CENTER | UI_SMALLFONT | UI_DROPSHADOW, colorWhite);
-			}
-		}
-
 		const int x = (640 - LOADBAR_CLIP_WIDTH) / 2;
 		const int y = 50;
 
