@@ -160,8 +160,8 @@ void trap_R_ClearScene(void) {
 void trap_R_AddRefEntityToScene(const refEntity_t* re) {
 	Q_syscall(UI_R_ADDREFENTITYTOSCENE, re);
 }
-void trap_R_AddPolyToScene(qhandle_t h_shader, int num_verts, const polyVert_t* verts) {
-	Q_syscall(UI_R_ADDPOLYTOSCENE, h_shader, num_verts, verts);
+void trap_R_AddPolyToScene(qhandle_t h_shader, int numVerts, const polyVert_t* verts) {
+	Q_syscall(UI_R_ADDPOLYTOSCENE, h_shader, numVerts, verts);
 }
 void trap_R_AddLightToScene(const vec3_t org, float intensity, float r, float g, float b) {
 	Q_syscall(UI_R_ADDLIGHTTOSCENE, org, PASSFLOAT(intensity), PASSFLOAT(r), PASSFLOAT(g), PASSFLOAT(b));
@@ -367,11 +367,11 @@ qboolean trap_G2API_GetBoltMatrix_NoReconstruct(void* ghoul2, const int model_in
 qboolean trap_G2API_GetBoltMatrix_NoRecNoRot(void* ghoul2, const int model_index, const int bolt_index, mdxaBone_t* matrix, const vec3_t angles, const vec3_t position, const int frameNum, qhandle_t* model_list, vec3_t scale) {
 	return Q_syscall(UI_G2_GETBOLT_NOREC_NOROT, ghoul2, model_index, bolt_index, matrix, angles, position, frameNum, model_list, scale);
 }
-int trap_G2API_InitGhoul2Model(void** ghoul2Ptr, const char* fileName, int model_index, qhandle_t custom_skin, qhandle_t custom_shader, int modelFlags, int lodBias) {
-	return Q_syscall(UI_G2_INITGHOUL2MODEL, ghoul2Ptr, fileName, model_index, custom_skin, custom_shader, modelFlags, lodBias);
+int trap_G2API_InitGhoul2Model(void** ghoul2Ptr, const char* fileName, int model_index, qhandle_t customSkin, qhandle_t customShader, int modelFlags, int lodBias) {
+	return Q_syscall(UI_G2_INITGHOUL2MODEL, ghoul2Ptr, fileName, model_index, customSkin, customShader, modelFlags, lodBias);
 }
-qboolean trap_G2API_SetSkin(void* ghoul2, int model_index, qhandle_t custom_skin, qhandle_t render_skin) {
-	return Q_syscall(UI_G2_SETSKIN, ghoul2, model_index, custom_skin, render_skin);
+qboolean trap_G2API_SetSkin(void* ghoul2, int model_index, qhandle_t customSkin, qhandle_t render_skin) {
+	return Q_syscall(UI_G2_SETSKIN, ghoul2, model_index, customSkin, render_skin);
 }
 void trap_G2API_CollisionDetect(CollisionRecord_t* collRecMap, void* ghoul2, const vec3_t angles, const vec3_t position, int frameNumber, int ent_num, const vec3_t rayStart, const vec3_t rayEnd, const vec3_t scale, int traceFlags, int use_lod, float fRadius) {
 	Q_syscall(UI_G2_COLLISIONDETECT, collRecMap, ghoul2, angles, position, frameNumber, ent_num, rayStart, rayEnd, scale, traceFlags, use_lod, PASSFLOAT(fRadius));
@@ -456,7 +456,7 @@ qboolean trap_G2API_AttachG2Model(void* ghoul2_from, int modelIndexFrom, void* g
 
 int UISyscall_FS_Read(void* buffer, int len, fileHandle_t f) { trap_FS_Read(buffer, len, f); return 0; }
 int UISyscall_FS_Write(const void* buffer, int len, fileHandle_t f) { trap_FS_Write(buffer, len, f); return 0; }
-void UISyscall_R_AddPolysToScene(qhandle_t h_shader, int num_verts, const polyVert_t* verts, int num) { trap_R_AddPolyToScene(h_shader, num_verts, verts); }
+void UISyscall_R_AddPolysToScene(qhandle_t h_shader, int numVerts, const polyVert_t* verts, int num) { trap_R_AddPolyToScene(h_shader, numVerts, verts); }
 void UISyscall_G2API_CollisionDetect(CollisionRecord_t* collRecMap, void* ghoul2, const vec3_t angles, const vec3_t position, int frameNumber, int ent_num, vec3_t rayStart, vec3_t rayEnd, vec3_t scale, int traceFlags, int use_lod, float fRadius) { trap_G2API_CollisionDetect(collRecMap, ghoul2, angles, position, frameNumber, ent_num, rayStart, rayEnd, scale, traceFlags, use_lod, fRadius); }
 
 void UISyscall_AddCommand(const char* cmd_name)

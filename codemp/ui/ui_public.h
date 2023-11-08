@@ -319,7 +319,7 @@ typedef struct uiImport_s {
 	unsigned int	(*R_AnyLanguage_ReadCharFromString)		(const char* psText, int* piAdvanceCount, qboolean* pbIsTrailingPunctuation);
 
 	void			(*R_AddLightToScene)					(const vec3_t org, float intensity, float r, float g, float b);
-	void			(*R_AddPolysToScene)					(qhandle_t h_shader, int num_verts, const polyVert_t* verts, int num);
+	void			(*R_AddPolysToScene)					(qhandle_t h_shader, int numVerts, const polyVert_t* verts, int num);
 	void			(*R_AddRefEntityToScene)				(const refEntity_t* re);
 	void			(*R_ClearScene)							(void);
 	void			(*R_DrawStretchPic)						(float x, float y, float w, float h, float s1, float t1, float s2, float t2, qhandle_t h_shader);
@@ -345,7 +345,7 @@ typedef struct uiImport_s {
 	qboolean(*G2API_GetBoltMatrix)					(void* ghoul2, int model_index, int bolt_index, mdxaBone_t* matrix, const vec3_t angles, const vec3_t position, int frameNum, qhandle_t* model_list, vec3_t scale);
 	qboolean(*G2API_GetBoltMatrix_NoReconstruct)	(void* ghoul2, int model_index, int bolt_index, mdxaBone_t* matrix, const vec3_t angles, const vec3_t position, int frameNum, qhandle_t* model_list, vec3_t scale);
 	qboolean(*G2API_GetBoltMatrix_NoRecNoRot)		(void* ghoul2, int model_index, int bolt_index, mdxaBone_t* matrix, const vec3_t angles, const vec3_t position, int frameNum, qhandle_t* model_list, vec3_t scale);
-	int				(*G2API_InitGhoul2Model)				(void** ghoul2Ptr, const char* fileName, int model_index, qhandle_t custom_skin, qhandle_t custom_shader, int modelFlags, int lodBias);
+	int				(*G2API_InitGhoul2Model)				(void** ghoul2Ptr, const char* fileName, int model_index, qhandle_t customSkin, qhandle_t customShader, int modelFlags, int lodBias);
 	void			(*G2API_CollisionDetect)				(CollisionRecord_t* collRecMap, void* ghoul2, const vec3_t angles, const vec3_t position, int frameNumber, int ent_num, vec3_t rayStart, vec3_t rayEnd, vec3_t scale, int traceFlags, int use_lod, float fRadius);
 	void			(*G2API_CollisionDetectCache)			(CollisionRecord_t* collRecMap, void* ghoul2, const vec3_t angles, const vec3_t position, int frameNumber, int ent_num, vec3_t rayStart, vec3_t rayEnd, vec3_t scale, int traceFlags, int use_lod, float fRadius);
 	void			(*G2API_CleanGhoul2Models)				(void** ghoul2Ptr);
@@ -371,7 +371,7 @@ typedef struct uiImport_s {
 	qboolean(*G2API_SetBoneIKState)					(void* ghoul2, int time, const char* bone_name, int ikState, sharedSetBoneIKStateParams_t* params);
 	qboolean(*G2API_IKMove)							(void* ghoul2, int time, sharedIKMoveParams_t* params);
 	void			(*G2API_GetSurfaceName)					(void* ghoul2, int surfNumber, int model_index, char* fillBuf);
-	qboolean(*G2API_SetSkin)						(void* ghoul2, int model_index, qhandle_t custom_skin, qhandle_t render_skin);
+	qboolean(*G2API_SetSkin)						(void* ghoul2, int model_index, qhandle_t customSkin, qhandle_t render_skin);
 	qboolean(*G2API_AttachG2Model)					(void* ghoul2_from, int modelIndexFrom, void* ghoul2_to, int toBoltIndex, int toModel);
 
 	struct {

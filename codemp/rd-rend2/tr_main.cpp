@@ -1880,7 +1880,7 @@ static void R_AddEntitySurface(const trRefdef_t* refdef, trRefEntity_t* ent, int
 		if ((ent->e.renderfx & RF_THIRD_PERSON) && !tr.viewParms.isPortal) {
 			return;
 		}
-		shader = R_GetShaderByHandle(ent->e.custom_shader);
+		shader = R_GetShaderByHandle(ent->e.customShader);
 		R_AddDrawSurf(
 			&entitySurface,
 			entity_num,
@@ -1895,8 +1895,8 @@ static void R_AddEntitySurface(const trRefdef_t* refdef, trRefEntity_t* ent, int
 		// we must set up parts of tr.ori for model culling
 		R_RotateForEntity(ent, &tr.viewParms, &tr.ori);
 
-		tr.current_model = R_GetModelByHandle(ent->e.hModel);
-		if (!tr.current_model) {
+		tr.currentModel = R_GetModelByHandle(ent->e.hModel);
+		if (!tr.currentModel) {
 			R_AddDrawSurf(
 				&entitySurface,
 				entity_num,
@@ -1907,7 +1907,7 @@ static void R_AddEntitySurface(const trRefdef_t* refdef, trRefEntity_t* ent, int
 				0/* cubeMap */);
 		}
 		else {
-			switch (tr.current_model->type) {
+			switch (tr.currentModel->type) {
 			case MOD_MESH:
 				R_AddMD3Surfaces(ent, entity_num);
 				break;
@@ -1937,7 +1937,7 @@ static void R_AddEntitySurface(const trRefdef_t* refdef, trRefEntity_t* ent, int
 				}
 
 				// FIX ME: always draw null axis model instead of rejecting the drawcall
-				if (tr.current_model->dataSize > 0)
+				if (tr.currentModel->dataSize > 0)
 					R_AddDrawSurf(
 						&entitySurface,
 						entity_num,
@@ -1954,7 +1954,7 @@ static void R_AddEntitySurface(const trRefdef_t* refdef, trRefEntity_t* ent, int
 		}
 		break;
 	case RT_ENT_CHAIN:
-		shader = R_GetShaderByHandle(ent->e.custom_shader);
+		shader = R_GetShaderByHandle(ent->e.customShader);
 		R_AddDrawSurf(
 			&entitySurface,
 			entity_num,
@@ -2584,16 +2584,16 @@ qboolean R_AddPortalView(const trRefdef_t* refdef)
 			// we must set up parts of tr.ori for model culling
 			R_RotateForEntity(ent, &tr.viewParms, &tr.ori);
 
-			tr.current_model = R_GetModelByHandle(ent->e.hModel);
-			if (!tr.current_model) {
+			tr.currentModel = R_GetModelByHandle(ent->e.hModel);
+			if (!tr.currentModel) {
 				continue;
 			}
 			else {
-				switch (tr.current_model->type) {
+				switch (tr.currentModel->type) {
 				case MOD_BRUSH:
 				{
 					//R_AddBrushModelSurfaces(ent, i);
-					bmodel_t* bmodel = tr.current_model->data.bmodel;
+					bmodel_t* bmodel = tr.currentModel->data.bmodel;
 					world_t* world = R_GetWorld(bmodel->worldIndex);
 					for (int j = 0; j < bmodel->numSurfaces; j++) {
 						int surf = bmodel->firstSurface + j;

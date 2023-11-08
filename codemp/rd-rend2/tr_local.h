@@ -1631,7 +1631,7 @@ typedef struct srfPoly_s {
 	struct srfPoly_s* next;
 	qhandle_t		hShader;
 	int				fogIndex;
-	int				num_verts;
+	int				numVerts;
 	polyVert_t* verts;
 } srfPoly_t;
 
@@ -1704,7 +1704,7 @@ typedef struct srfG2GoreSurface_s
 	glIndex_t* indexes;
 
 	// vertexes
-	int             num_verts;
+	int             numVerts;
 	g2GoreVert_t* verts;
 
 	// BSP VBO offsets
@@ -1733,7 +1733,7 @@ typedef struct srfBspSurface_s
 	glIndex_t* indexes;
 
 	// vertexes
-	int             num_verts;
+	int             numVerts;
 	srfVert_t* verts;
 
 	// BSP VBO offsets
@@ -1766,7 +1766,7 @@ typedef struct srfBspSurface_s
 typedef struct {
 	int		num_vertexes;
 	int		num_triangles;
-	int		num_frames;
+	int		numFrames;
 	int		num_surfaces;
 	int		num_joints;
 	int		num_poses;
@@ -1816,7 +1816,7 @@ typedef struct srfVBOMDVMesh_s
 	// backEnd stats
 	int				indexOffset;
 	int             num_indexes;
-	int             num_verts;
+	int             numVerts;
 	glIndex_t       minIndex;
 	glIndex_t       maxIndex;
 
@@ -2040,7 +2040,7 @@ typedef struct mdvSurface_s
 	int             numShaderIndexes;
 	int* shaderIndexes;
 
-	int             num_verts;
+	int             numVerts;
 	mdvVertex_t* verts;
 	mdvSt_t* st;
 
@@ -2052,7 +2052,7 @@ typedef struct mdvSurface_s
 
 typedef struct mdvModel_s
 {
-	int             num_frames;
+	int             numFrames;
 	mdvFrame_t* frames;
 
 	int             numTags;
@@ -2461,7 +2461,7 @@ typedef struct trGlobals_s {
 	cubemap_t* cubemaps;
 
 	trRefEntity_t			worldEntity;		// point currentEntity at this when rendering world
-	model_t* current_model;
+	model_t* currentModel;
 
 	weatherSystem_t* weatherSystem;
 
@@ -3258,7 +3258,7 @@ void R_InitNextFrame(void);
 void RE_ClearScene(void);
 void RE_AddRefEntityToScene(const refEntity_t* ent);
 void RE_AddMiniRefEntityToScene(const miniRefEntity_t* miniRefEnt);
-void RE_AddPolyToScene(qhandle_t hShader, int num_verts, const polyVert_t* verts, int num);
+void RE_AddPolyToScene(qhandle_t hShader, int numVerts, const polyVert_t* verts, int num);
 void RE_AddLightToScene(const vec3_t org, float intensity, float r, float g, float b);
 void RE_AddAdditiveLightToScene(const vec3_t org, float intensity, float r, float g, float b);
 void RE_BeginScene(const refdef_t* fd);
@@ -3314,7 +3314,7 @@ public:
 	// sort of surface this refers to
 	int ident;
 
-	CBoneCache* bone_cache;
+	CBoneCache* boneCache;
 	mdxmVBOMesh_t* vboMesh;
 
 	// tell the renderer to render shadows for this surface
@@ -3343,7 +3343,7 @@ public:
 	CRenderableSurface& operator =(const CRenderableSurface& src)
 	{
 		ident = src.ident;
-		bone_cache = src.bone_cache;
+		boneCache = src.boneCache;
 		surfaceData = src.surfaceData;
 #ifdef _G2_GORE
 		alternateTex = src.alternateTex;
@@ -3356,7 +3356,7 @@ public:
 
 	CRenderableSurface()
 		: ident(SF_MDX)
-		, bone_cache(nullptr)
+		, boneCache(nullptr)
 		, vboMesh(nullptr)
 		, surfaceData(nullptr)
 #ifdef _G2_GORE
@@ -3372,7 +3372,7 @@ public:
 	void Init()
 	{
 		ident = SF_MDX;
-		bone_cache = nullptr;
+		boneCache = nullptr;
 		surfaceData = nullptr;
 #ifdef _G2_GORE
 		alternateTex = nullptr;

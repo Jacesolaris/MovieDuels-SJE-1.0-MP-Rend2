@@ -449,7 +449,7 @@ static void CGFX_AddLine(vec3_t start, vec3_t end, const float size1, const floa
 
 static void CGFX_AddPoly(addpolyArgStruct_t* p)
 {
-	FX_AddPoly(p->p, p->ev, p->num_verts, p->vel, p->accel, p->alpha1, p->alpha2, p->alphaParm, p->rgb1, p->rgb2,
+	FX_AddPoly(p->p, p->ev, p->numVerts, p->vel, p->accel, p->alpha1, p->alpha2, p->alphaParm, p->rgb1, p->rgb2,
 		p->rgbParm, p->rotationDelta, p->bounce, p->motionDelay, p->killTime, p->shader, p->flags);
 }
 
@@ -617,22 +617,22 @@ static qboolean CL_G2API_GetBoltMatrix_NoRecNoRot(void* ghoul2, const int model_
 }
 
 static int CL_G2API_InitGhoul2Model(void** ghoul2Ptr, const char* fileName, const int model_index,
-	const qhandle_t custom_skin, const qhandle_t custom_shader, const int modelFlags,
+	const qhandle_t customSkin, const qhandle_t customShader, const int modelFlags,
 	const int lodBias)
 {
 #ifdef _FULL_G2_LEAK_CHECKING
 	g_G2AllocServer = 0;
 #endif
-	return re->G2API_InitGhoul2Model(reinterpret_cast<CGhoul2Info_v**>(ghoul2Ptr), fileName, model_index, custom_skin, custom_shader,
+	return re->G2API_InitGhoul2Model(reinterpret_cast<CGhoul2Info_v**>(ghoul2Ptr), fileName, model_index, customSkin, customShader,
 		modelFlags, lodBias);
 }
 
-static qboolean CL_G2API_SetSkin(void* ghoul2, const int model_index, const qhandle_t custom_skin,
+static qboolean CL_G2API_SetSkin(void* ghoul2, const int model_index, const qhandle_t customSkin,
 	const qhandle_t render_skin)
 {
 	if (!ghoul2) return qfalse;
 	CGhoul2Info_v& g2 = *static_cast<CGhoul2Info_v*>(ghoul2);
-	return re->G2API_SetSkin(g2, model_index, custom_skin, render_skin);
+	return re->G2API_SetSkin(g2, model_index, customSkin, render_skin);
 }
 
 static void CL_G2API_CollisionDetect(CollisionRecord_t* collRecMap, void* ghoul2, const vec3_t angles,

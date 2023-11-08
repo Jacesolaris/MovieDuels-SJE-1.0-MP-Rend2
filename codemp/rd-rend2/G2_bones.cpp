@@ -623,7 +623,7 @@ qboolean G2_Set_Bone_Anim_Index(
 	const int current_time,
 	const float set_frame,
 	const int blend_time,
-	const int num_frames)
+	const int numFrames)
 {
 	int			modFlags = flags;
 
@@ -654,7 +654,7 @@ qboolean G2_Set_Bone_Anim_Index(
 		float	current_frame, anim_speed;
 		int 	start_frame, end_frame1, flags1;
 		// figure out where we are now
-		if (G2_Get_Bone_Anim_Index(blist, index, current_time, &current_frame, &start_frame, &end_frame1, &flags1, &anim_speed, NULL, num_frames))
+		if (G2_Get_Bone_Anim_Index(blist, index, current_time, &current_frame, &start_frame, &end_frame1, &flags1, &anim_speed, NULL, numFrames))
 		{
 			if (blist[index].blendStart == current_time)	//we're replacing a blend in progress which hasn't started
 			{
@@ -830,7 +830,7 @@ qboolean G2_Set_Bone_Anim(const CGhoul2Info* ghl_info,
 
 	if (index != -1)
 	{
-		return G2_Set_Bone_Anim_Index(blist, index, start_frame, end_frame, flags, anim_speed, current_time, set_frame, blend_time, ghl_info->aHeader->num_frames);
+		return G2_Set_Bone_Anim_Index(blist, index, start_frame, end_frame, flags, anim_speed, current_time, set_frame, blend_time, ghl_info->aHeader->numFrames);
 	}
 	return qfalse;
 }
@@ -858,7 +858,7 @@ qboolean G2_Get_Bone_Anim_Range(const CGhoul2Info* ghl_info, const boneInfo_v& b
 // NOTE if we aren't running an animation, then qfalse is returned
 void G2_TimingModel(boneInfo_t& bone, int current_time, int numFramesInFile, int& current_frame, int& newFrame, float& lerp);
 
-qboolean G2_Get_Bone_Anim_Index(boneInfo_v& blist, const int index, const int current_time, float* current_frame, int* start_frame, int* end_frame, int* flags, float* ret_anim_speed, qhandle_t* model_list, const int num_frames)
+qboolean G2_Get_Bone_Anim_Index(boneInfo_v& blist, const int index, const int current_time, float* current_frame, int* start_frame, int* end_frame, int* flags, float* ret_anim_speed, qhandle_t* model_list, const int numFrames)
 {
 	// did we find it?
 	if ((index >= 0) && !((index >= (int)blist.size()) || (blist[index].boneNumber == -1)))
@@ -868,7 +868,7 @@ qboolean G2_Get_Bone_Anim_Index(boneInfo_v& blist, const int index, const int cu
 		{
 			int lcurrentFrame, newFrame;
 			float lerp;
-			G2_TimingModel(blist[index], current_time, num_frames, lcurrentFrame, newFrame, lerp);
+			G2_TimingModel(blist[index], current_time, numFrames, lcurrentFrame, newFrame, lerp);
 
 			*current_frame = float(lcurrentFrame) + lerp;
 			*start_frame = blist[index].start_frame;
@@ -906,11 +906,11 @@ qboolean G2_Get_Bone_Anim(const CGhoul2Info* ghl_info, boneInfo_v& blist, const 
 
 	assert(ghl_info->aHeader);
 
-	if (G2_Get_Bone_Anim_Index(blist, index, current_time, current_frame, start_frame, end_frame, flags, ret_anim_speed, model_list, ghl_info->aHeader->num_frames))
+	if (G2_Get_Bone_Anim_Index(blist, index, current_time, current_frame, start_frame, end_frame, flags, ret_anim_speed, model_list, ghl_info->aHeader->numFrames))
 	{
-		assert(*start_frame >= 0 && *start_frame < ghl_info->aHeader->num_frames);
-		assert(*end_frame > 0 && *end_frame <= ghl_info->aHeader->num_frames);
-		assert(*current_frame >= 0.0f && ((int)(*current_frame)) < ghl_info->aHeader->num_frames);
+		assert(*start_frame >= 0 && *start_frame < ghl_info->aHeader->numFrames);
+		assert(*end_frame > 0 && *end_frame <= ghl_info->aHeader->numFrames);
+		assert(*current_frame >= 0.0f && ((int)(*current_frame)) < ghl_info->aHeader->numFrames);
 		return qtrue;
 	}
 
@@ -1251,13 +1251,13 @@ int G2_Find_Bone_Rag(CGhoul2Info* ghl_info, boneInfo_v& blist, const char* bone_
 	skel = (mdxaSkel_t*)((byte*)ghl_info->aHeader + sizeof(mdxaHeader_t) + offsets->offsets[0]);
 
 	/*
-	model_t			*current_model;
+	model_t			*currentModel;
 	model_t			*animModel;
 	mdxaHeader_t	*aHeader;
 
-	current_model = R_GetModelByHandle(RE_RegisterModel(ghl_info->mFileName));
-	assert(current_model);
-	animModel =  R_GetModelByHandle(current_model->mdxm->animIndex);
+	currentModel = R_GetModelByHandle(RE_RegisterModel(ghl_info->mFileName));
+	assert(currentModel);
+	animModel =  R_GetModelByHandle(currentModel->mdxm->animIndex);
 	assert(animModel);
 	aHeader = animModel->mdxa;
 	assert(aHeader);

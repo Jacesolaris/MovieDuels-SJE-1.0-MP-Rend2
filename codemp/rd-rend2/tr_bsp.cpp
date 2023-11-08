@@ -833,7 +833,7 @@ static void ParseFace(const world_t* worldData, dsurface_t* ds, drawVert_t* vert
 	int			i, j;
 	srfBspSurface_t* cv;
 	glIndex_t* tri;
-	int			num_verts, num_indexes, badTriangles;
+	int			numVerts, num_indexes, badTriangles;
 	int realLightmapNum[MAXLIGHTMAPS];
 
 	for (j = 0; j < MAXLIGHTMAPS; j++)
@@ -857,7 +857,7 @@ static void ParseFace(const world_t* worldData, dsurface_t* ds, drawVert_t* vert
 		surf->shader = tr.defaultShader;
 	}
 
-	num_verts = LittleLong(ds->num_verts);
+	numVerts = LittleLong(ds->numVerts);
 	num_indexes = LittleLong(ds->num_indexes);
 
 	//cv = ri->Hunk_Alloc(sizeof(*cv), h_low);
@@ -867,8 +867,8 @@ static void ParseFace(const world_t* worldData, dsurface_t* ds, drawVert_t* vert
 	cv->num_indexes = num_indexes;
 	cv->indexes = (glIndex_t*)ri->Hunk_Alloc(num_indexes * sizeof(cv->indexes[0]), h_low);
 
-	cv->num_verts = num_verts;
-	cv->verts = (srfVert_t*)ri->Hunk_Alloc(num_verts * sizeof(cv->verts[0]), h_low);
+	cv->numVerts = numVerts;
+	cv->verts = (srfVert_t*)ri->Hunk_Alloc(numVerts * sizeof(cv->verts[0]), h_low);
 
 	// copy vertexes
 	surf->cullinfo.type = CULLINFO_PLANE | CULLINFO_BOX;
@@ -876,7 +876,7 @@ static void ParseFace(const world_t* worldData, dsurface_t* ds, drawVert_t* vert
 	verts += LittleLong(ds->firstVert);
 	if (tangentSpace)
 		tangentSpace += LittleLong(ds->firstVert);
-	for (i = 0; i < num_verts; i++)
+	for (i = 0; i < numVerts; i++)
 	{
 		vec4_t color;
 
@@ -946,7 +946,7 @@ static void ParseFace(const world_t* worldData, dsurface_t* ds, drawVert_t* vert
 		{
 			tri[j] = LittleLong(indexes[i + j]);
 
-			if (tri[j] >= num_verts)
+			if (tri[j] >= numVerts)
 			{
 				ri->Error(ERR_DROP, "Bad index in face surface");
 			}
@@ -961,7 +961,7 @@ static void ParseFace(const world_t* worldData, dsurface_t* ds, drawVert_t* vert
 
 	if (badTriangles)
 	{
-		ri->Printf(PRINT_WARNING, "Face has bad triangles, originally shader %s %d tris %d verts, now %d tris\n", surf->shader->name, num_indexes / 3, num_verts, num_indexes / 3 - badTriangles);
+		ri->Printf(PRINT_WARNING, "Face has bad triangles, originally shader %s %d tris %d verts, now %d tris\n", surf->shader->name, num_indexes / 3, numVerts, num_indexes / 3 - badTriangles);
 		cv->num_indexes -= badTriangles * 3;
 	}
 
@@ -1111,7 +1111,7 @@ static void ParseTriSurf(const world_t* worldData, dsurface_t* ds, drawVert_t* v
 	srfBspSurface_t* cv;
 	glIndex_t* tri;
 	int             i, j;
-	int             num_verts, num_indexes, badTriangles;
+	int             numVerts, num_indexes, badTriangles;
 	int realLightmapNum[MAXLIGHTMAPS];
 
 	for (j = 0; j < MAXLIGHTMAPS; j++)
@@ -1133,7 +1133,7 @@ static void ParseTriSurf(const world_t* worldData, dsurface_t* ds, drawVert_t* v
 		surf->shader = tr.defaultShader;
 	}
 
-	num_verts = LittleLong(ds->num_verts);
+	numVerts = LittleLong(ds->numVerts);
 	num_indexes = LittleLong(ds->num_indexes);
 
 	//cv = ri->Hunk_Alloc(sizeof(*cv), h_low);
@@ -1143,8 +1143,8 @@ static void ParseTriSurf(const world_t* worldData, dsurface_t* ds, drawVert_t* v
 	cv->num_indexes = num_indexes;
 	cv->indexes = (glIndex_t*)ri->Hunk_Alloc(num_indexes * sizeof(cv->indexes[0]), h_low);
 
-	cv->num_verts = num_verts;
-	cv->verts = (srfVert_t*)ri->Hunk_Alloc(num_verts * sizeof(cv->verts[0]), h_low);
+	cv->numVerts = numVerts;
+	cv->verts = (srfVert_t*)ri->Hunk_Alloc(numVerts * sizeof(cv->verts[0]), h_low);
 
 	surf->data = (surfaceType_t*)cv;
 
@@ -1154,7 +1154,7 @@ static void ParseTriSurf(const world_t* worldData, dsurface_t* ds, drawVert_t* v
 	verts += LittleLong(ds->firstVert);
 	if (tangentSpace)
 		tangentSpace += LittleLong(ds->firstVert);
-	for (i = 0; i < num_verts; i++)
+	for (i = 0; i < numVerts; i++)
 	{
 		vec4_t color;
 
@@ -1224,7 +1224,7 @@ static void ParseTriSurf(const world_t* worldData, dsurface_t* ds, drawVert_t* v
 		{
 			tri[j] = LittleLong(indexes[i + j]);
 
-			if (tri[j] >= num_verts)
+			if (tri[j] >= numVerts)
 			{
 				ri->Error(ERR_DROP, "Bad index in face surface");
 			}
@@ -1239,7 +1239,7 @@ static void ParseTriSurf(const world_t* worldData, dsurface_t* ds, drawVert_t* v
 
 	if (badTriangles)
 	{
-		ri->Printf(PRINT_WARNING, "Trisurf has bad triangles, originally shader %s %d tris %d verts, now %d tris\n", surf->shader->name, num_indexes / 3, num_verts, num_indexes / 3 - badTriangles);
+		ri->Printf(PRINT_WARNING, "Trisurf has bad triangles, originally shader %s %d tris %d verts, now %d tris\n", surf->shader->name, num_indexes / 3, numVerts, num_indexes / 3 - badTriangles);
 		cv->num_indexes -= badTriangles * 3;
 	}
 }
@@ -1964,9 +1964,9 @@ void R_MovePatchSurfacesToHunk(world_t* worldData) {
 		hunkgrid->indexes = (glIndex_t*)ri->Hunk_Alloc(grid->num_indexes * sizeof(glIndex_t), h_low);
 		Com_Memcpy(hunkgrid->indexes, grid->indexes, grid->num_indexes * sizeof(glIndex_t));
 
-		hunkgrid->num_verts = grid->num_verts;
-		hunkgrid->verts = (srfVert_t*)ri->Hunk_Alloc(grid->num_verts * sizeof(srfVert_t), h_low);
-		Com_Memcpy(hunkgrid->verts, grid->verts, grid->num_verts * sizeof(srfVert_t));
+		hunkgrid->numVerts = grid->numVerts;
+		hunkgrid->verts = (srfVert_t*)ri->Hunk_Alloc(grid->numVerts * sizeof(srfVert_t), h_low);
+		Com_Memcpy(hunkgrid->verts, grid->verts, grid->numVerts * sizeof(srfVert_t));
 
 		R_FreeSurfaceGridMesh(grid);
 
@@ -2020,7 +2020,7 @@ static void R_CreateWorldVBOs(world_t* worldData)
 {
 	int             i, j, k;
 
-	int             num_verts;
+	int             numVerts;
 	packedVertex_t* verts;
 
 	int             num_indexes;
@@ -2062,7 +2062,7 @@ static void R_CreateWorldVBOs(world_t* worldData)
 
 		bspSurf = (srfBspSurface_t*)surface->data;
 
-		if (!bspSurf->num_indexes || !bspSurf->num_verts)
+		if (!bspSurf->num_indexes || !bspSurf->numVerts)
 			continue;
 
 		numSortedSurfaces++;
@@ -2092,7 +2092,7 @@ static void R_CreateWorldVBOs(world_t* worldData)
 
 		bspSurf = (srfBspSurface_t*)surface->data;
 
-		if (!bspSurf->num_indexes || !bspSurf->num_verts)
+		if (!bspSurf->num_indexes || !bspSurf->numVerts)
 			continue;
 
 		surfacesSorted[j++] = surface;
@@ -2120,7 +2120,7 @@ static void R_CreateWorldVBOs(world_t* worldData)
 			{
 				srfBspSurface_t* bspSurf = (srfBspSurface_t*)(*currSurf)->data;
 
-				addVboSize += bspSurf->num_verts * sizeof(srfVert_t);
+				addVboSize += bspSurf->numVerts * sizeof(srfVert_t);
 				addIboSize += bspSurf->num_indexes * sizeof(glIndex_t);
 			}
 
@@ -2135,26 +2135,26 @@ static void R_CreateWorldVBOs(world_t* worldData)
 		}
 
 		// count verts/indexes/surfaces
-		num_verts = 0;
+		numVerts = 0;
 		num_indexes = 0;
 		numSurfaces = 0;
 		for (currSurf = firstSurf; currSurf < lastSurf; currSurf++)
 		{
 			srfBspSurface_t* bspSurf = (srfBspSurface_t*)(*currSurf)->data;
 
-			num_verts += bspSurf->num_verts;
+			numVerts += bspSurf->numVerts;
 			num_indexes += bspSurf->num_indexes;
 			numSurfaces++;
 		}
 
-		ri->Printf(PRINT_ALL, "...calculating world VBO %d ( %i verts %i tris )\n", k, num_verts, num_indexes / 3);
+		ri->Printf(PRINT_ALL, "...calculating world VBO %d ( %i verts %i tris )\n", k, numVerts, num_indexes / 3);
 
 		// create arrays
-		verts = (packedVertex_t*)ri->Hunk_AllocateTempMemory(num_verts * sizeof(packedVertex_t));
+		verts = (packedVertex_t*)ri->Hunk_AllocateTempMemory(numVerts * sizeof(packedVertex_t));
 		indexes = (glIndex_t*)ri->Hunk_AllocateTempMemory(num_indexes * sizeof(glIndex_t));
 
 		// set up indices and copy vertices
-		num_verts = 0;
+		numVerts = 0;
 		num_indexes = 0;
 		for (currSurf = firstSurf; currSurf < lastSurf; currSurf++)
 		{
@@ -2162,21 +2162,21 @@ static void R_CreateWorldVBOs(world_t* worldData)
 			glIndex_t* surf_index;
 
 			bspSurf->firstIndex = num_indexes;
-			bspSurf->minIndex = num_verts + bspSurf->indexes[0];
-			bspSurf->maxIndex = num_verts + bspSurf->indexes[0];
+			bspSurf->minIndex = numVerts + bspSurf->indexes[0];
+			bspSurf->maxIndex = numVerts + bspSurf->indexes[0];
 
 			for (i = 0, surf_index = bspSurf->indexes; i < bspSurf->num_indexes; i++, surf_index++)
 			{
-				indexes[num_indexes++] = num_verts + *surf_index;
-				bspSurf->minIndex = MIN(bspSurf->minIndex, num_verts + *surf_index);
-				bspSurf->maxIndex = MAX(bspSurf->maxIndex, num_verts + *surf_index);
+				indexes[num_indexes++] = numVerts + *surf_index;
+				bspSurf->minIndex = MIN(bspSurf->minIndex, numVerts + *surf_index);
+				bspSurf->maxIndex = MAX(bspSurf->maxIndex, numVerts + *surf_index);
 			}
 
-			bspSurf->firstVert = num_verts;
+			bspSurf->firstVert = numVerts;
 
-			for (i = 0; i < bspSurf->num_verts; i++)
+			for (i = 0; i < bspSurf->numVerts; i++)
 			{
-				packedVertex_t& vert = verts[num_verts++];
+				packedVertex_t& vert = verts[numVerts++];
 
 				VectorCopy(bspSurf->verts[i].xyz, vert.position);
 				vert.normal = R_VboPackNormal(bspSurf->verts[i].normal);
@@ -2204,7 +2204,7 @@ static void R_CreateWorldVBOs(world_t* worldData)
 
 		R_CalcMikkTSpaceBSPSurface(num_indexes / 3, verts, indexes);
 
-		vbo = R_CreateVBO((byte*)verts, sizeof(packedVertex_t) * num_verts, VBO_USAGE_STATIC);
+		vbo = R_CreateVBO((byte*)verts, sizeof(packedVertex_t) * numVerts, VBO_USAGE_STATIC);
 		ibo = R_CreateIBO((byte*)indexes, num_indexes * sizeof(glIndex_t), VBO_USAGE_STATIC);
 
 		// Setup the offsets and strides
@@ -3536,7 +3536,7 @@ static void R_MergeLeafSurfaces(world_t* worldData)
 
 		int numSurfsToMerge;
 		int num_indexes;
-		int num_verts;
+		int numVerts;
 		int firstIndex;
 
 		srfBspSurface_t* vboSurf;
@@ -3552,7 +3552,7 @@ static void R_MergeLeafSurfaces(world_t* worldData)
 		// count verts, indexes, and surfaces
 		numSurfsToMerge = 0;
 		num_indexes = 0;
-		num_verts = 0;
+		numVerts = 0;
 		for (j = i; j < numWorldSurfaces; j++)
 		{
 			msurface_t* surf2;
@@ -3565,11 +3565,11 @@ static void R_MergeLeafSurfaces(world_t* worldData)
 
 			bspSurf = (srfBspSurface_t*)surf2->data;
 			num_indexes += bspSurf->num_indexes;
-			num_verts += bspSurf->num_verts;
+			numVerts += bspSurf->numVerts;
 			numSurfsToMerge++;
 		}
 
-		if (num_verts == 0 || num_indexes == 0 || numSurfsToMerge < 2)
+		if (numVerts == 0 || num_indexes == 0 || numSurfsToMerge < 2)
 		{
 			continue;
 		}
@@ -3615,7 +3615,7 @@ static void R_MergeLeafSurfaces(world_t* worldData)
 		vboSurf->ibo = ibo;
 
 		vboSurf->num_indexes = num_indexes;
-		vboSurf->num_verts = num_verts;
+		vboSurf->numVerts = numVerts;
 		vboSurf->firstIndex = firstIndex;
 
 		vboSurf->minIndex = *(iboIndexes + firstIndex);
@@ -3696,7 +3696,7 @@ static void R_CalcVertexLightDirs(world_t* worldData)
 		case SF_FACE:
 		case SF_GRID:
 		case SF_TRIANGLES:
-			for (i = 0; i < bspSurf->num_verts; i++)
+			for (i = 0; i < bspSurf->numVerts; i++)
 				R_LightDirForPoint(
 					bspSurf->verts[i].xyz,
 					bspSurf->verts[i].lightdir,

@@ -190,7 +190,7 @@ void R_MDRAddAnimSurfaces(trRefEntity_t* ent, int entity_num) {
 	int             cubemapIndex;
 	qboolean	personalModel;
 
-	header = (mdrHeader_t*)tr.current_model->data.mdr;
+	header = (mdrHeader_t*)tr.currentModel->data.mdr;
 
 	personalModel = (qboolean)(
 		(ent->e.renderfx & RF_THIRD_PERSON) &&
@@ -199,8 +199,8 @@ void R_MDRAddAnimSurfaces(trRefEntity_t* ent, int entity_num) {
 
 	if (ent->e.renderfx & RF_WRAP_FRAMES)
 	{
-		ent->e.frame %= header->num_frames;
-		ent->e.oldframe %= header->num_frames;
+		ent->e.frame %= header->numFrames;
+		ent->e.oldframe %= header->numFrames;
 	}
 
 	//
@@ -209,13 +209,13 @@ void R_MDRAddAnimSurfaces(trRefEntity_t* ent, int entity_num) {
 	// when the surfaces are rendered, they don't need to be
 	// range checked again.
 	//
-	if ((ent->e.frame >= header->num_frames)
+	if ((ent->e.frame >= header->numFrames)
 		|| (ent->e.frame < 0)
-		|| (ent->e.oldframe >= header->num_frames)
+		|| (ent->e.oldframe >= header->numFrames)
 		|| (ent->e.oldframe < 0))
 	{
 		ri->Printf(PRINT_DEVELOPER, "R_MDRAddAnimSurfaces: no such frame %d to %d for '%s'\n",
-			ent->e.oldframe, ent->e.frame, tr.current_model->name);
+			ent->e.oldframe, ent->e.frame, tr.currentModel->name);
 		ent->e.frame = 0;
 		ent->e.oldframe = 0;
 	}
@@ -252,11 +252,11 @@ void R_MDRAddAnimSurfaces(trRefEntity_t* ent, int entity_num) {
 
 	for (i = 0; i < lod->numSurfaces; i++)
 	{
-		if (ent->e.custom_shader)
-			shader = R_GetShaderByHandle(ent->e.custom_shader);
-		else if (ent->e.custom_skin > 0 && ent->e.custom_skin < tr.numSkins)
+		if (ent->e.customShader)
+			shader = R_GetShaderByHandle(ent->e.customShader);
+		else if (ent->e.customSkin > 0 && ent->e.customSkin < tr.numSkins)
 		{
-			skin = R_GetSkinByHandle(ent->e.custom_skin);
+			skin = R_GetSkinByHandle(ent->e.customSkin);
 			shader = tr.defaultShader;
 
 			for (j = 0; j < skin->numSurfaces; j++)
@@ -313,7 +313,7 @@ void RB_MDRSurfaceAnim(mdrSurface_t* surface)
 	int* triangles;
 	int				indexes;
 	int				baseIndex, baseVertex;
-	int				num_verts;
+	int				numVerts;
 	mdrVertex_t* v;
 	mdrHeader_t* header;
 	mdrFrame_t* frame;
@@ -344,7 +344,7 @@ void RB_MDRSurfaceAnim(mdrSurface_t* surface)
 	oldFrame = (mdrFrame_t*)((byte*)header + header->ofsFrames +
 		backEnd.currentEntity->e.oldframe * frameSize);
 
-	RB_CheckOverflow(surface->num_verts, surface->numTriangles);
+	RB_CheckOverflow(surface->numVerts, surface->numTriangles);
 
 	triangles = (int*)((byte*)surface + surface->ofsTriangles);
 	indexes = surface->numTriangles * 3;
@@ -379,9 +379,9 @@ void RB_MDRSurfaceAnim(mdrSurface_t* surface)
 	//
 	// deform the vertexes by the lerped bones
 	//
-	num_verts = surface->num_verts;
+	numVerts = surface->numVerts;
 	v = (mdrVertex_t*)((byte*)surface + surface->ofsVerts);
-	for (j = 0; j < num_verts; j++)
+	for (j = 0; j < numVerts; j++)
 	{
 		vec3_t	tempVert, tempNormal;
 		mdrWeight_t* w;
@@ -414,5 +414,5 @@ void RB_MDRSurfaceAnim(mdrSurface_t* surface)
 		v = (mdrVertex_t*)&v->weights[v->numWeights];
 	}
 
-	tess.num_vertexes += surface->num_verts;
+	tess.num_vertexes += surface->numVerts;
 }

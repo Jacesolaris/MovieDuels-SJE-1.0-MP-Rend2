@@ -212,7 +212,7 @@ qboolean G2_SetRootSurface(CGhoul2Info_v& ghoul2, int model_index, const char* s
 
 int G2_AddSurface(CGhoul2Info* ghoul2, const int surface_number, const int poly_number, const float barycentric_i, const float barycentric_j, int lod);
 qboolean G2_RemoveSurface(surfaceInfo_v& slist, int index);
-surfaceInfo_t* G2_FindOverrideSurface(const int surface_num, surfaceInfo_v& surface_list);
+surfaceInfo_t* G2_FindOverrideSurface(const int surfaceNum, surfaceInfo_v& surface_list);
 int G2_IsSurfaceLegal(void* mod, const char* surface_name, int* flags);
 int G2_GetParentSurface(const CGhoul2Info* ghl_info, int index);
 int G2_GetSurfaceIndex(const CGhoul2Info* ghl_info, const char* surface_name);
@@ -242,8 +242,8 @@ qboolean G2_Set_Bone_Angles_Matrix_Index(boneInfo_v& blist, const int index, con
 qboolean G2_Stop_Bone_Anim_Index(boneInfo_v& blist, int index);
 qboolean G2_Stop_Bone_Angles_Index(boneInfo_v& blist, int index);
 qboolean G2_Set_Bone_Anim_Index(boneInfo_v& blist, int index, int start_frame, int end_frame, int flags, float anim_speed,
-	int current_time, float set_frame, int ablend_time, int num_frames);
-qboolean G2_Get_Bone_Anim_Index(boneInfo_v& blist, const int index, const int current_time, float* current_frame, int* start_frame, int* end_frame, int* flags, float* ret_anim_speed, qhandle_t* model_list, const int num_frames);
+	int current_time, float set_frame, int ablend_time, int numFrames);
+qboolean G2_Get_Bone_Anim_Index(boneInfo_v& blist, const int index, const int current_time, float* current_frame, int* start_frame, int* end_frame, int* flags, float* ret_anim_speed, qhandle_t* model_list, const int numFrames);
 
 // misc functions G2_misc.cpp
 void G2_List_Model_Surfaces(const char* file_name);
@@ -276,7 +276,7 @@ int G2_Add_Bolt(const CGhoul2Info* ghl_info, boltInfo_v& bltlist, surfaceInfo_v&
 qboolean G2_Remove_Bolt(boltInfo_v& bltlist, int index);
 void G2_Init_Bolt_List(boltInfo_v& bltlist);
 int G2_Find_Bolt_Bone_Num(const boltInfo_v& bltlist, int bone_num);
-int G2_Find_Bolt_Surface_Num(const boltInfo_v& bltlist, const int surface_num, const int flags);
+int G2_Find_Bolt_Surface_Num(const boltInfo_v& bltlist, const int surfaceNum, const int flags);
 int G2_Add_Bolt_Surf_Num(const CGhoul2Info* ghl_info, boltInfo_v& bltlist, const surfaceInfo_v& slist, const int surf_num);
 void G2_RemoveRedundantBolts(boltInfo_v& bltlist, surfaceInfo_v& slist, const int* activeSurfaces, const int* active_bones);
 
@@ -291,13 +291,13 @@ qhandle_t G2API_PrecacheGhoul2Model(const char* file_name);
 
 qboolean G2API_IsGhoul2InfovValid(const CGhoul2Info_v& ghoul2);
 
-int G2API_InitGhoul2Model(CGhoul2Info_v** ghoul2Ptr, const char* file_name, const int model_index, const qhandle_t custom_skin = NULL_HANDLE, const qhandle_t custom_shader = NULL_HANDLE, const int model_flags = 0, const int lod_bias = 0);
+int G2API_InitGhoul2Model(CGhoul2Info_v** ghoul2Ptr, const char* file_name, const int model_index, const qhandle_t customSkin = NULL_HANDLE, const qhandle_t customShader = NULL_HANDLE, const int model_flags = 0, const int lod_bias = 0);
 
 qboolean G2API_SetLodBias(CGhoul2Info* ghl_info, const int lod_bias);
 
-qboolean G2API_SetSkin(CGhoul2Info_v& ghoul2, const int model_index, const qhandle_t custom_skin, const qhandle_t render_skin);
+qboolean G2API_SetSkin(CGhoul2Info_v& ghoul2, const int model_index, const qhandle_t customSkin, const qhandle_t render_skin);
 
-qboolean G2API_SetShader(CGhoul2Info* ghl_info, const qhandle_t custom_shader);
+qboolean G2API_SetShader(CGhoul2Info* ghl_info, const qhandle_t customShader);
 qboolean G2API_HasGhoul2ModelOnIndex(CGhoul2Info_v** ghlRemove, int model_index);
 qboolean G2API_RemoveGhoul2Model(CGhoul2Info_v** ghlRemove, int model_index);
 qboolean G2API_RemoveGhoul2Models(CGhoul2Info_v** ghlRemove);
@@ -424,6 +424,6 @@ void G2API_ClearSkinGore(CGhoul2Info_v& ghoul2);
 #endif // _SOF2
 
 int G2API_Ghoul2Size(const CGhoul2Info_v& ghoul2);
-void RemoveBoneCache(const CBoneCache* bone_cache);
+void RemoveBoneCache(const CBoneCache* boneCache);
 
 const char* G2API_GetModelName(CGhoul2Info_v& ghoul2, int model_index);

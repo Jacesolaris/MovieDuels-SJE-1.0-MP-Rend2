@@ -76,7 +76,7 @@ using refexport_t = struct refexport_s
 	void (*ClearDecals)(void);
 	void (*AddRefEntityToScene)(const refEntity_t* re);
 	void (*AddMiniRefEntityToScene)(const miniRefEntity_t* re);
-	void (*AddPolyToScene)(qhandle_t h_shader, int num_verts, const polyVert_t* verts, int num);
+	void (*AddPolyToScene)(qhandle_t h_shader, int numVerts, const polyVert_t* verts, int num);
 	void (*AddDecalToScene)(qhandle_t shader, const vec3_t origin, const vec3_t dir, float orientation, float r,
 		float g, float b, float a, qboolean alphaFade, float radius, qboolean temporary);
 	int (*LightForPoint)(vec3_t point, vec3_t ambientLight, vec3_t directedLight, vec3_t lightDir);
@@ -211,8 +211,8 @@ using refexport_t = struct refexport_s
 	qboolean(*G2API_HasGhoul2ModelOnIndex)(CGhoul2Info_v** ghlRemove, int model_index);
 	qboolean(*G2API_HaveWeGhoul2Models)(const CGhoul2Info_v& ghoul2);
 	qboolean(*G2API_IKMove)(CGhoul2Info_v& ghoul2, int time, sharedIKMoveParams_t* params);
-	int (*G2API_InitGhoul2Model)(CGhoul2Info_v** ghoul2Ptr, const char* file_name, int model_index, qhandle_t custom_skin,
-		qhandle_t custom_shader, int model_flags, int lod_bias);
+	int (*G2API_InitGhoul2Model)(CGhoul2Info_v** ghoul2Ptr, const char* file_name, int model_index, qhandle_t customSkin,
+		qhandle_t customShader, int model_flags, int lod_bias);
 	qboolean(*G2API_IsGhoul2InfovValid)(const CGhoul2Info_v& ghoul2);
 	qboolean(*G2API_IsPaused)(CGhoul2Info* ghl_info, const char* bone_name);
 	void (*G2API_ListBones)(CGhoul2Info* ghl_info, int frame);
@@ -257,8 +257,8 @@ using refexport_t = struct refexport_s
 	qboolean(*G2API_SetNewOrigin)(CGhoul2Info_v& ghoul2, int bolt_index);
 	void (*G2API_SetRagDoll)(CGhoul2Info_v& ghoul2, CRagDollParams* parms);
 	qboolean(*G2API_SetRootSurface)(CGhoul2Info_v& ghoul2, int model_index, const char* surface_name);
-	qboolean(*G2API_SetShader)(CGhoul2Info* ghl_info, qhandle_t custom_shader);
-	qboolean(*G2API_SetSkin)(CGhoul2Info_v& ghoul2, int model_index, qhandle_t custom_skin, qhandle_t render_skin);
+	qboolean(*G2API_SetShader)(CGhoul2Info* ghl_info, qhandle_t customShader);
+	qboolean(*G2API_SetSkin)(CGhoul2Info_v& ghoul2, int model_index, qhandle_t customSkin, qhandle_t render_skin);
 	qboolean(*G2API_SetSurfaceOnOff)(CGhoul2Info_v& ghoul2, const char* surface_name, int flags);
 	void (*G2API_SetTime)(int current_time, int clock);
 	qboolean(*G2API_SkinlessModel)(CGhoul2Info_v& ghoul2, int model_index);

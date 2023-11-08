@@ -6110,7 +6110,7 @@ void G_UpdateClientAnims(gentity_t* self, float animSpeedScale)
 
 	if (self->localAnimIndex > 1 &&
 		bgAllAnims[self->localAnimIndex].anims[legsAnim].firstFrame == 0 &&
-		bgAllAnims[self->localAnimIndex].anims[legsAnim].num_frames == 0)
+		bgAllAnims[self->localAnimIndex].anims[legsAnim].numFrames == 0)
 	{
 		//We'll allow this for non-humanoids.
 		goto tryTorso;
@@ -6134,13 +6134,13 @@ void G_UpdateClientAnims(gentity_t* self, float animSpeedScale)
 		{
 			lastFrame = bgAllAnims[self->localAnimIndex].anims[legsAnim].firstFrame;
 			firstFrame = bgAllAnims[self->localAnimIndex].anims[legsAnim].firstFrame + bgAllAnims[self->localAnimIndex].
-				anims[legsAnim].num_frames;
+				anims[legsAnim].numFrames;
 		}
 		else
 		{
 			firstFrame = bgAllAnims[self->localAnimIndex].anims[legsAnim].firstFrame;
 			lastFrame = bgAllAnims[self->localAnimIndex].anims[legsAnim].firstFrame + bgAllAnims[self->localAnimIndex].
-				anims[legsAnim].num_frames;
+				anims[legsAnim].numFrames;
 		}
 
 		aFlags |= BONE_ANIM_BLEND;
@@ -6156,7 +6156,7 @@ tryTorso:
 	{
 		if (self->localAnimIndex > 1 &&
 			bgAllAnims[self->localAnimIndex].anims[torsoAnim].firstFrame == 0 &&
-			bgAllAnims[self->localAnimIndex].anims[torsoAnim].num_frames == 0)
+			bgAllAnims[self->localAnimIndex].anims[torsoAnim].numFrames == 0)
 
 		{
 			//If this fails as well just return.
@@ -6201,13 +6201,13 @@ tryTorso:
 		{
 			lastFrame = bgAllAnims[self->localAnimIndex].anims[f].firstFrame;
 			firstFrame = bgAllAnims[self->localAnimIndex].anims[f].firstFrame + bgAllAnims[self->localAnimIndex].anims[
-				f].num_frames;
+				f].numFrames;
 		}
 		else
 		{
 			firstFrame = bgAllAnims[self->localAnimIndex].anims[f].firstFrame;
 			lastFrame = bgAllAnims[self->localAnimIndex].anims[f].firstFrame + bgAllAnims[self->localAnimIndex].anims[f]
-				.num_frames;
+				.numFrames;
 		}
 
 		trap->G2API_SetBoneAnim(self->ghoul2, 0, "lower_lumbar", firstFrame, lastFrame, aFlags, lAnimSpeedScale,
@@ -6245,7 +6245,7 @@ tryTorso:
 			self->client->brokenLimbs = self->client->ps.brokenLimbs;
 
 			armFirstFrame = armAnim->firstFrame;
-			armLastFrame = armAnim->firstFrame + armAnim->num_frames;
+			armLastFrame = armAnim->firstFrame + armAnim->numFrames;
 			armAnimSpeed = 50.0f / armAnim->frameLerp;
 			armFlags = (BONE_ANIM_OVERRIDE_LOOP | BONE_ANIM_BLEND);
 
@@ -6280,8 +6280,8 @@ tryTorso:
 					armAnim = &bgAllAnims[self->localAnimIndex].anims[BOTH_ATTACK2];
 
 					//armFirstFrame = armAnim->firstFrame;
-					armFirstFrame = armAnim->firstFrame + armAnim->num_frames;
-					armLastFrame = armAnim->firstFrame + armAnim->num_frames;
+					armFirstFrame = armAnim->firstFrame + armAnim->numFrames;
+					armLastFrame = armAnim->firstFrame + armAnim->numFrames;
 					armAnimSpeed = 50.0f / armAnim->frameLerp;
 					armFlags = (BONE_ANIM_OVERRIDE_LOOP | BONE_ANIM_BLEND);
 
@@ -6307,7 +6307,7 @@ tryTorso:
 					//Now set the left arm to "support" the right one
 					armAnim = &bgAllAnims[self->localAnimIndex].anims[BOTH_STAND2];
 					armFirstFrame = armAnim->firstFrame;
-					armLastFrame = armAnim->firstFrame + armAnim->num_frames;
+					armLastFrame = armAnim->firstFrame + armAnim->numFrames;
 					armAnimSpeed = 50.0f / armAnim->frameLerp;
 					armFlags = (BONE_ANIM_OVERRIDE_LOOP | BONE_ANIM_BLEND);
 

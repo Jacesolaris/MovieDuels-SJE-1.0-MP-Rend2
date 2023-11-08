@@ -190,7 +190,7 @@ qboolean R_LoadIQM(model_t* mod, void* buffer, int filesize, const char* mod_nam
 	LL(header->ofs_poses);
 	LL(header->num_anims);
 	LL(header->ofs_anims);
-	LL(header->num_frames);
+	LL(header->numFrames);
 	LL(header->num_framechannels);
 	LL(header->ofs_frames);
 	LL(header->ofs_bounds);
@@ -441,12 +441,12 @@ qboolean R_LoadIQM(model_t* mod, void* buffer, int filesize, const char* mod_nam
 	{
 		// check and swap model bounds
 		if (IQM_CheckRange(header, header->ofs_bounds,
-			header->num_frames, sizeof(*bounds)))
+			header->numFrames, sizeof(*bounds)))
 		{
 			return qfalse;
 		}
 		bounds = (iqmBounds_t*)((byte*)header + header->ofs_bounds);
-		for (i = 0; i < header->num_frames; i++)
+		for (i = 0; i < header->numFrames; i++)
 		{
 			LL(bounds->bbmin[0]);
 			LL(bounds->bbmin[1]);
@@ -463,9 +463,9 @@ qboolean R_LoadIQM(model_t* mod, void* buffer, int filesize, const char* mod_nam
 	size = sizeof(iqmData_t);
 	size += header->num_meshes * sizeof(srfIQModel_t);
 	size += header->num_joints * 12 * sizeof(float); // joint mats
-	size += header->num_poses * header->num_frames * 12 * sizeof(float); // pose mats
+	size += header->num_poses * header->numFrames * 12 * sizeof(float); // pose mats
 	if (header->ofs_bounds)
-		size += header->num_frames * 6 * sizeof(float);	// model bounds
+		size += header->numFrames * 6 * sizeof(float);	// model bounds
 	size += header->num_vertexes * 3 * sizeof(float);	// positions
 	size += header->num_vertexes * 2 * sizeof(float);	// texcoords
 	size += header->num_vertexes * 3 * sizeof(float);	// normals
@@ -491,7 +491,7 @@ qboolean R_LoadIQM(model_t* mod, void* buffer, int filesize, const char* mod_nam
 	// fill header
 	iqmData->num_vertexes = header->num_vertexes;
 	iqmData->num_triangles = header->num_triangles;
-	iqmData->num_frames = header->num_frames;
+	iqmData->numFrames = header->numFrames;
 	iqmData->num_surfaces = header->num_meshes;
 	iqmData->num_joints = header->num_joints;
 	iqmData->num_poses = header->num_poses;
@@ -501,11 +501,11 @@ qboolean R_LoadIQM(model_t* mod, void* buffer, int filesize, const char* mod_nam
 	iqmData->poseMats = iqmData->jointMats + 12 * header->num_joints;
 	if (header->ofs_bounds)
 	{
-		iqmData->bounds = iqmData->poseMats + 12 * header->num_poses * header->num_frames;
-		iqmData->positions = iqmData->bounds + 6 * header->num_frames;
+		iqmData->bounds = iqmData->poseMats + 12 * header->num_poses * header->numFrames;
+		iqmData->positions = iqmData->bounds + 6 * header->numFrames;
 	}
 	else
-		iqmData->positions = iqmData->poseMats + 12 * header->num_poses * header->num_frames;
+		iqmData->positions = iqmData->poseMats + 12 * header->num_poses * header->numFrames;
 	iqmData->texcoords = iqmData->positions + 3 * header->num_vertexes;
 	iqmData->normals = iqmData->texcoords + 2 * header->num_vertexes;
 	iqmData->tangents = iqmData->normals + 3 * header->num_vertexes;
@@ -560,7 +560,7 @@ qboolean R_LoadIQM(model_t* mod, void* buffer, int filesize, const char* mod_nam
 	// calculate pose matrices
 	framedata = (unsigned short*)((byte*)header + header->ofs_frames);
 	mat = iqmData->poseMats;
-	for (i = 0; i < header->num_frames; i++) {
+	for (i = 0; i < header->numFrames; i++) {
 		pose = (iqmPose_t*)((byte*)header + header->ofs_poses);
 		for (j = 0; j < header->num_poses; j++, pose++) {
 			vec3_t	translate;
@@ -728,7 +728,7 @@ qboolean R_LoadIQM(model_t* mod, void* buffer, int filesize, const char* mod_nam
 	{
 		mat = iqmData->bounds;
 		bounds = (iqmBounds_t*)((byte*)header + header->ofs_bounds);
-		for (i = 0; i < header->num_frames; i++)
+		for (i = 0; i < header->numFrames; i++)
 		{
 			mat[0] = bounds->bbmin[0];
 			mat[1] = bounds->bbmin[1];
@@ -852,15 +852,15 @@ void R_AddIQMSurfaces(trRefEntity_t* ent, int entity_num) {
 	shader_t* shader;
 	skin_t* skin;
 
-	data = tr.current_model->data.iqm;
+	data = tr.currentModel->data.iqm;
 	surface = data->surfaces;
 
 	// don't add third_person objects if not in a portal
 	personalModel = (qboolean)((ent->e.renderfx & RF_THIRD_PERSON) && !tr.viewParms.isPortal);
 
 	if (ent->e.renderfx & RF_WRAP_FRAMES) {
-		ent->e.frame %= data->num_frames;
-		ent->e.oldframe %= data->num_frames;
+		ent->e.frame %= data->numFrames;
+		ent->e.oldframe %= data->numFrames;
 	}
 
 	//
@@ -869,13 +869,13 @@ void R_AddIQMSurfaces(trRefEntity_t* ent, int entity_num) {
 	// when the surfaces are rendered, they don't need to be
 	// range checked again.
 	//
-	if ((ent->e.frame >= data->num_frames)
+	if ((ent->e.frame >= data->numFrames)
 		|| (ent->e.frame < 0)
-		|| (ent->e.oldframe >= data->num_frames)
+		|| (ent->e.oldframe >= data->numFrames)
 		|| (ent->e.oldframe < 0)) {
 		ri->Printf(PRINT_DEVELOPER, "R_AddIQMSurfaces: no such frame %d to %d for '%s'\n",
 			ent->e.oldframe, ent->e.frame,
-			tr.current_model->name);
+			tr.currentModel->name);
 		ent->e.frame = 0;
 		ent->e.oldframe = 0;
 	}
@@ -897,11 +897,11 @@ void R_AddIQMSurfaces(trRefEntity_t* ent, int entity_num) {
 	cubemapIndex = R_CubemapForPoint(ent->e.origin);
 
 	for (i = 0; i < data->num_surfaces; i++) {
-		if (ent->e.custom_shader)
-			shader = R_GetShaderByHandle(ent->e.custom_shader);
-		else if (ent->e.custom_skin > 0 && ent->e.custom_skin < tr.numSkins)
+		if (ent->e.customShader)
+			shader = R_GetShaderByHandle(ent->e.customShader);
+		else if (ent->e.customSkin > 0 && ent->e.customSkin < tr.numSkins)
 		{
-			skin = R_GetSkinByHandle(ent->e.custom_skin);
+			skin = R_GetSkinByHandle(ent->e.customSkin);
 			shader = tr.defaultShader;
 
 			for (j = 0; j < skin->numSurfaces; j++)
@@ -1031,8 +1031,8 @@ void RB_IQMSurfaceAnim(surfaceType_t* surface) {
 	vec2_t(*outTexCoord)[NUM_TESS_TEXCOORDS];
 	vec4_t* outColor;
 
-	int	frame = data->num_frames ? backEnd.currentEntity->e.frame % data->num_frames : 0;
-	int	oldframe = data->num_frames ? backEnd.currentEntity->e.oldframe % data->num_frames : 0;
+	int	frame = data->numFrames ? backEnd.currentEntity->e.frame % data->numFrames : 0;
+	int	oldframe = data->numFrames ? backEnd.currentEntity->e.oldframe % data->numFrames : 0;
 	float	backlerp = backEnd.currentEntity->e.backlerp;
 
 	int* tri;

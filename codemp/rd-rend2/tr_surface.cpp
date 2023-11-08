@@ -348,11 +348,11 @@ static void RB_SurfacePolychain(srfPoly_t* p) {
 	int		i;
 	int		numv;
 
-	RB_CHECKOVERFLOW(p->num_verts, 3 * (p->num_verts - 2));
+	RB_CHECKOVERFLOW(p->numVerts, 3 * (p->numVerts - 2));
 
 	// fan triangles into the tess array
 	numv = tess.num_vertexes;
-	for (i = 0; i < p->num_verts; i++) {
+	for (i = 0; i < p->numVerts; i++) {
 		VectorCopy(p->verts[i].xyz, tess.xyz[numv]);
 		tess.texCoords[numv][0][0] = p->verts[i].st[0];
 		tess.texCoords[numv][0][1] = p->verts[i].st[1];
@@ -365,7 +365,7 @@ static void RB_SurfacePolychain(srfPoly_t* p) {
 	}
 
 	// generate fan indexes into the tess array
-	for (i = 0; i < p->num_verts - 2; i++) {
+	for (i = 0; i < p->numVerts - 2; i++) {
 		tess.indexes[tess.num_indexes + 0] = tess.num_vertexes;
 		tess.indexes[tess.num_indexes + 1] = tess.num_vertexes + i + 1;
 		tess.indexes[tess.num_indexes + 2] = tess.num_vertexes + i + 2;
@@ -375,7 +375,7 @@ static void RB_SurfacePolychain(srfPoly_t* p) {
 	tess.num_vertexes = numv;
 }
 
-static void RB_SurfaceVertsAndIndexes(int num_verts, srfVert_t* verts, int num_indexes, glIndex_t* indexes, int dlightBits, int pshadowBits)
+static void RB_SurfaceVertsAndIndexes(int numVerts, srfVert_t* verts, int num_indexes, glIndex_t* indexes, int dlightBits, int pshadowBits)
 {
 	int             i;
 	glIndex_t* inIndex;
@@ -390,7 +390,7 @@ static void RB_SurfaceVertsAndIndexes(int num_verts, srfVert_t* verts, int num_i
 
 	RB_CheckVBOandIBO(current_frame->dynamicVbo, current_frame->dynamicIbo);
 
-	RB_CHECKOVERFLOW(num_verts, num_indexes);
+	RB_CHECKOVERFLOW(numVerts, num_indexes);
 
 	inIndex = indexes;
 	outIndex = &tess.indexes[tess.num_indexes];
@@ -403,7 +403,7 @@ static void RB_SurfaceVertsAndIndexes(int num_verts, srfVert_t* verts, int num_i
 	{
 		dv = verts;
 		xyz = tess.xyz[tess.num_vertexes];
-		for (i = 0; i < num_verts; i++, dv++, xyz += 4)
+		for (i = 0; i < numVerts; i++, dv++, xyz += 4)
 			VectorCopy(dv->xyz, xyz);
 	}
 
@@ -411,7 +411,7 @@ static void RB_SurfaceVertsAndIndexes(int num_verts, srfVert_t* verts, int num_i
 	{
 		dv = verts;
 		normal = &tess.normal[tess.num_vertexes];
-		for (i = 0; i < num_verts; i++, dv++, normal++)
+		for (i = 0; i < numVerts; i++, dv++, normal++)
 			*normal = R_VboPackNormal(dv->normal);
 	}
 
@@ -419,7 +419,7 @@ static void RB_SurfaceVertsAndIndexes(int num_verts, srfVert_t* verts, int num_i
 	{
 		dv = verts;
 		tangent = &tess.tangent[tess.num_vertexes];
-		for (i = 0; i < num_verts; i++, dv++, tangent++)
+		for (i = 0; i < numVerts; i++, dv++, tangent++)
 			*tangent = R_VboPackTangent(dv->tangent);
 	}
 
@@ -427,7 +427,7 @@ static void RB_SurfaceVertsAndIndexes(int num_verts, srfVert_t* verts, int num_i
 	{
 		dv = verts;
 		texCoords = tess.texCoords[tess.num_vertexes][0];
-		for (i = 0; i < num_verts; i++, dv++, texCoords += NUM_TESS_TEXCOORDS * 2)
+		for (i = 0; i < numVerts; i++, dv++, texCoords += NUM_TESS_TEXCOORDS * 2)
 			VectorCopy2(dv->st, texCoords);
 	}
 
@@ -437,7 +437,7 @@ static void RB_SurfaceVertsAndIndexes(int num_verts, srfVert_t* verts, int num_i
 		{
 			dv = verts;
 			lightCoords = tess.texCoords[tess.num_vertexes][1 + tc];
-			for (i = 0; i < num_verts; i++, dv++, lightCoords += NUM_TESS_TEXCOORDS * 2)
+			for (i = 0; i < numVerts; i++, dv++, lightCoords += NUM_TESS_TEXCOORDS * 2)
 				VectorCopy2(dv->lightmap[tc], lightCoords);
 		}
 	}
@@ -446,7 +446,7 @@ static void RB_SurfaceVertsAndIndexes(int num_verts, srfVert_t* verts, int num_i
 	{
 		dv = verts;
 		color = tess.vertexColors[tess.num_vertexes];
-		for (i = 0; i < num_verts; i++, dv++, color += 4)
+		for (i = 0; i < numVerts; i++, dv++, color += 4)
 			VectorCopy4(dv->vertexColors[0], color);
 	}
 
@@ -454,12 +454,12 @@ static void RB_SurfaceVertsAndIndexes(int num_verts, srfVert_t* verts, int num_i
 	{
 		dv = verts;
 		lightdir = &tess.lightdir[tess.num_vertexes];
-		for (i = 0; i < num_verts; i++, dv++, lightdir++)
+		for (i = 0; i < numVerts; i++, dv++, lightdir++)
 			*lightdir = R_VboPackNormal(dv->lightdir);
 	}
 
 #if 0  // nothing even uses vertex dlightbits
-	for (i = 0; i < num_verts; i++) {
+	for (i = 0; i < numVerts; i++) {
 		tess.vertexDlightBits[tess.num_vertexes + i] = dlightBits;
 	}
 #endif
@@ -467,11 +467,11 @@ static void RB_SurfaceVertsAndIndexes(int num_verts, srfVert_t* verts, int num_i
 	tess.dlightBits |= dlightBits;
 	tess.pshadowBits |= pshadowBits;
 
-	tess.num_vertexes += num_verts;
+	tess.num_vertexes += numVerts;
 }
 
 static qboolean RB_SurfaceVbo(
-	VBO_t* vbo, IBO_t* ibo, int num_verts, int num_indexes, int firstIndex,
+	VBO_t* vbo, IBO_t* ibo, int numVerts, int num_indexes, int firstIndex,
 	int minIndex, int maxIndex, int dlightBits, int pshadowBits, qboolean shaderCheck)
 {
 	int i, mergeForward, mergeBack;
@@ -573,7 +573,7 @@ static qboolean RB_SurfaceVbo(
 	backEnd.pc.c_multidraws++;
 
 	tess.num_indexes += num_indexes;
-	tess.num_vertexes += num_verts;
+	tess.num_vertexes += numVerts;
 
 	return qtrue;
 }
@@ -584,13 +584,13 @@ RB_SurfaceBSPTriangles
 =============
 */
 static void RB_SurfaceBSPTriangles(srfBspSurface_t* srf) {
-	if (RB_SurfaceVbo(srf->vbo, srf->ibo, srf->num_verts, srf->num_indexes,
+	if (RB_SurfaceVbo(srf->vbo, srf->ibo, srf->numVerts, srf->num_indexes,
 		srf->firstIndex, srf->minIndex, srf->maxIndex, srf->dlightBits, srf->pshadowBits, qtrue))
 	{
 		return;
 	}
 
-	RB_SurfaceVertsAndIndexes(srf->num_verts, srf->verts, srf->num_indexes,
+	RB_SurfaceVertsAndIndexes(srf->numVerts, srf->verts, srf->num_indexes,
 		srf->indexes, srf->dlightBits, srf->pshadowBits);
 }
 
@@ -1451,19 +1451,19 @@ static void LerpMeshVertexes_altivec(md3Surface_t* surf, float backlerp)
 	float newNormalScale QALIGN(16);
 	int		vertNum;
 	unsigned lat, lng;
-	int		num_verts;
+	int		numVerts;
 
 	outXyz = tess.xyz[tess.num_vertexes];
 	outNormal = tess.normal[tess.num_vertexes];
 
 	newXyz = (short*)((byte*)surf + surf->ofsXyzNormals)
-		+ (backEnd.currentEntity->e.frame * surf->num_verts * 4);
+		+ (backEnd.currentEntity->e.frame * surf->numVerts * 4);
 	newNormals = newXyz + 3;
 
 	newXyzScale = MD3_XYZ_SCALE * (1.0 - backlerp);
 	newNormalScale = 1.0 - backlerp;
 
-	num_verts = surf->num_verts;
+	numVerts = surf->numVerts;
 
 	if (backlerp == 0) {
 		vector signed short newNormalsVec0;
@@ -1485,7 +1485,7 @@ static void LerpMeshVertexes_altivec(md3Surface_t* surf, float backlerp)
 		//
 		// just copy the vertexes
 		//
-		for (vertNum = 0; vertNum < num_verts; vertNum++,
+		for (vertNum = 0; vertNum < numVerts; vertNum++,
 			newXyz += 4, newNormals += 4,
 			outXyz += 4, outNormal += 4)
 		{
@@ -1525,13 +1525,13 @@ static void LerpMeshVertexes_altivec(md3Surface_t* surf, float backlerp)
 		// interpolate and copy the vertex and normal
 		//
 		oldXyz = (short*)((byte*)surf + surf->ofsXyzNormals)
-			+ (backEnd.currentEntity->e.oldframe * surf->num_verts * 4);
+			+ (backEnd.currentEntity->e.oldframe * surf->numVerts * 4);
 		oldNormals = oldXyz + 3;
 
 		oldXyzScale = MD3_XYZ_SCALE * backlerp;
 		oldNormalScale = backlerp;
 
-		for (vertNum = 0; vertNum < num_verts; vertNum++,
+		for (vertNum = 0; vertNum < numVerts; vertNum++,
 			oldXyz += 4, newXyz += 4, oldNormals += 4, newNormals += 4,
 			outXyz += 4, outNormal += 4)
 		{
@@ -1566,7 +1566,7 @@ static void LerpMeshVertexes_altivec(md3Surface_t* surf, float backlerp)
 
 			//			VectorNormalize (outNormal);
 		}
-		VectorArrayNormalize((vec4_t*)tess.normal[tess.num_vertexes], num_verts);
+		VectorArrayNormalize((vec4_t*)tess.normal[tess.num_vertexes], numVerts);
 	}
 }
 #endif
@@ -1581,25 +1581,25 @@ static void LerpMeshVertexes_scalar(mdvSurface_t* surf, float backlerp)
 	float	oldNormalScale, newNormalScale;
 	int		vertNum;
 	unsigned lat, lng;
-	int		num_verts;
+	int		numVerts;
 
 	outXyz = tess.xyz[tess.num_vertexes];
 	outNormal = tess.normal[tess.num_vertexes];
 
 	newXyz = (short*)((byte*)surf + surf->ofsXyzNormals)
-		+ (backEnd.currentEntity->e.frame * surf->num_verts * 4);
+		+ (backEnd.currentEntity->e.frame * surf->numVerts * 4);
 	newNormals = newXyz + 3;
 
 	newXyzScale = MD3_XYZ_SCALE * (1.0 - backlerp);
 	newNormalScale = 1.0 - backlerp;
 
-	num_verts = surf->num_verts;
+	numVerts = surf->numVerts;
 
 	if (backlerp == 0) {
 		//
 		// just copy the vertexes
 		//
-		for (vertNum = 0; vertNum < num_verts; vertNum++,
+		for (vertNum = 0; vertNum < numVerts; vertNum++,
 			newXyz += 4, newNormals += 4,
 			outXyz += 4, outNormal += 4)
 		{
@@ -1626,13 +1626,13 @@ static void LerpMeshVertexes_scalar(mdvSurface_t* surf, float backlerp)
 		// interpolate and copy the vertex and normal
 		//
 		oldXyz = (short*)((byte*)surf + surf->ofsXyzNormals)
-			+ (backEnd.currentEntity->e.oldframe * surf->num_verts * 4);
+			+ (backEnd.currentEntity->e.oldframe * surf->numVerts * 4);
 		oldNormals = oldXyz + 3;
 
 		oldXyzScale = MD3_XYZ_SCALE * backlerp;
 		oldNormalScale = backlerp;
 
-		for (vertNum = 0; vertNum < num_verts; vertNum++,
+		for (vertNum = 0; vertNum < numVerts; vertNum++,
 			oldXyz += 4, newXyz += 4, oldNormals += 4, newNormals += 4,
 			outXyz += 4, outNormal += 4)
 		{
@@ -1667,7 +1667,7 @@ static void LerpMeshVertexes_scalar(mdvSurface_t* surf, float backlerp)
 
 			//			VectorNormalize (outNormal);
 		}
-		VectorArrayNormalize((vec4_t*)tess.normal[tess.num_vertexes], num_verts);
+		VectorArrayNormalize((vec4_t*)tess.normal[tess.num_vertexes], numVerts);
 	}
 #endif
 	float* outXyz;
@@ -1675,7 +1675,7 @@ static void LerpMeshVertexes_scalar(mdvSurface_t* surf, float backlerp)
 	mdvVertex_t* newVerts;
 	int		vertNum;
 
-	newVerts = surf->verts + backEnd.currentEntity->e.frame * surf->num_verts;
+	newVerts = surf->verts + backEnd.currentEntity->e.frame * surf->numVerts;
 
 	outXyz = tess.xyz[tess.num_vertexes];
 	outNormal = &tess.normal[tess.num_vertexes];
@@ -1686,7 +1686,7 @@ static void LerpMeshVertexes_scalar(mdvSurface_t* surf, float backlerp)
 		// just copy the vertexes
 		//
 
-		for (vertNum = 0; vertNum < surf->num_verts; vertNum++)
+		for (vertNum = 0; vertNum < surf->numVerts; vertNum++)
 		{
 			vec3_t normal;
 
@@ -1708,9 +1708,9 @@ static void LerpMeshVertexes_scalar(mdvSurface_t* surf, float backlerp)
 
 		mdvVertex_t* oldVerts;
 
-		oldVerts = surf->verts + backEnd.currentEntity->e.oldframe * surf->num_verts;
+		oldVerts = surf->verts + backEnd.currentEntity->e.oldframe * surf->numVerts;
 
-		for (vertNum = 0; vertNum < surf->num_verts; vertNum++)
+		for (vertNum = 0; vertNum < surf->numVerts; vertNum++)
 		{
 			vec3_t normal;
 
@@ -1752,7 +1752,7 @@ static void RB_SurfaceMesh(mdvSurface_t* surface) {
 	float			backlerp;
 	mdvSt_t* texCoords;
 	int				Bob, Doug;
-	int				num_verts;
+	int				numVerts;
 
 	if (backEnd.currentEntity->e.oldframe == backEnd.currentEntity->e.frame) {
 		backlerp = 0;
@@ -1761,7 +1761,7 @@ static void RB_SurfaceMesh(mdvSurface_t* surface) {
 		backlerp = backEnd.currentEntity->e.backlerp;
 	}
 
-	RB_CHECKOVERFLOW(surface->num_verts, surface->num_indexes);
+	RB_CHECKOVERFLOW(surface->numVerts, surface->num_indexes);
 
 	LerpMeshVertexes(surface, backlerp);
 
@@ -1774,14 +1774,14 @@ static void RB_SurfaceMesh(mdvSurface_t* surface) {
 
 	texCoords = surface->st;
 
-	num_verts = surface->num_verts;
-	for (j = 0; j < num_verts; j++) {
+	numVerts = surface->numVerts;
+	for (j = 0; j < numVerts; j++) {
 		tess.texCoords[Doug + j][0][0] = texCoords[j].st[0];
 		tess.texCoords[Doug + j][0][1] = texCoords[j].st[1];
 		// FIXME: fill in lightmapST for completeness?
 	}
 
-	tess.num_vertexes += surface->num_verts;
+	tess.num_vertexes += surface->numVerts;
 }
 
 /*
@@ -1790,13 +1790,13 @@ RB_SurfaceFace
 ==============
 */
 static void RB_SurfaceBSPFace(srfBspSurface_t* srf) {
-	if (RB_SurfaceVbo(srf->vbo, srf->ibo, srf->num_verts, srf->num_indexes,
+	if (RB_SurfaceVbo(srf->vbo, srf->ibo, srf->numVerts, srf->num_indexes,
 		srf->firstIndex, srf->minIndex, srf->maxIndex, srf->dlightBits, srf->pshadowBits, qtrue))
 	{
 		return;
 	}
 
-	RB_SurfaceVertsAndIndexes(srf->num_verts, srf->verts, srf->num_indexes,
+	RB_SurfaceVertsAndIndexes(srf->numVerts, srf->verts, srf->num_indexes,
 		srf->indexes, srf->dlightBits, srf->pshadowBits);
 }
 
@@ -1857,7 +1857,7 @@ static void RB_SurfaceBSPGrid(srfBspSurface_t* srf) {
 	int     pshadowBits;
 	//int		*vDlightBits;
 
-	if (RB_SurfaceVbo(srf->vbo, srf->ibo, srf->num_verts, srf->num_indexes,
+	if (RB_SurfaceVbo(srf->vbo, srf->ibo, srf->numVerts, srf->num_indexes,
 		srf->firstIndex, srf->minIndex, srf->maxIndex, srf->dlightBits, srf->pshadowBits, qtrue))
 	{
 		return;
@@ -2143,7 +2143,7 @@ static void RB_SurfaceFlare(srfFlare_t* surf)
 
 static void RB_SurfaceVBOMesh(srfBspSurface_t* srf)
 {
-	RB_SurfaceVbo(srf->vbo, srf->ibo, srf->num_verts, srf->num_indexes, srf->firstIndex,
+	RB_SurfaceVbo(srf->vbo, srf->ibo, srf->numVerts, srf->num_indexes, srf->firstIndex,
 		srf->minIndex, srf->maxIndex, srf->dlightBits, srf->pshadowBits, qfalse);
 }
 
@@ -2250,7 +2250,7 @@ void RB_SurfaceVBOMDVMesh(srfVBOMDVMesh_t* surface)
 	backEnd.pc.c_multidraws++;
 
 	tess.num_indexes += surface->num_indexes;
-	tess.num_vertexes += surface->num_verts;
+	tess.num_vertexes += surface->numVerts;
 }
 
 static void RB_SurfaceSkip(void* surf) {

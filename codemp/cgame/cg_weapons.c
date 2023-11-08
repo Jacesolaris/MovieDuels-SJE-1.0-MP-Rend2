@@ -408,17 +408,17 @@ static void CG_AddWeaponWithPowerups(refEntity_t* gun)
 	if (cg.predicted_player_state.electrifyTime > cg.time)
 	{
 		//add electrocution shell
-		const int pre_shader = gun->custom_shader;
+		const int pre_shader = gun->customShader;
 		if (rand() & 1)
 		{
-			gun->custom_shader = cgs.media.electricBodyShader;
+			gun->customShader = cgs.media.electricBodyShader;
 		}
 		else
 		{
-			gun->custom_shader = cgs.media.electricBody2Shader;
+			gun->customShader = cgs.media.electricBody2Shader;
 		}
 		trap->R_AddRefEntityToScene(gun);
-		gun->custom_shader = pre_shader; //set back just to be safe
+		gun->customShader = pre_shader; //set back just to be safe
 	}
 }
 

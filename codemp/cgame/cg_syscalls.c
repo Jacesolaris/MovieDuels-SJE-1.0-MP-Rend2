@@ -409,14 +409,14 @@ void trap_R_AddRefEntityToScene(const refEntity_t* re)
 	Q_syscall(CG_R_ADDREFENTITYTOSCENE, re);
 }
 
-void trap_R_AddPolyToScene(const qhandle_t h_shader, const int num_verts, const polyVert_t* verts)
+void trap_R_AddPolyToScene(const qhandle_t h_shader, const int numVerts, const polyVert_t* verts)
 {
-	Q_syscall(CG_R_ADDPOLYTOSCENE, h_shader, num_verts, verts);
+	Q_syscall(CG_R_ADDPOLYTOSCENE, h_shader, numVerts, verts);
 }
 
-void trap_R_AddPolysToScene(const qhandle_t h_shader, const int num_verts, const polyVert_t* verts, const int num)
+void trap_R_AddPolysToScene(const qhandle_t h_shader, const int numVerts, const polyVert_t* verts, const int num)
 {
-	Q_syscall(CG_R_ADDPOLYSTOSCENE, h_shader, num_verts, verts, num);
+	Q_syscall(CG_R_ADDPOLYSTOSCENE, h_shader, numVerts, verts, num);
 }
 
 void trap_R_AddDecalToScene(const qhandle_t shader, const vec3_t origin, const vec3_t dir, const float orientation,
@@ -915,16 +915,16 @@ qboolean trap_G2API_GetBoltMatrix_NoRecNoRot(void* ghoul2, const int model_index
 }
 
 int trap_G2API_InitGhoul2Model(void** ghoul2Ptr, const char* fileName, const int model_index,
-	const qhandle_t custom_skin, const qhandle_t custom_shader, const int modelFlags,
+	const qhandle_t customSkin, const qhandle_t customShader, const int modelFlags,
 	const int lodBias)
 {
-	return Q_syscall(CG_G2_INITGHOUL2MODEL, ghoul2Ptr, fileName, model_index, custom_skin, custom_shader, modelFlags,
+	return Q_syscall(CG_G2_INITGHOUL2MODEL, ghoul2Ptr, fileName, model_index, customSkin, customShader, modelFlags,
 		lodBias);
 }
 
-qboolean trap_G2API_SetSkin(void* ghoul2, const int model_index, const qhandle_t custom_skin, const qhandle_t render_skin)
+qboolean trap_G2API_SetSkin(void* ghoul2, const int model_index, const qhandle_t customSkin, const qhandle_t render_skin)
 {
-	return Q_syscall(CG_G2_SETSKIN, ghoul2, model_index, custom_skin, render_skin);
+	return Q_syscall(CG_G2_SETSKIN, ghoul2, model_index, customSkin, render_skin);
 }
 
 void trap_G2API_CollisionDetect(CollisionRecord_t* collRecMap, void* ghoul2, const vec3_t angles, const vec3_t position,
@@ -1227,9 +1227,9 @@ void CGSyscall_CM_TransformedTrace(trace_t* results, const vec3_t start, const v
 	else trap_CM_TransformedBoxTrace(results, start, end, mins, maxs, model, brushmask, origin, angles);
 }
 
-void CGSyscall_R_AddPolysToScene(const qhandle_t h_shader, const int num_verts, const polyVert_t* verts, int num)
+void CGSyscall_R_AddPolysToScene(const qhandle_t h_shader, const int numVerts, const polyVert_t* verts, int num)
 {
-	trap_R_AddPolyToScene(h_shader, num_verts, verts);
+	trap_R_AddPolyToScene(h_shader, numVerts, verts);
 }
 
 float CGSyscall_R_GetDistanceCull(void)

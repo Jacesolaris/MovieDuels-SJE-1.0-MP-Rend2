@@ -962,7 +962,7 @@ static int G_CheckSpecialDeathAnim(gentity_t* self)
 	else if (G_InKnockDown(&self->client->ps))
 	{
 		//since these happen a lot, let's handle them case by case
-		int anim_length = bgAllAnims[self->localAnimIndex].anims[self->client->ps.legsAnim].num_frames * fabs(
+		int anim_length = bgAllAnims[self->localAnimIndex].anims[self->client->ps.legsAnim].numFrames * fabs(
 			bgHumanoidAnimations[self->client->ps.legsAnim].frameLerp);
 		switch (self->client->ps.legsAnim)
 		{
@@ -3676,7 +3676,7 @@ void player_die(gentity_t* self, const gentity_t* inflictor, gentity_t* attacker
 			}
 
 			self->client->respawnTime = level.time + 1000;
-			//((self->client->animations[anim].num_frames*40)/(50.0f / self->client->animations[anim].frameLerp))+300;
+			//((self->client->animations[anim].numFrames*40)/(50.0f / self->client->animations[anim].frameLerp))+300;
 
 			const int s_pm_type = self->client->ps.pm_type;
 			self->client->ps.pm_type = PM_NORMAL; //don't want pm type interfering with our setanim calls.

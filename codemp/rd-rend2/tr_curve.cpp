@@ -397,8 +397,8 @@ srfBspSurface_t* R_CreateSurfaceGridMesh(int width, int height,
 	grid->indexes = (glIndex_t*)Z_Malloc(grid->num_indexes * sizeof(glIndex_t), TAG_GRIDMESH);
 	Com_Memcpy(grid->indexes, indexes, num_indexes * sizeof(glIndex_t));
 
-	grid->num_verts = (width * height);
-	grid->verts = (srfVert_t*)Z_Malloc(grid->num_verts * sizeof(srfVert_t), TAG_GRIDMESH);
+	grid->numVerts = (width * height);
+	grid->verts = (srfVert_t*)Z_Malloc(grid->numVerts * sizeof(srfVert_t), TAG_GRIDMESH);
 #else
 	grid = ri->Hunk_Alloc(size);
 	Com_Memset(grid, 0, size);
@@ -413,8 +413,8 @@ srfBspSurface_t* R_CreateSurfaceGridMesh(int width, int height,
 	grid->indexes = (glIndex_t*)ri->Hunk_Alloc(grid->num_indexes * sizeof(glIndex_t), h_low);
 	Com_Memcpy(grid->indexes, indexes, num_indexes * sizeof(glIndex_t));
 
-	grid->num_verts = (width * height);
-	grid->verts = ri->Hunk_Alloc(grid->num_verts * sizeof(srfVert_t), h_low);
+	grid->numVerts = (width * height);
+	grid->verts = ri->Hunk_Alloc(grid->numVerts * sizeof(srfVert_t), h_low);
 #endif
 
 	grid->width = width;

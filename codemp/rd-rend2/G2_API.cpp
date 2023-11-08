@@ -93,9 +93,9 @@ void G2_DEBUG_ShovePtrInTracker(CGhoul2Info_v* g2)
 
 	CGhoul2Info_v& g2v = *g2;
 
-	if (g2v[0].current_model && g2v[0].current_model->name && g2v[0].current_model->name[0])
+	if (g2v[0].currentModel && g2v[0].currentModel->name && g2v[0].currentModel->name[0])
 	{
-		Com_Printf("%s could not be fit into g2 debug instance tracker.\n", g2v[0].current_model->name);
+		Com_Printf("%s could not be fit into g2 debug instance tracker.\n", g2v[0].currentModel->name);
 	}
 	else
 	{
@@ -124,9 +124,9 @@ void G2_DEBUG_RemovePtrFromTracker(CGhoul2Info_v* g2)
 
 	CGhoul2Info_v& g2v = *g2;
 
-	if (g2v[0].current_model && g2v[0].current_model->name && g2v[0].current_model->name[0])
+	if (g2v[0].currentModel && g2v[0].currentModel->name && g2v[0].currentModel->name[0])
 	{
-		Com_Printf("%s not in g2 debug instance tracker.\n", g2v[0].current_model->name);
+		Com_Printf("%s not in g2 debug instance tracker.\n", g2v[0].currentModel->name);
 	}
 	else
 	{
@@ -256,7 +256,7 @@ qboolean G2API_OverrideServerWithClientData(CGhoul2Info_v& ghoul2, int model_ind
 	serverInstance->aHeader = clientInstance->aHeader;
 	serverInstance->animModel = clientInstance->animModel;
 	serverInstance->currentAnimModelSize = clientInstance->currentAnimModelSize;
-	serverInstance->current_model = clientInstance->current_model;
+	serverInstance->currentModel = clientInstance->currentModel;
 	serverInstance->current_modelSize = clientInstance->current_modelSize;
 	serverInstance->mAnimFrameDefault = clientInstance->mAnimFrameDefault;
 	serverInstance->mModel = clientInstance->mModel;
@@ -699,9 +699,9 @@ void G2API_CleanGhoul2Models(CGhoul2Info_v** ghoul2Ptr)
 				char fName[MAX_QPATH];
 				char mName[MAX_QPATH];
 
-				if (ghoul2[0].current_model)
+				if (ghoul2[0].currentModel)
 				{
-					strcpy(mName, ghoul2[0].current_model->name);
+					strcpy(mName, ghoul2[0].currentModel->name);
 				}
 				else
 				{
@@ -777,7 +777,7 @@ qhandle_t G2API_PrecacheGhoul2Model(const char* file_name)
 void CL_InitRef(void);
 
 // initialise all that needs to be on a new Ghoul II model
-int G2API_InitGhoul2Model(CGhoul2Info_v** ghoul2Ptr, const char* file_name, const int model_index, const qhandle_t custom_skin, const qhandle_t custom_shader, const int model_flags, const int lod_bias)
+int G2API_InitGhoul2Model(CGhoul2Info_v** ghoul2Ptr, const char* file_name, const int model_index, const qhandle_t customSkin, const qhandle_t customShader, const int model_flags, const int lod_bias)
 {
 	int model;
 
@@ -834,8 +834,8 @@ int G2API_InitGhoul2Model(CGhoul2Info_v** ghoul2Ptr, const char* file_name, cons
 	{
 		G2_Init_Bone_List(ghoul2[model].mBlist, ghoul2[model].aHeader->numBones);
 		G2_Init_Bolt_List(ghoul2[model].mBltlist);
-		ghoul2[model].mCustomShader = custom_shader;
-		ghoul2[model].mCustomSkin = custom_skin;
+		ghoul2[model].mCustomShader = customShader;
+		ghoul2[model].mCustomSkin = customSkin;
 		ghoul2[model].mLodBias = lod_bias;
 		ghoul2[model].mAnimFrameDefault = 0;
 		ghoul2[model].mFlags = 0;
@@ -856,13 +856,13 @@ qboolean G2API_SetLodBias(CGhoul2Info* ghl_info, const int lod_bias)
 }
 
 void G2_SetSurfaceOnOffFromSkin(CGhoul2Info* ghl_info, const qhandle_t render_skin);
-qboolean G2API_SetSkin(CGhoul2Info_v& ghoul2, const int model_index, const qhandle_t custom_skin, const qhandle_t render_skin)
+qboolean G2API_SetSkin(CGhoul2Info_v& ghoul2, const int model_index, const qhandle_t customSkin, const qhandle_t render_skin)
 {
 	CGhoul2Info* ghl_info = &ghoul2[model_index];
 
 	if (ghl_info)
 	{
-		ghl_info->mCustomSkin = custom_skin;
+		ghl_info->mCustomSkin = customSkin;
 		if (render_skin)
 		{
 			//this is going to set the surfs on/off matching the skin file
@@ -874,11 +874,11 @@ qboolean G2API_SetSkin(CGhoul2Info_v& ghoul2, const int model_index, const qhand
 	return qfalse;
 }
 
-qboolean G2API_SetShader(CGhoul2Info* ghl_info, const qhandle_t custom_shader)
+qboolean G2API_SetShader(CGhoul2Info* ghl_info, const qhandle_t customShader)
 {
 	if (ghl_info)
 	{
-		ghl_info->mCustomShader = custom_shader;
+		ghl_info->mCustomShader = customShader;
 		return qtrue;
 	}
 	return qfalse;
@@ -1148,7 +1148,7 @@ qboolean G2API_DoesBoneExist(CGhoul2Info_v& ghoul2, int model_index, const char*
 
 	if (G2_SetupModelPointers(ghl_info))
 	{ //model is valid
-		mdxaHeader_t* mdxa = ghl_info->current_model->data.gla;
+		mdxaHeader_t* mdxa = ghl_info->currentModel->data.gla;
 		if (mdxa)
 		{ //get the skeleton data and iterate through the bones
 			int i;
@@ -1238,7 +1238,7 @@ qboolean G2API_SetBoneAnimIndex(CGhoul2Info* ghl_info, const int index, const in
 	{
 		// ensure we flush the cache
 		ghl_info->mSkelFrameNum = 0;
-		return G2_Set_Bone_Anim_Index(ghl_info->mBlist, index, start_frame, end_frame, flags, anim_speed, acurrent_time, setFrame, blend_time, ghl_info->aHeader->num_frames);
+		return G2_Set_Bone_Anim_Index(ghl_info->mBlist, index, start_frame, end_frame, flags, anim_speed, acurrent_time, setFrame, blend_time, ghl_info->aHeader->numFrames);
 	}
 	return qfalse;
 }
@@ -2285,7 +2285,7 @@ void G2API_CollisionDetectCache(
 					// but not a ghoul2_zonetransalloc flag, then that means it
 					// is a miniheap pointer. Just stomp over it.
 					int iSize =
-						g2.current_model->data.glm->header->numSurfaces * 4;
+						g2.currentModel->data.glm->header->numSurfaces * 4;
 					g2.mTransformedVertsArray =
 						(size_t*)Z_Malloc(iSize, TAG_GHOUL2, qtrue);
 				}
@@ -2616,7 +2616,7 @@ char* G2API_GetSurfaceName(CGhoul2Info_v& ghoul2, int model_index, int surfNumbe
 
 	if (G2_SetupModelPointers(ghl_info))
 	{
-		model_t* mod = (model_t*)ghl_info->current_model;
+		model_t* mod = (model_t*)ghl_info->currentModel;
 		mdxmSurface_t* surf = 0;
 		mdxmSurfHierarchy_t* surfInfo = 0;
 		mdxmHeader_t* mdxm;
@@ -2673,8 +2673,8 @@ char* G2API_GetGLAName(CGhoul2Info_v& ghoul2, int model_index)
 			//model_t	*mod = R_GetModelByHandle(RE_RegisterModel(ghoul2[model_index].mFileName));
 			//return mod->mdxm->animName;
 
-			assert(ghoul2[model_index].current_model && ghoul2[model_index].current_model->data.glm);
-			return ghoul2[model_index].current_model->data.glm->header->animName;
+			assert(ghoul2[model_index].currentModel && ghoul2[model_index].currentModel->data.glm);
+			return ghoul2[model_index].currentModel->data.glm->header->animName;
 		}
 	}
 	return NULL;
@@ -2694,10 +2694,10 @@ qboolean G2API_SetNewOrigin(CGhoul2Info_v& ghoul2, const int bolt_index)
 		if (bolt_index < 0)
 		{
 			char modelName[MAX_QPATH];
-			if (ghl_info->current_model &&
-				ghl_info->current_model->name[0])
+			if (ghl_info->currentModel &&
+				ghl_info->currentModel->name[0])
 			{
-				strcpy(modelName, ghl_info->current_model->name);
+				strcpy(modelName, ghl_info->currentModel->name);
 			}
 			else
 			{
@@ -2755,7 +2755,7 @@ qboolean G2API_SkinlessModel(CGhoul2Info_v& ghoul2, int model_index)
 
 	if (G2_SetupModelPointers(g2))
 	{
-		model_t* mod = (model_t*)g2->current_model;
+		model_t* mod = (model_t*)g2->currentModel;
 
 		if (mod &&
 			mod->data.glm &&
@@ -2847,7 +2847,7 @@ void G2API_AddSkinGore(CGhoul2Info_v& ghoul2, SSkinGoreData& gore)
 	int lod;
 	ResetGoreTag();
 	const int lodbias = Com_Clamp(0, 2, G2_DecideTraceLod(ghoul2[0], ri->Cvar_VariableIntegerValue("r_lodbias")));
-	const int maxLod = Com_Clamp(0, ghoul2[0].current_model->numLods, 3);	//limit to the number of lods the main model has
+	const int maxLod = Com_Clamp(0, ghoul2[0].currentModel->numLods, 3);	//limit to the number of lods the main model has
 	for (lod = lodbias; lod < maxLod; lod++)
 	{
 		// now having done that, time to build the model
@@ -2880,13 +2880,13 @@ qboolean G2_TestModelPointers(CGhoul2Info* ghl_info) // returns true if the mode
 		{
 			ghl_info->mModel = RE_RegisterModel(ghl_info->mFileName);
 		}
-		ghl_info->current_model = R_GetModelByHandle(ghl_info->mModel);
-		if (ghl_info->current_model)
+		ghl_info->currentModel = R_GetModelByHandle(ghl_info->mModel);
+		if (ghl_info->currentModel)
 		{
-			if (ghl_info->current_model->data.glm &&
-				ghl_info->current_model->data.glm->header)
+			if (ghl_info->currentModel->data.glm &&
+				ghl_info->currentModel->data.glm->header)
 			{
-				mdxmHeader_t* mdxm = ghl_info->current_model->data.glm->header;
+				mdxmHeader_t* mdxm = ghl_info->currentModel->data.glm->header;
 				if (ghl_info->current_modelSize)
 				{
 					if (ghl_info->current_modelSize != mdxm->ofsEnd)
@@ -2917,7 +2917,7 @@ qboolean G2_TestModelPointers(CGhoul2Info* ghl_info) // returns true if the mode
 	}
 	if (!ghl_info->mValid)
 	{
-		ghl_info->current_model = 0;
+		ghl_info->currentModel = 0;
 		ghl_info->current_modelSize = 0;
 		ghl_info->animModel = 0;
 		ghl_info->currentAnimModelSize = 0;
@@ -2943,7 +2943,7 @@ qboolean G2_SetupModelPointers(CGhoul2Info* ghl_info) // returns true if the mod
 		return qfalse;
 	}
 
-	//	if (ghl_info->mValid && ghl_info->current_model)
+	//	if (ghl_info->mValid && ghl_info->currentModel)
 	if (0)
 	{ //rww - Why are we bothering with all this? We can't change models like this anyway.
 	  //This function goes over 200k on the precision timer (in debug, but still), so I'm
@@ -2973,17 +2973,17 @@ qboolean G2_SetupModelPointers(CGhoul2Info* ghl_info) // returns true if the mod
 			{
 				ghl_info->mModel = RE_RegisterModel(ghl_info->mFileName);
 			}
-			ghl_info->current_model = R_GetModelByHandle(ghl_info->mModel);
+			ghl_info->currentModel = R_GetModelByHandle(ghl_info->mModel);
 		}
 
-		G2ERROR(ghl_info->current_model, va("NULL Model (glm) %s", ghl_info->mFileName));
-		if (ghl_info->current_model)
+		G2ERROR(ghl_info->currentModel, va("NULL Model (glm) %s", ghl_info->mFileName));
+		if (ghl_info->currentModel)
 		{
-			G2ERROR(ghl_info->current_model->modelData, va("Model has no mdxm (glm) %s", ghl_info->mFileName));
-			if (ghl_info->current_model->data.glm &&
-				ghl_info->current_model->data.glm->header)
+			G2ERROR(ghl_info->currentModel->modelData, va("Model has no mdxm (glm) %s", ghl_info->mFileName));
+			if (ghl_info->currentModel->data.glm &&
+				ghl_info->currentModel->data.glm->header)
 			{
-				mdxmHeader_t* mdxm = ghl_info->current_model->data.glm->header;
+				mdxmHeader_t* mdxm = ghl_info->currentModel->data.glm->header;
 				if (ghl_info->current_modelSize)
 				{
 					if (ghl_info->current_modelSize != mdxm->ofsEnd)
@@ -3019,7 +3019,7 @@ qboolean G2_SetupModelPointers(CGhoul2Info* ghl_info) // returns true if the mod
 	}
 	if (!ghl_info->mValid)
 	{
-		ghl_info->current_model = 0;
+		ghl_info->currentModel = 0;
 		ghl_info->current_modelSize = 0;
 		ghl_info->animModel = 0;
 		ghl_info->currentAnimModelSize = 0;

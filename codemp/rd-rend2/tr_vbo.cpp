@@ -683,19 +683,19 @@ void RB_UpdateGoreVBO(srfG2GoreSurface_t* goreSurface)
 	goreSurface->firstVert = tr.goreVBOCurrentIndex;
 	goreSurface->firstIndex = tr.goreIBOCurrentIndex;
 
-	if (tr.goreVBOCurrentIndex + goreSurface->num_verts >= (MAX_LODS * MAX_GORE_RECORDS * MAX_GORE_VERTS * MAX_FRAMES))
+	if (tr.goreVBOCurrentIndex + goreSurface->numVerts >= (MAX_LODS * MAX_GORE_RECORDS * MAX_GORE_VERTS * MAX_FRAMES))
 		tr.goreVBOCurrentIndex = 0;
 
 	R_BindVBO(tr.goreVBO);
 	qglBufferSubData(
 		GL_ARRAY_BUFFER,
 		sizeof(g2GoreVert_t) * tr.goreVBOCurrentIndex,
-		sizeof(g2GoreVert_t) * goreSurface->num_verts,
+		sizeof(g2GoreVert_t) * goreSurface->numVerts,
 		goreSurface->verts
 	);
-	tr.goreVBOCurrentIndex += goreSurface->num_verts;
+	tr.goreVBOCurrentIndex += goreSurface->numVerts;
 
-	if (tr.goreIBOCurrentIndex + goreSurface->num_verts >= (MAX_LODS * MAX_GORE_RECORDS * MAX_GORE_INDECIES * MAX_FRAMES))
+	if (tr.goreIBOCurrentIndex + goreSurface->numVerts >= (MAX_LODS * MAX_GORE_RECORDS * MAX_GORE_INDECIES * MAX_FRAMES))
 		tr.goreIBOCurrentIndex = 0;
 
 	R_BindIBO(tr.goreIBO);
