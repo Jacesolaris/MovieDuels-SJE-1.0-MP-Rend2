@@ -377,7 +377,7 @@ typedef struct clientInfo_s {
 #define MAX_CG_LOOPSOUNDS 8
 
 typedef struct cgLoopSound_s {
-	int entity_num;
+	int entityNum;
 	vec3_t origin;
 	vec3_t velocity;
 	sfxHandle_t sfx;
@@ -2146,10 +2146,10 @@ void CG_ReattachLimb(centity_t* source);
 // cg_ents.c
 //
 
-void CG_S_AddLoopingSound(int entity_num, const vec3_t origin, const vec3_t velocity, sfxHandle_t sfx);
-void CG_S_AddRealLoopingSound(int entity_num, const vec3_t origin, const vec3_t velocity, sfxHandle_t sfx);
-void CG_S_StopLoopingSound(int entity_num, sfxHandle_t sfx);
-void CG_S_UpdateLoopingSounds(int entity_num);
+void CG_S_AddLoopingSound(int entityNum, const vec3_t origin, const vec3_t velocity, sfxHandle_t sfx);
+void CG_S_AddRealLoopingSound(int entityNum, const vec3_t origin, const vec3_t velocity, sfxHandle_t sfx);
+void CG_S_StopLoopingSound(int entityNum, sfxHandle_t sfx);
+void CG_S_UpdateLoopingSounds(int entityNum);
 
 void CG_SetEntitySoundPosition(const centity_t* cent);
 void CG_AddPacketEntities(qboolean is_portal);

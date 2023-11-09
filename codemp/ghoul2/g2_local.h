@@ -405,8 +405,8 @@ qboolean G2API_SetBoneIKState(CGhoul2Info_v& ghoul2, int time, const char* bone_
 	sharedSetBoneIKStateParams_t* params);
 qboolean G2API_IKMove(CGhoul2Info_v& ghoul2, int time, sharedIKMoveParams_t* params);
 
-void G2API_AttachInstanceToEntNum(CGhoul2Info_v& ghoul2, int entity_num, qboolean server);
-void G2API_ClearAttachedInstance(int entity_num);
+void G2API_AttachInstanceToEntNum(CGhoul2Info_v& ghoul2, int entityNum, qboolean server);
+void G2API_ClearAttachedInstance(int entityNum);
 void G2API_CleanEntAttachments();
 qboolean G2API_OverrideServerWithClientData(CGhoul2Info_v& ghoul2, int model_index);
 

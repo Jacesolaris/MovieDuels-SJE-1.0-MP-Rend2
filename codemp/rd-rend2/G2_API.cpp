@@ -181,24 +181,24 @@ int	G2API_GetTime(int argTime) // this may or may not return arg depending on gh
 CGhoul2Info_v* g2ClientAttachments[MAX_GENTITIES];
 #endif
 
-void G2API_AttachInstanceToEntNum(CGhoul2Info_v& ghoul2, int entity_num, qboolean server)
+void G2API_AttachInstanceToEntNum(CGhoul2Info_v& ghoul2, int entityNum, qboolean server)
 { //Assign the pointers in the arrays
 #ifdef _G2_LISTEN_SERVER_OPT
 	if (server)
 	{
-		ghoul2[0].entity_num = entity_num;
+		ghoul2[0].entityNum = entityNum;
 	}
 	else
 	{
-		g2ClientAttachments[entity_num] = &ghoul2;
+		g2ClientAttachments[entityNum] = &ghoul2;
 	}
 #endif
 }
 
-void G2API_ClearAttachedInstance(int entity_num)
+void G2API_ClearAttachedInstance(int entityNum)
 {
 #ifdef _G2_LISTEN_SERVER_OPT
-	g2ClientAttachments[entity_num] = NULL;
+	g2ClientAttachments[entityNum] = NULL;
 #endif
 }
 
@@ -232,12 +232,12 @@ qboolean G2API_OverrideServerWithClientData(CGhoul2Info_v& ghoul2, int model_ind
 		return qfalse;
 	}
 
-	if (!g2ClientAttachments[serverInstance->entity_num])
+	if (!g2ClientAttachments[serverInstance->entityNum])
 	{ //No clientside instance is attached to this entity
 		return qfalse;
 	}
 
-	CGhoul2Info_v& g2Ref = *g2ClientAttachments[serverInstance->entity_num];
+	CGhoul2Info_v& g2Ref = *g2ClientAttachments[serverInstance->entityNum];
 	clientInstance = &g2Ref[0];
 
 	int frame_num = G2API_GetTime(0);

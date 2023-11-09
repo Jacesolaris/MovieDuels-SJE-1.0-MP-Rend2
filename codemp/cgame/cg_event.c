@@ -1258,16 +1258,16 @@ int CG_InClientBitflags(const entityState_t* ent, const int client)
 void CG_PlayDoorLoopSound(const centity_t* cent);
 void CG_PlayDoorSound(const centity_t* cent, int type);
 
-void CG_TryPlayCustomSound(vec3_t origin, const int entity_num, const soundChannel_t channel, const char* sound_name)
+void CG_TryPlayCustomSound(vec3_t origin, const int entityNum, const soundChannel_t channel, const char* sound_name)
 {
-	const sfxHandle_t c_sound = CG_CustomSound(entity_num, sound_name);
+	const sfxHandle_t c_sound = CG_CustomSound(entityNum, sound_name);
 
 	if (c_sound <= 0)
 	{
 		return;
 	}
 
-	trap->S_StartSound(origin, entity_num, channel, c_sound);
+	trap->S_StartSound(origin, entityNum, channel, c_sound);
 }
 
 void CG_G2MarkEvent(entityState_t* es)
@@ -1298,14 +1298,14 @@ void CG_G2MarkEvent(entityState_t* es)
 
 		CG_G2Trace(&tr, es->origin, NULL, NULL, es->origin2, ignore, MASK_PLAYERSOLID);
 
-		if (tr.entity_num != es->otherEntityNum)
+		if (tr.entityNum != es->otherEntityNum)
 		{
 			//try again if we hit an ent but not the one we wanted.
-			if (tr.entity_num < ENTITYNUM_WORLD)
+			if (tr.entityNum < ENTITYNUM_WORLD)
 			{
-				ignore = tr.entity_num;
+				ignore = tr.entityNum;
 				CG_G2Trace(&tr, es->origin, NULL, NULL, es->origin2, ignore, MASK_PLAYERSOLID);
-				if (tr.entity_num != es->otherEntityNum)
+				if (tr.entityNum != es->otherEntityNum)
 				{
 					//didn't manage to collide with the desired person. No mark will be placed then.
 					return;
@@ -1838,7 +1838,7 @@ void CG_EntityEvent(centity_t* cent, vec3_t position)
 					{
 						CG_Trace(&tr, cg.refdef.vieworg, NULL, NULL, flash_point, ENTITYNUM_NONE, CONTENTS_TERRAIN | CONTENTS_SOLID);
 
-						if (tr.fraction == 1.0 || tr.entity_num < MAX_CLIENTS)
+						if (tr.fraction == 1.0 || tr.entityNum < MAX_CLIENTS)
 						{
 							cull_pass = qtrue;
 						}
@@ -3237,7 +3237,7 @@ void CG_EntityEvent(centity_t* cent, vec3_t position)
 					{
 						CG_Trace(&tr, cg.refdef.vieworg, NULL, NULL, es->origin, ENTITYNUM_NONE, CONTENTS_TERRAIN | CONTENTS_SOLID);
 
-						if (tr.fraction == 1.0 || tr.entity_num < MAX_CLIENTS)
+						if (tr.fraction == 1.0 || tr.entityNum < MAX_CLIENTS)
 						{
 							cull_pass = qtrue;
 						}
@@ -3346,7 +3346,7 @@ void CG_EntityEvent(centity_t* cent, vec3_t position)
 					{
 						CG_Trace(&tr, cg.refdef.vieworg, NULL, NULL, es->origin, ENTITYNUM_NONE, CONTENTS_TERRAIN | CONTENTS_SOLID);
 
-						if (tr.fraction == 1.0 || tr.entity_num < MAX_CLIENTS)
+						if (tr.fraction == 1.0 || tr.entityNum < MAX_CLIENTS)
 						{
 							cull_pass = qtrue;
 						}
@@ -3475,7 +3475,7 @@ void CG_EntityEvent(centity_t* cent, vec3_t position)
 				{
 					CG_Trace(&tr, cg.refdef.vieworg, NULL, NULL, es->origin, ENTITYNUM_NONE, CONTENTS_TERRAIN | CONTENTS_SOLID);
 
-					if (tr.fraction == 1.0 || tr.entity_num < MAX_CLIENTS)
+					if (tr.fraction == 1.0 || tr.entityNum < MAX_CLIENTS)
 					{
 						cull_pass = qtrue;
 					}

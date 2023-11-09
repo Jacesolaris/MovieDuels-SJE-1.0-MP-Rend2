@@ -2812,20 +2812,18 @@ void R_SetupViewParmsForOrthoRendering(
 	const vec3_t viewBounds[2]);
 void R_SortAndSubmitDrawSurfs(drawSurf_t* drawSurfs, int numDrawSurfs);
 
-void R_SwapBuffers(int);
-
 void R_RenderView(viewParms_t* parms);
-void R_RenderDlightCubemaps(const refdef_t* fd);
-void R_SetupPshadowMaps(const refdef_t* fd);
+void R_RenderDlightCubemaps();
+void R_SetupPshadowMaps(trRefdef_t* refdef);
 void R_RenderCubemapSide(int cubemapIndex, int cubemapSide, bool bounce);
 void R_GatherFrameViews(trRefdef_t* refdef);
 
-void R_AddMD3Surfaces(trRefEntity_t* e, int entity_num);
+void R_AddMD3Surfaces(trRefEntity_t* e, int entityNum);
 void R_AddPolygonSurfaces(const trRefdef_t* refdef);
 
-void R_DecomposeSort(uint32_t sort, int* entity_num, shader_t** shader, int* cubemap, int* postRender);
-uint32_t R_CreateSortKey(int entity_num, int sortedShaderIndex, int cubemapIndex, int postRender);
-void R_AddDrawSurf(surfaceType_t* surface, int entity_num, shader_t* shader,
+void R_DecomposeSort(uint32_t sort, int* entityNum, shader_t** shader, int* cubemap, int* postRender);
+uint32_t R_CreateSortKey(int entityNum, int sortedShaderIndex, int cubemapIndex, int postRender);
+void R_AddDrawSurf(surfaceType_t* surface, int entityNum, shader_t* shader,
 	int fogIndex, int dlightMap, int postRender, int cubemap);
 bool R_IsPostRenderEntity(const trRefEntity_t* refEntity);
 
@@ -3070,7 +3068,7 @@ WORLD MAP
 ============================================================
 */
 world_t* R_GetWorld(int worldIndex);
-void R_AddBrushModelSurfaces(trRefEntity_t* e, int entity_num);
+void R_AddBrushModelSurfaces(trRefEntity_t* e, int entityNum);
 void R_AddWorldSurfaces(viewParms_t* viewParms, trRefdef_t* refdef);
 void R_MarkLeaves(void);
 void R_RecursiveWorldNode(mnode_t* node, int planeBits, int dlightBits, int pshadowBits);
@@ -3292,10 +3290,10 @@ ANIMATED MODELS
 =============================================================
 */
 
-void R_MDRAddAnimSurfaces(trRefEntity_t* ent, int entity_num);
+void R_MDRAddAnimSurfaces(trRefEntity_t* ent, int entityNum);
 void RB_MDRSurfaceAnim(mdrSurface_t* surface);
 qboolean R_LoadIQM(model_t* mod, void* buffer, int filesize, const char* name);
-void R_AddIQMSurfaces(trRefEntity_t* ent, int entity_num);
+void R_AddIQMSurfaces(trRefEntity_t* ent, int entityNum);
 void RB_IQMSurfaceAnim(surfaceType_t* surface);
 int R_IQMLerpTag(orientation_t* tag, iqmData_t* data,
 	int start_frame, int end_frame,
@@ -3383,7 +3381,7 @@ public:
 	}
 };
 
-void R_AddGhoulSurfaces(trRefEntity_t* ent, int entity_num);
+void R_AddGhoulSurfaces(trRefEntity_t* ent, int entityNum);
 void RB_SurfaceGhoul(CRenderableSurface* surf);
 void RB_TransformBones(const trRefEntity_t* ent, const trRefdef_t* refdef, int currentFrameNum, gpuFrame_t* frame);
 int RB_GetBoneUboOffset(CRenderableSurface* surf);

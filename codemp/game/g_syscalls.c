@@ -1636,14 +1636,14 @@ qboolean trap_G2API_RemoveBone(void* ghoul2, const char* bone_name, const int mo
 	return Q_syscall(G_G2_REMOVEBONE, ghoul2, bone_name, model_index);
 }
 
-void trap_G2API_AttachInstanceToEntNum(void* ghoul2, const int entity_num, const qboolean server)
+void trap_G2API_AttachInstanceToEntNum(void* ghoul2, const int entityNum, const qboolean server)
 {
-	Q_syscall(G_G2_ATTACHINSTANCETOENTNUM, ghoul2, entity_num, server);
+	Q_syscall(G_G2_ATTACHINSTANCETOENTNUM, ghoul2, entityNum, server);
 }
 
-void trap_G2API_ClearAttachedInstance(const int entity_num)
+void trap_G2API_ClearAttachedInstance(const int entityNum)
 {
-	Q_syscall(G_G2_CLEARATTACHEDINSTANCE, entity_num);
+	Q_syscall(G_G2_CLEARATTACHEDINSTANCE, entityNum);
 }
 
 void trap_G2API_CleanEntAttachments(void)

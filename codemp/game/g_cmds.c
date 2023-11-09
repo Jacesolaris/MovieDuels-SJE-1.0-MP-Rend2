@@ -1587,8 +1587,8 @@ argCheck:
 	}
 }
 
-extern qboolean WP_SaberStyleValidForSaber(const saberInfo_t* saber1, const saberInfo_t* saber2, int saber_holstered,int saber_anim_level);
-extern qboolean WP_UseFirstValidSaberStyle(const saberInfo_t* saber1, const saberInfo_t* saber2, int saber_holstered,int* saber_anim_level);
+extern qboolean WP_SaberStyleValidForSaber(const saberInfo_t* saber1, const saberInfo_t* saber2, int saber_holstered, int saber_anim_level);
+extern qboolean WP_UseFirstValidSaberStyle(const saberInfo_t* saber1, const saberInfo_t* saber2, int saber_holstered, int* saber_anim_level);
 
 qboolean G_ValidSaberStyle(const gentity_t* ent, int saber_style);
 qboolean G_SetSaber(const gentity_t* ent, const int saber_num, const char* saber_name, const qboolean siege_override)
@@ -3318,7 +3318,7 @@ int G_ItemUsable(const playerState_t* ps, int forced_use)
 
 		trap->Trace(&tr, ps->origin, mins, maxs, trtest, ps->client_num, MASK_PLAYERSOLID, qfalse, 0, 0);
 
-		if (tr.fraction != 1 && tr.entity_num != ps->client_num || tr.startsolid || tr.allsolid)
+		if (tr.fraction != 1 && tr.entityNum != ps->client_num || tr.startsolid || tr.allsolid)
 		{
 			G_AddEvent(&g_entities[ps->client_num], EV_ITEMUSEFAIL, SENTRY_NOROOM);
 			return 0;
@@ -3851,9 +3851,9 @@ void Cmd_EngageDuel_f(gentity_t* ent)
 
 	G_SetAnim(ent, &ent->client->pers.cmd, SETANIM_BOTH, BOTH_ENGAGETAUNT, SETANIM_FLAG_OVERRIDE | SETANIM_FLAG_HOLD, 0);
 
-	if (tr.fraction != 1 && tr.entity_num < MAX_CLIENTS)
+	if (tr.fraction != 1 && tr.entityNum < MAX_CLIENTS)
 	{
-		gentity_t* challenged = &g_entities[tr.entity_num];
+		gentity_t* challenged = &g_entities[tr.entityNum];
 
 		if (!challenged || !challenged->client || !challenged->inuse ||
 			challenged->health < 1 || challenged->client->ps.stats[STAT_HEALTH] < 1 ||

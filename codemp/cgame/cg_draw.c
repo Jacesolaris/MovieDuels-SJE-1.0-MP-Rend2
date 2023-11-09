@@ -44,7 +44,7 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 
 extern float CG_RadiusForCent(const centity_t* cent);
 qboolean CG_WorldCoordToScreenCoordFloat(vec3_t world_coord, float* x, float* y);
-qboolean CG_Calcmuzzle_point(int entity_num, vec3_t muzzle);
+qboolean CG_Calcmuzzle_point(int entityNum, vec3_t muzzle);
 static void CG_DrawSiegeTimer(int timeRemaining, qboolean isMyTeam);
 void CG_DrawDuelistHealth(float x, float y, float w, float h, int duelist);
 extern qboolean PM_DeathCinAnim(int anim);
@@ -11511,9 +11511,9 @@ static void CG_DrawRocketLocking(const int lock_ent_num)
 
 extern void CG_CalcVehMuzzle(Vehicle_t* p_veh, centity_t* ent, int muzzle_num);
 
-qboolean CG_CalcVehiclemuzzle_point(const int entity_num, vec3_t start, vec3_t d_f, vec3_t d_rt, vec3_t d_up)
+qboolean CG_CalcVehiclemuzzle_point(const int entityNum, vec3_t start, vec3_t d_f, vec3_t d_rt, vec3_t d_up)
 {
-	centity_t* veh_cent = &cg_entities[entity_num];
+	centity_t* veh_cent = &cg_entities[entityNum];
 	if (veh_cent->m_pVehicle && veh_cent->m_pVehicle->m_pVehicleInfo->type == VH_WALKER)
 	{
 		//draw from barrels
@@ -11752,15 +11752,15 @@ static void CG_ScanForCrosshairEntity(void)
 		CG_Trace(&trace, start, vec3_origin, vec3_origin, end, ignore, CONTENTS_SOLID | CONTENTS_BODY);
 	}
 
-	if (trace.entity_num < MAX_CLIENTS)
+	if (trace.entityNum < MAX_CLIENTS)
 	{
-		if (CG_IsMindTricked(cg_entities[trace.entity_num].currentState.trickedentindex,
-			cg_entities[trace.entity_num].currentState.trickedentindex2,
-			cg_entities[trace.entity_num].currentState.trickedentindex3,
-			cg_entities[trace.entity_num].currentState.trickedentindex4,
+		if (CG_IsMindTricked(cg_entities[trace.entityNum].currentState.trickedentindex,
+			cg_entities[trace.entityNum].currentState.trickedentindex2,
+			cg_entities[trace.entityNum].currentState.trickedentindex3,
+			cg_entities[trace.entityNum].currentState.trickedentindex4,
 			cg.snap->ps.client_num))
 		{
-			if (cg.crosshairclient_num == trace.entity_num)
+			if (cg.crosshairclient_num == trace.entityNum)
 			{
 				cg.crosshairclient_num = ENTITYNUM_NONE;
 				cg.crosshairClientTime = 0;
@@ -11774,10 +11774,10 @@ static void CG_ScanForCrosshairEntity(void)
 
 	if (cg.snap->ps.persistant[PERS_TEAM] != TEAM_SPECTATOR)
 	{
-		if (trace.entity_num < ENTITYNUM_WORLD)
+		if (trace.entityNum < ENTITYNUM_WORLD)
 		{
-			const centity_t* veh = &cg_entities[trace.entity_num];
-			cg.crosshairclient_num = trace.entity_num;
+			const centity_t* veh = &cg_entities[trace.entityNum];
+			cg.crosshairclient_num = trace.entityNum;
 			cg.crosshairClientTime = cg.time;
 
 			if (veh->currentState.eType == ET_NPC &&
@@ -11798,7 +11798,7 @@ static void CG_ScanForCrosshairEntity(void)
 		}
 	}
 
-	if (trace.entity_num >= MAX_CLIENTS)
+	if (trace.entityNum >= MAX_CLIENTS)
 	{
 		return;
 	}
@@ -11811,7 +11811,7 @@ static void CG_ScanForCrosshairEntity(void)
 	}
 
 	// update the fade timer
-	cg.crosshairclient_num = trace.entity_num;
+	cg.crosshairclient_num = trace.entityNum;
 	cg.crosshairClientTime = cg.time;
 }
 
@@ -11878,7 +11878,7 @@ qboolean CG_CheckClientVisibility(const centity_t* cent)
 
 	CG_Trace(&trace, start, NULL, NULL, end, cg.client_num, MASK_PLAYERSOLID);
 
-	const centity_t* trace_ent = &cg_entities[trace.entity_num];
+	const centity_t* trace_ent = &cg_entities[trace.entityNum];
 
 	if (trace_ent == cent || trace.fraction == 1.0f)
 	{

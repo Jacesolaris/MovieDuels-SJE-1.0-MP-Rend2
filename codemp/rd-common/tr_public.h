@@ -30,7 +30,7 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 #include "../qcommon/qcommon.h"
 #include "../ghoul2/ghoul2_shared.h"
 
-#define	REF_API_VERSION 9
+constexpr auto REF_API_VERSION = 20;
 
 //
 // these are the functions exported by the refresh module
@@ -165,13 +165,13 @@ using refexport_t = struct refexport_s
 		int toModelNum);
 	qboolean(*G2API_AttachG2Model)(CGhoul2Info_v& ghoul2_from, int model_from, CGhoul2Info_v& ghoul2_to, int toBoltIndex,
 		int toModel);
-	void (*G2API_AttachInstanceToEntNum)(CGhoul2Info_v& ghoul2, int entity_num, qboolean server);
+	void (*G2API_AttachInstanceToEntNum)(CGhoul2Info_v& ghoul2, int entityNum, qboolean server);
 	void (*G2API_AbsurdSmoothing)(CGhoul2Info_v& ghoul2, qboolean status);
 	void (*G2API_BoltMatrixReconstruction)(qboolean reconstruct);
 	void (*G2API_BoltMatrixSPMethod)(qboolean spMethod);
 	void (*G2API_CleanEntAttachments)();
 	void (*G2API_CleanGhoul2Models)(CGhoul2Info_v** ghoul2Ptr);
-	void (*G2API_ClearAttachedInstance)(int entity_num);
+	void (*G2API_ClearAttachedInstance)(int entityNum);
 	void (*G2API_CollisionDetect)(CollisionRecord_t* collRecMap, CGhoul2Info_v& ghoul2, const vec3_t angles,
 		const vec3_t position, int frameNumber, int ent_num, vec3_t rayStart, vec3_t rayEnd,
 		vec3_t scale, IHeapAllocator* G2VertSpace, int traceFlags, int use_lod, float fRadius);
@@ -294,11 +294,11 @@ using refimport_t = struct refimport_s
 	int (*Milliseconds)(void);
 
 	// memory management (can use tr_subs)
-	void* (*Hunk_AllocateTempMemory)(int size);
+	void* (*Hunk_AllocateTempMemory)(const int size);
 	void (*Hunk_FreeTempMemory)(void* buf);
 	void* (*Hunk_Alloc)(int size, ha_pref preference);
 	int (*Hunk_MemoryRemaining)(void);
-	void* (*Z_Malloc)(int iSize, memtag_t eTag, qboolean bZeroit /*= qfalse*/, int iAlign /*= 4*/);
+	void* (*Z_Malloc)(const int iSize, const memtag_t eTag, const qboolean bZeroit, const int iUnusedAlign);
 	// return memory NOT zero-filled by default
 	void (*Z_Free)(void* ptr);
 	int (*Z_MemSize)(memtag_t eTag);

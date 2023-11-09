@@ -1155,11 +1155,11 @@ static Pass* RB_CreatePass(Allocator& allocator, int capacity)
 	return pass;
 }
 
-static void RB_PrepareForEntity(int entity_num, float originalTime)
+static void RB_PrepareForEntity(int entityNum, float originalTime)
 {
-	if (entity_num != REFENTITYNUM_WORLD)
+	if (entityNum != REFENTITYNUM_WORLD)
 	{
-		backEnd.currentEntity = &backEnd.refdef.entities[entity_num];
+		backEnd.currentEntity = &backEnd.refdef.entities[entityNum];
 
 		backEnd.refdef.floatTime = originalTime - backEnd.currentEntity->e.shaderTime;
 	}
@@ -1192,9 +1192,9 @@ static void RB_SubmitDrawSurfsForDepthFill(
 		shader_t* shader;
 		int cubemapIndex;
 		int postRender;
-		int entity_num;
+		int entityNum;
 
-		R_DecomposeSort(drawSurf->sort, &entity_num, &shader, &cubemapIndex, &postRender);
+		R_DecomposeSort(drawSurf->sort, &entityNum, &shader, &cubemapIndex, &postRender);
 		assert(shader != nullptr);
 
 		if (shader->useSimpleDepthShader == qtrue)
@@ -1217,7 +1217,7 @@ static void RB_SubmitDrawSurfsForDepthFill(
 			}
 		}
 
-		if (shader == oldShader && entity_num == oldentity_num)
+		if (shader == oldShader && entityNum == oldentity_num)
 		{
 			// fast path, same as previous sort
 			rb_surfaceTable[*drawSurf->surface](drawSurf->surface);
@@ -1229,7 +1229,7 @@ static void RB_SubmitDrawSurfsForDepthFill(
 		// seperate entities merged into a single batch, like smoke and blood
 		// puff sprites
 		if (shader != oldShader ||
-			(entity_num != oldentity_num && !shader->entityMergable))
+			(entityNum != oldentity_num && !shader->entityMergable))
 		{
 			if (oldShader != nullptr)
 			{
@@ -1244,10 +1244,10 @@ static void RB_SubmitDrawSurfsForDepthFill(
 		oldSort = drawSurf->sort;
 
 		// change the modelview matrix if needed
-		if (entity_num != oldentity_num)
+		if (entityNum != oldentity_num)
 		{
-			RB_PrepareForEntity(entity_num, originalTime);
-			oldentity_num = entity_num;
+			RB_PrepareForEntity(entityNum, originalTime);
+			oldentity_num = entityNum;
 		}
 
 		// add the triangles for this surface
@@ -1283,11 +1283,11 @@ static void RB_SubmitDrawSurfs(
 		shader_t* shader;
 		int cubemapIndex;
 		int postRender;
-		int entity_num;
+		int entityNum;
 		int fogNum;
 		int dlighted;
 
-		R_DecomposeSort(drawSurf->sort, &entity_num, &shader, &cubemapIndex, &postRender);
+		R_DecomposeSort(drawSurf->sort, &entityNum, &shader, &cubemapIndex, &postRender);
 		assert(shader != nullptr);
 		fogNum = drawSurf->fogIndex;
 		dlighted = drawSurf->dlightBits;
@@ -1307,7 +1307,7 @@ static void RB_SubmitDrawSurfs(
 			fogNum == oldFogNum &&
 			postRender == oldPostRender &&
 			cubemapIndex == oldCubemapIndex &&
-			entity_num == oldentity_num &&
+			entityNum == oldentity_num &&
 			dlighted == oldDlighted &&
 			backEnd.refractionFill == shader->useDistortion)
 		{
@@ -1327,7 +1327,7 @@ static void RB_SubmitDrawSurfs(
 			dlighted != oldDlighted ||
 			postRender != oldPostRender ||
 			cubemapIndex != oldCubemapIndex ||
-			(entity_num != oldentity_num && !shader->entityMergable)))
+			(entityNum != oldentity_num && !shader->entityMergable)))
 		{
 			if (oldShader != nullptr)
 			{
@@ -1343,10 +1343,10 @@ static void RB_SubmitDrawSurfs(
 			oldCubemapIndex = cubemapIndex;
 		}
 
-		if (entity_num != oldentity_num)
+		if (entityNum != oldentity_num)
 		{
-			RB_PrepareForEntity(entity_num, originalTime);
-			oldentity_num = entity_num;
+			RB_PrepareForEntity(entityNum, originalTime);
+			oldentity_num = entityNum;
 		}
 
 		qboolean isDistortionShader = (qboolean)

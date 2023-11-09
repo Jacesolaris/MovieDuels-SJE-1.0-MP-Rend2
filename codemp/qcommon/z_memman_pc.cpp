@@ -804,7 +804,7 @@ Hunk_Alloc
 Allocate permanent (until the hunk is cleared) memory
 =================
 */
-void* Hunk_Alloc(const int size, ha_pref preference)
+void* Hunk_Alloc(const int size, const ha_pref preference)
 {
 	return Z_Malloc(size, hunk_tag, qtrue);
 }
