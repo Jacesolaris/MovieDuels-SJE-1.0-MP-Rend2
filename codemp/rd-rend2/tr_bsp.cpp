@@ -1931,7 +1931,7 @@ void R_StitchAllPatches(world_t* worldData) {
 			numstitches += R_TryStitchingPatch(worldData, i);
 		}
 	} while (stitched);
-	ri->Printf(PRINT_ALL, "stitched %d LoD cracks\n", numstitches);
+	//ri->Printf(PRINT_ALL, "stitched %d LoD cracks\n", numstitches);
 }
 
 /*

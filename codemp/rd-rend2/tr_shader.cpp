@@ -4877,19 +4877,19 @@ void	R_ShaderList_f(void) {
 
 /*
 ====================
-Scan_And_Load_Shader_Files
+ScanAndLoadShaderFiles
 
 Finds and loads all .shader files, combining them into
 a single large text block that can be scanned for shader names
 =====================
 */
 constexpr auto MAX_SHADER_FILES = 8192;
-static void Scan_And_Load_Shader_Files()
+static void ScanAndLoadShaderFiles()
 {
 	char** shader_files;
 	char* buffers[MAX_SHADER_FILES];
 	const char* p;
-	int num_shader_files;
+	int numShaderFiles;
 	int i;
 	char* oldp, * token, * hashMem, * textEnd;
 	int shaderTextHashTableSizes[MAX_SHADERTEXT_HASH], hash, size;
@@ -4898,20 +4898,20 @@ static void Scan_And_Load_Shader_Files()
 
 	long sum = 0, summand;
 	// scan for shader files
-	shader_files = ri->FS_ListFiles("shaders", ".shader", &num_shader_files);
+	shader_files = ri->FS_ListFiles("shaders", ".shader", &numShaderFiles);
 
-	if (!shader_files || !num_shader_files)
+	if (!shader_files || !numShaderFiles)
 	{
 		ri->Printf(PRINT_WARNING, "WARNING: no shader files found\n");
 		return;
 	}
 
-	if (num_shader_files > MAX_SHADER_FILES) {
-		num_shader_files = MAX_SHADER_FILES;
+	if (numShaderFiles > MAX_SHADER_FILES) {
+		numShaderFiles = MAX_SHADER_FILES;
 	}
 
 	// load and parse shader files
-	for (i = 0; i < num_shader_files; i++)
+	for (i = 0; i < numShaderFiles; i++)
 	{
 		char filename[MAX_QPATH];
 
@@ -4987,12 +4987,12 @@ static void Scan_And_Load_Shader_Files()
 	}
 
 	// build single large buffer
-	s_shaderText = (char*)ri->Hunk_Alloc(sum + num_shader_files * 2, h_low);
+	s_shaderText = (char*)ri->Hunk_Alloc(sum + numShaderFiles * 2, h_low);
 	s_shaderText[0] = '\0';
 	textEnd = s_shaderText;
 
 	// free in reverse order, so the temp files are all dumped
-	for (i = num_shader_files - 1; i >= 0; i--)
+	for (i = numShaderFiles - 1; i >= 0; i--)
 	{
 		if (!buffers[i])
 			continue;
@@ -5164,7 +5164,7 @@ void R_InitShaders(const qboolean server)
 	{
 		CreateInternalShaders();
 
-		Scan_And_Load_Shader_Files();
+		ScanAndLoadShaderFiles();
 
 		CreateExternalShaders();
 	}
