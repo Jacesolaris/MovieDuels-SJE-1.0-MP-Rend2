@@ -586,9 +586,9 @@ void CG_LoadBar(void)
 				CG_DrawProportionalString(300, 2, CG_GetStringEdString("LOADTIPS-MP", "REND2TIP"), UI_CENTER | UI_SMALLFONT | UI_DROPSHADOW, colorWhite);
 			}
 		}
-		const int x = (640 - LOADBAR_CLIP_WIDTH) / 2;
+		/*const int x = (640 - LOADBAR_CLIP_WIDTH) / 2;
 		const int y = 50;
 
-		CG_DrawPic(x, y, LOADBAR_CLIP_WIDTH, LOADBAR_CLIP_HEIGHT, cgs.media.load_SerenitySaberSystems);
+		CG_DrawPic(x, y, LOADBAR_CLIP_WIDTH, LOADBAR_CLIP_HEIGHT, cgs.media.load_SerenitySaberSystems);*/
 	}
 }

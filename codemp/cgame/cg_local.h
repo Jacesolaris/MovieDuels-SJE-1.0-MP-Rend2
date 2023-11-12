@@ -1578,7 +1578,7 @@ typedef struct cgMedia_s {
 
 	sfxHandle_t	holocronPickup;
 
-	qhandle_t	load_SerenitySaberSystems;
+	//qhandle_t	load_SerenitySaberSystems;
 
 	// Zoom
 	sfxHandle_t	zoomStart;

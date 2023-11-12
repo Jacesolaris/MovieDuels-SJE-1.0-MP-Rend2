@@ -4360,6 +4360,8 @@ qboolean R_LoadMDXM(model_t* mod, void* buffer, const char* mod_name, qboolean& 
 				surf_indices
 			);
 
+			ri->Hunk_FreeTempMemory(surf_indices);
+
 			surf = (mdxmSurface_t*)((byte*)surf + surf->ofsEnd);
 		}
 
