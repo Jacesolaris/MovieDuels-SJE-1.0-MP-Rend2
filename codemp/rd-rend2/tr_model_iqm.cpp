@@ -1160,7 +1160,7 @@ void RB_IQMSurfaceAnim(surfaceType_t* surface) {
 }
 
 int R_IQMLerpTag(orientation_t* tag, iqmData_t* data,
-	int start_frame, int end_frame,
+	int startFrame, int endFrame,
 	float frac, const char* tagName) {
 	float	jointMats[IQM_MAX_JOINTS * 12];
 	int	joint;
@@ -1178,7 +1178,7 @@ int R_IQMLerpTag(orientation_t* tag, iqmData_t* data,
 		return qfalse;
 	}
 
-	ComputeJointMats(data, start_frame, end_frame, frac, jointMats);
+	ComputeJointMats(data, startFrame, endFrame, frac, jointMats);
 
 	tag->axis[0][0] = jointMats[12 * joint + 0];
 	tag->axis[1][0] = jointMats[12 * joint + 1];

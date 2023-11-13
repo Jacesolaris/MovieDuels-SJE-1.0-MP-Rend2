@@ -1716,8 +1716,8 @@ void R_GetAnimTag(mdrHeader_t* mod, int framenum, const char* tagName, mdvTag_t*
 R_LerpTag
 ================
 */
-int R_LerpTag(orientation_t* tag, qhandle_t handle, int start_frame, int end_frame,
-	float frac, const char* tagName) {
+int R_LerpTag(orientation_t* tag, const qhandle_t handle, const int startFrame, const int endFrame, const float frac, const char* tagName)
+{
 	mdvTag_t* start, * end;
 	mdvTag_t	start_space, end_space;
 	int		i;
@@ -1731,12 +1731,12 @@ int R_LerpTag(orientation_t* tag, qhandle_t handle, int start_frame, int end_fra
 		{
 			start = &start_space;
 			end = &end_space;
-			R_GetAnimTag((mdrHeader_t*)model->data.mdr, start_frame, tagName, start);
-			R_GetAnimTag((mdrHeader_t*)model->data.mdr, end_frame, tagName, end);
+			R_GetAnimTag((mdrHeader_t*)model->data.mdr, startFrame, tagName, start);
+			R_GetAnimTag((mdrHeader_t*)model->data.mdr, endFrame, tagName, end);
 		}
 		else if (model->type == MOD_IQM) {
 			return R_IQMLerpTag(tag, (iqmData_t*)model->data.iqm,
-				start_frame, end_frame,
+				startFrame, endFrame,
 				frac, tagName);
 		}
 		else {
@@ -1747,8 +1747,8 @@ int R_LerpTag(orientation_t* tag, qhandle_t handle, int start_frame, int end_fra
 	}
 	else
 	{
-		start = R_GetTag(model->data.mdv[0], start_frame, tagName);
-		end = R_GetTag(model->data.mdv[0], end_frame, tagName);
+		start = R_GetTag(model->data.mdv[0], startFrame, tagName);
+		end = R_GetTag(model->data.mdv[0], endFrame, tagName);
 		if (!start || !end) {
 			AxisClear(tag->axis);
 			VectorClear(tag->origin);

@@ -73,9 +73,9 @@ int G2_Find_Bolt_Surface_Num(const boltInfo_v& bltlist, const int surfaceNum, co
 
 //=========================================================================================
 //// Public Bolt Routines
-int G2_Add_Bolt_Surf_Num(const CGhoul2Info* ghl_info, boltInfo_v& bltlist, const surfaceInfo_v& slist, const int surf_num)
+int G2_Add_Bolt_Surf_Num(const CGhoul2Info* ghlInfo, boltInfo_v& bltlist, const surfaceInfo_v& slist, const int surf_num)
 {
-	assert(ghl_info && ghl_info->mValid);
+	assert(ghlInfo && ghlInfo->mValid);
 	boltInfo_t			temp_bolt;
 
 	// first up, make sure have a surface first
@@ -120,17 +120,17 @@ int G2_Add_Bolt_Surf_Num(const CGhoul2Info* ghl_info, boltInfo_v& bltlist, const
 	return bltlist.size() - 1;
 }
 
-int G2_Add_Bolt(const CGhoul2Info* ghl_info, boltInfo_v& bltlist, surfaceInfo_v& slist, const char* bone_name)
+int G2_Add_Bolt(const CGhoul2Info* ghlInfo, boltInfo_v& bltlist, surfaceInfo_v& slist, const char* boneName)
 {
-	assert(ghl_info && ghl_info->mValid);
-	const auto mod_m = const_cast<model_t*>(ghl_info->currentModel);
-	const model_t* mod_a = const_cast<model_t*>(ghl_info->animModel);
+	assert(ghlInfo && ghlInfo->mValid);
+	const auto mod_m = const_cast<model_t*>(ghlInfo->currentModel);
+	const model_t* mod_a = const_cast<model_t*>(ghlInfo->animModel);
 	int					x;
 	boltInfo_t			temp_bolt;
 	int					flags;
 
 	// first up, we'll search for that which this bolt names in all the surfaces
-	const int surf_num = G2_IsSurfaceLegal(mod_m, bone_name, &flags);
+	const int surf_num = G2_IsSurfaceLegal(mod_m, boneName, &flags);
 
 	// did we find it as a surface?
 	if (surf_num != -1)
@@ -179,7 +179,7 @@ int G2_Add_Bolt(const CGhoul2Info* ghl_info, boltInfo_v& bltlist, surfaceInfo_v&
 	{
 		const mdxaSkel_t* skel = reinterpret_cast<mdxaSkel_t*>(reinterpret_cast<byte*>(mod_a->mdxa) + sizeof(mdxaHeader_t) + offsets->offsets[x]);
 		// if name is the same, we found it
-		if (!Q_stricmp(skel->name, bone_name))
+		if (!Q_stricmp(skel->name, boneName))
 		{
 			break;
 		}
@@ -191,7 +191,7 @@ int G2_Add_Bolt(const CGhoul2Info* ghl_info, boltInfo_v& bltlist, surfaceInfo_v&
 		// didn't find it? Error
 		//assert(0&&x == mod_a->mdxa->numBones);
 #ifdef _DEBUG
-//		ri->Printf( PRINT_ALL, "WARNING: %s not found on skeleton\n", bone_name);
+//		ri->Printf( PRINT_ALL, "WARNING: %s not found on skeleton\n", boneName);
 #endif
 		return -1;
 	}
