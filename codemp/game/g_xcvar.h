@@ -247,5 +247,6 @@ XCVAR_DEF(g_overpoweredsaberthrow, "0", NULL, CVAR_ARCHIVE, qtrue)
 XCVAR_DEF(g_AllowWeather, "1", NULL, CVAR_ARCHIVE, qtrue)
 XCVAR_DEF(com_rend2, "0", NULL, CVAR_ARCHIVE, qtrue)
 XCVAR_DEF(r_weather, "0", NULL, CVAR_ARCHIVE, qtrue)
+XCVAR_DEF(r_Turn_Off_dynamiclight, "0", NULL, CVAR_ARCHIVE, qtrue)
 
 #undef XCVAR_DEF
