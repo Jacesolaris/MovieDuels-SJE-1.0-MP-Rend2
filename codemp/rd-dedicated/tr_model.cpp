@@ -133,7 +133,7 @@ void RE_LoadWorldMap_Actual(const char* name, world_t& worldData, int index);
 //
 // don't use ri->xxx functions in case running on dedicated...
 //
-qboolean RE_RegisterModels_GetDiskFile(const char* psModelFileName, void** ppvBuffer, qboolean* pqbAlreadyCached)
+static qboolean RE_RegisterModels_GetDiskFile(const char* psModelFileName, void** ppvBuffer, qboolean* pqbAlreadyCached)
 {
 	char sModelName[MAX_QPATH];
 
@@ -182,8 +182,7 @@ qboolean RE_RegisterModels_GetDiskFile(const char* psModelFileName, void** ppvBu
 //
 // don't use ri->xxx functions in case running on dedicated
 //
-void* RE_RegisterModels_Malloc(const int iSize, void* pvDiskBufferIfJustLoaded, const char* psModelFileName,
-	qboolean* pqbAlreadyFound, const memtag_t eTag)
+void* RE_RegisterModels_Malloc(const int iSize, void* pvDiskBufferIfJustLoaded, const char* psModelFileName, qboolean* pqbAlreadyFound, const memtag_t eTag)
 {
 	char sModelName[MAX_QPATH];
 
@@ -235,8 +234,7 @@ void* RE_RegisterModels_Malloc(const int iSize, void* pvDiskBufferIfJustLoaded, 
 
 // Unfortunately the dedicated server also hates shader loading. So we need an alternate of this func.
 //
-void* RE_RegisterServerModels_Malloc(const int iSize, void* pvDiskBufferIfJustLoaded, const char* psModelFileName,
-	qboolean* pqbAlreadyFound, const memtag_t eTag)
+void* RE_RegisterServerModels_Malloc(const int iSize, void* pvDiskBufferIfJustLoaded, const char* psModelFileName,	qboolean* pqbAlreadyFound, const memtag_t eTag)
 {
 	char sModelName[MAX_QPATH];
 

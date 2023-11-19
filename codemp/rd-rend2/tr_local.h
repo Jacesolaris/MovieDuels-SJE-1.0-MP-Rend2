@@ -2892,7 +2892,7 @@ qhandle_t	RE_RegisterServerModel(const char* name);
 qhandle_t	RE_RegisterModel(const char* name);
 qhandle_t	RE_RegisterServerSkin(const char* name);
 qhandle_t	RE_RegisterSkin(const char* name);
-void		RE_Shutdown(qboolean destroyWindow, qboolean restarting);
+void RE_Shutdown(qboolean destroyWindow, qboolean restarting);
 world_t* R_LoadBSP(const char* name, int* bspIndex = nullptr);
 
 qboolean	R_GetEntityToken(char* buffer, int size);
