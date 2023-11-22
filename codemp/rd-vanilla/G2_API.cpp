@@ -80,7 +80,7 @@ void G2_DEBUG_ReportLeaks(void)
 	}
 }
 
-void G2_DEBUG_ShovePtrInTracker(CGhoul2Info_v* g2)
+static void G2_DEBUG_ShovePtrInTracker(CGhoul2Info_v* g2)
 {
 	int i = 0;
 
@@ -116,7 +116,7 @@ void G2_DEBUG_ShovePtrInTracker(CGhoul2Info_v* g2)
 	}
 }
 
-void G2_DEBUG_RemovePtrFromTracker(CGhoul2Info_v* g2)
+static void G2_DEBUG_RemovePtrFromTracker(CGhoul2Info_v* g2)
 {
 	int i = 0;
 
@@ -698,7 +698,7 @@ void SaveGhoul2InfoArray()
 	}
 }
 
-void Ghoul2InfoArray_Free(void)
+static void Ghoul2InfoArray_Free(void)
 {
 	if (singleton)
 	{
@@ -778,7 +778,7 @@ void G2API_CleanGhoul2Models(CGhoul2Info_v** ghoul2Ptr)
 	}
 }
 
-qboolean G2_ShouldRegisterServer(void)
+static qboolean G2_ShouldRegisterServer(void)
 {
 	const vm_t* currentVM = ri->GetCurrentVM();
 
@@ -1813,11 +1813,9 @@ qboolean G2API_RagForceSolve(CGhoul2Info_v& ghoul2, const qboolean force)
 	return qtrue;
 }
 
-qboolean G2_SetBoneIKState(CGhoul2Info_v& ghoul2, int time, const char* boneName, int ik_state,
-	sharedSetBoneIKStateParams_t* params);
+qboolean G2_SetBoneIKState(CGhoul2Info_v& ghoul2, const int time, const char* boneName, const int ikState, sharedSetBoneIKStateParams_t* params);
 
-qboolean G2API_SetBoneIKState(CGhoul2Info_v& ghoul2, const int time, const char* boneName, const int ikState,
-	sharedSetBoneIKStateParams_t* params)
+qboolean G2API_SetBoneIKState(CGhoul2Info_v& ghoul2, const int time, const char* boneName, const int ikState, sharedSetBoneIKStateParams_t* params)
 {
 	return G2_SetBoneIKState(ghoul2, time, boneName, ikState, params);
 }
@@ -1927,10 +1925,7 @@ qboolean G2API_AttachEnt(int* boltInfo, CGhoul2Info_v& ghoul2, const int model_i
 qboolean gG2_GBMNoReconstruct;
 qboolean gG2_GBMUseSPMethod;
 
-qboolean G2API_GetBoltMatrix_SPMethod(CGhoul2Info_v& ghoul2, const int model_index, const int bolt_index,
-	mdxaBone_t* matrix, const vec3_t angles,
-	const vec3_t position, const int frame_num, qhandle_t* model_list,
-	const vec3_t scale)
+static qboolean G2API_GetBoltMatrix_SPMethod(CGhoul2Info_v& ghoul2, const int model_index, const int bolt_index, mdxaBone_t* matrix, const vec3_t angles, const vec3_t position, const int frame_num, qhandle_t* model_list, const vec3_t scale)
 {
 	assert(ghoul2.size() > model_index);
 
@@ -2330,20 +2325,8 @@ void G2API_CollisionDetectCache(CollisionRecord_t* collRecMap, CGhoul2Info_v& gh
 	}
 }
 
-void G2API_CollisionDetect(CollisionRecord_t* collRecMap, CGhoul2Info_v& ghoul2, const vec3_t angles,
-	const vec3_t position,
-	int frameNumber, int ent_num, vec3_t rayStart, vec3_t rayEnd, vec3_t scale,
-	IHeapAllocator* G2VertSpace, int traceFlags, int use_lod, float fRadius)
+void G2API_CollisionDetect(CollisionRecord_t* collRecMap, CGhoul2Info_v& ghoul2, const vec3_t angles, const vec3_t position, int frameNumber, int ent_num, vec3_t rayStart, vec3_t rayEnd, vec3_t scale, IHeapAllocator* G2VertSpace, int traceFlags, int use_lod, float fRadius)
 {
-	/*
-	if (1)
-	{
-		G2API_CollisionDetectCache(collRecMap, ghoul2, angles, position, frameNumber, ent_num,
-			rayStart, rayEnd, scale, G2VertSpace, traceFlags, use_lod, fRadius);
-		return;
-	}
-	*/
-
 	if (G2_SetupModelPointers(ghoul2))
 	{
 		vec3_t transRayStart, transRayEnd;
@@ -2484,14 +2467,12 @@ int G2API_CopyGhoul2Instance(const CGhoul2Info_v& g2_from, CGhoul2Info_v& g2_to,
 			model++;
 		}
 #endif
-		//G2ANIM(ghoul2From,"G2API_CopyGhoul2Instance (source)");
-		//G2ANIM(ghoul2To,"G2API_CopyGhoul2Instance (dest)");
 	}
 
 	return -1;
 }
 
-void G2API_CopySpecificG2Model(CGhoul2Info_v& ghoul2From, const int modelFrom, CGhoul2Info_v& ghoul2To, const int model_to)
+void G2API_CopySpecificG2Model(CGhoul2Info_v& ghoul2From, const int modelFrom, CGhoul2Info_v& ghoul2To, const int modelTo)
 {
 #if 0
 	qboolean forceReconstruct = qtrue;
@@ -2502,25 +2483,25 @@ void G2API_CopySpecificG2Model(CGhoul2Info_v& ghoul2From, const int modelFrom, C
 	if (ghoul2From.size() > modelFrom)
 	{
 		// if we don't have enough models on the to side, resize us so we do
-		if (ghoul2To.size() <= model_to)
+		if (ghoul2To.size() <= modelTo)
 		{
-			//assert (model_to < 5); //fuck off already!
-			ghoul2To.resize(model_to + 1);
+			//assert (modelTo < 5); //fuck off already!
+			ghoul2To.resize(modelTo + 1);
 #if 0
 			forceReconstruct = qtrue;
 #endif
 		}
 		// do the copy
-		if (ghoul2To.IsValid() && ghoul2To.size() >= model_to)
+		if (ghoul2To.IsValid() && ghoul2To.size() >= modelTo)
 		{
 			//remove the bonecache before we stomp over this instance.
-			if (ghoul2To[model_to].mBoneCache)
+			if (ghoul2To[modelTo].mBoneCache)
 			{
-				RemoveBoneCache(ghoul2To[model_to].mBoneCache);
-				ghoul2To[model_to].mBoneCache = nullptr;
+				RemoveBoneCache(ghoul2To[modelTo].mBoneCache);
+				ghoul2To[modelTo].mBoneCache = nullptr;
 			}
 		}
-		ghoul2To[model_to] = ghoul2From[modelFrom];
+		ghoul2To[modelTo] = ghoul2From[modelFrom];
 #if 0
 		if (forceReconstruct)
 		{ //rww - we should really do this shouldn't we? If we don't mark a reconstruct after this,
@@ -2622,9 +2603,6 @@ char* G2API_GetGLAName(CGhoul2Info_v& ghoul2, const int model_index)
 	{
 		if (ghoul2.size() > model_index)
 		{
-			//model_t	*mod = R_GetModelByHandle(RE_RegisterModel(ghoul2[model_index].mFileName));
-			//return mod->mdxm->animName;
-
 			assert(ghoul2[model_index].currentModel && ghoul2[model_index].currentModel->mdxm);
 			return ghoul2[model_index].currentModel->mdxm->animName;
 		}
@@ -2772,8 +2750,7 @@ void G2API_ClearSkinGore(CGhoul2Info_v& ghoul2)
 	}
 }
 
-extern int G2_DecideTraceLod(const CGhoul2Info& ghoul2, int use_lod);
-
+extern int G2_DecideTraceLod(const CGhoul2Info& ghoul2, const int use_lod);
 void G2API_AddSkinGore(CGhoul2Info_v& ghoul2, SSkinGoreData& gore)
 {
 	if (VectorLength(gore.rayDirection) < .1f)
@@ -2806,8 +2783,7 @@ void G2API_AddSkinGore(CGhoul2Info_v& ghoul2, SSkinGoreData& gore)
 		G2_TransformModel(ghoul2, gore.current_time, gore.scale, ri->GetG2VertSpaceServer(), lod, true);
 
 		// now walk each model and compute new texture coordinates
-		G2_TraceModels(ghoul2, transHitLocation, transRayDirection, nullptr, gore.ent_num, 0, lod, 0.0f, gore.SSize,
-			gore.TSize, gore.theta, gore.shader, &gore, qtrue);
+		G2_TraceModels(ghoul2, transHitLocation, transRayDirection, nullptr, gore.ent_num, 0, lod, 0.0f, gore.SSize,gore.TSize, gore.theta, gore.shader, &gore, qtrue);
 	}
 }
 #endif

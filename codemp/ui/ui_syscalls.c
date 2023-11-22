@@ -400,8 +400,8 @@ void trap_G2API_GetGLAName(void* ghoul2, int model_index, char* fillBuf) {
 int trap_G2API_CopyGhoul2Instance(void* g2_from, void* g2_to, int model_index) {
 	return Q_syscall(UI_G2_COPYGHOUL2INSTANCE, g2_from, g2_to, model_index);
 }
-void trap_G2API_CopySpecificGhoul2Model(void* g2_from, int modelFrom, void* g2_to, int model_to) {
-	Q_syscall(UI_G2_COPYSPECIFICGHOUL2MODEL, g2_from, modelFrom, g2_to, model_to);
+void trap_G2API_CopySpecificGhoul2Model(void* g2_from, int modelFrom, void* g2_to, int modelTo) {
+	Q_syscall(UI_G2_COPYSPECIFICGHOUL2MODEL, g2_from, modelFrom, g2_to, modelTo);
 }
 void trap_G2API_DuplicateGhoul2Instance(void* g2_from, void** g2_to) {
 	Q_syscall(UI_G2_DUPLICATEGHOUL2INSTANCE, g2_from, g2_to);

@@ -3869,7 +3869,7 @@ static void VertexLightingCollapse(void) {
 	}
 }
 
-int FindFirstLightmapStage(const shaderStage_t* stages, int numStages)
+static int FindFirstLightmapStage(const shaderStage_t* stages, int numStages)
 {
 	for (int i = 0; i < numStages; i++)
 	{

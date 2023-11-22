@@ -57,14 +57,18 @@ static float EvalWaveForm(const waveForm_t* wf)
 {
 	float* table;
 
-	if (wf->func == GF_NOISE) {
+	if (wf->func == GF_NOISE)
+	{
 		return  (wf->base + R_NoiseGet4f(0, 0, 0, (backEnd.refdef.floatTime + wf->phase) * wf->frequency) * wf->amplitude);
 	}
-	else if (wf->func == GF_RAND) {
-		if (GetNoiseTime(backEnd.refdef.time + wf->phase) <= wf->frequency) {
+	else if (wf->func == GF_RAND)
+	{
+		if (GetNoiseTime(backEnd.refdef.time + wf->phase) <= wf->frequency)
+		{
 			return (wf->base + wf->amplitude);
 		}
-		else {
+		else
+		{
 			return wf->base;
 		}
 	}
@@ -118,7 +122,7 @@ RB_CalcDeformVertexes
 
 ========================
 */
-void RB_CalcDeformVertexes(deformStage_t* ds)
+static void RB_CalcDeformVertexes(deformStage_t* ds)
 {
 	int i;
 	vec3_t	offset;
@@ -169,7 +173,7 @@ RB_CalcDeformNormals
 Wiggle the normals for wavy environment mapping
 =========================
 */
-void RB_CalcDeformNormals(deformStage_t* ds) {
+static void RB_CalcDeformNormals(deformStage_t* ds) {
 	int i;
 	float	scale;
 	float* xyz = (float*)tess.xyz;
@@ -207,7 +211,7 @@ RB_CalcBulgeVertexes
 
 ========================
 */
-void RB_CalcBulgeVertexes(deformStage_t* ds) {
+static void RB_CalcBulgeVertexes(deformStage_t* ds) {
 	int i;
 	const float* st = (const float*)tess.texCoords[0];
 	float* xyz = (float*)tess.xyz;
@@ -240,7 +244,7 @@ RB_CalcMoveVertexes
 A deformation that can move an entire surface along a wave path
 ======================
 */
-void RB_CalcMoveVertexes(deformStage_t* ds) {
+static void RB_CalcMoveVertexes(deformStage_t* ds) {
 	int			i;
 	float* xyz;
 	float* table;
@@ -269,12 +273,12 @@ DeformText
 Change a polygon into a bunch of text polygons
 =============
 */
-void DeformText(const char* text) {
+static void DeformText(const char* text) {
 	int		i;
-	vec3_t	origin, width, height;
+	vec3_t	origin, width, height{};
 	int		len;
 	int		ch;
-	float	color[4];
+	float	color[4]{};
 	float	bottom, top;
 	vec3_t	mid;
 	vec3_t fNormal;
@@ -364,7 +368,7 @@ static void AutospriteDeform(void) {
 	int		i;
 	int		oldVerts;
 	float* xyz;
-	vec3_t	mid, delta;
+	vec3_t	mid{}, delta;
 	float	radius;
 	vec3_t	left, up;
 	vec3_t	leftDir, upDir;
@@ -466,9 +470,9 @@ static void Autosprite2Deform(void) {
 	// we could precalculate a lot of it is an issue, but it would mess up
 	// the shader abstraction
 	for (i = 0, indexes = 0; i < tess.num_vertexes; i += 4, indexes += 6) {
-		float	lengths[2];
-		int		nums[2];
-		vec3_t	mid[2];
+		float	lengths[2]{};
+		int		nums[2]{};
+		vec3_t	mid[2]{};
 		vec3_t	major, minor;
 		float* v1, * v2;
 
@@ -649,7 +653,7 @@ float RB_CalcWaveAlphaSingle(const waveForm_t* wf)
 */
 void RB_CalcModulateColorsByFog(unsigned char* colors) {
 	int		i;
-	float	texCoords[SHADER_MAX_VERTEXES][2];
+	float	texCoords[SHADER_MAX_VERTEXES][2]{};
 
 	// calculate texcoords so we can derive density
 	// this is not wasted, because it would only have
@@ -689,7 +693,7 @@ void RB_CalcFogTexCoords(float* st) {
 	qboolean	eyeOutside;
 	fog_t* fog;
 	vec3_t		local;
-	vec4_t		fogDistanceVector, fogDepthVector = { 0, 0, 0, 0 };
+	vec4_t		fogDistanceVector{}, fogDepthVector = { 0, 0, 0, 0 };
 
 	fog = tr.world->fogs + tess.fogNum;
 

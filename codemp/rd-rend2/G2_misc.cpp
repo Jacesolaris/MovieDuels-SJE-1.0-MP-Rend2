@@ -90,12 +90,12 @@ R2GoreTextureCoordinates* FindR2GoreRecord(int tag)
 	return 0;
 }
 
-void* G2_GetGoreRecord(int tag)
+static void* G2_GetGoreRecord(const int tag)
 {
 	return FindR2GoreRecord(tag);
 }
 
-void DeleteR2GoreRecord(int tag)
+void DeleteR2GoreRecord(const int tag)
 {
 	DestroyGoreTexCoordinates(tag);
 	GoreRecords.erase(tag);
@@ -104,7 +104,7 @@ void DeleteR2GoreRecord(int tag)
 static int CurrentGoreSet = 1; // this is a UUID for gore sets
 static std::map<int, CGoreSet*> GoreSets; // map from uuid to goreset
 
-CGoreSet* FindGoreSet(int goreSetTag)
+CGoreSet* FindGoreSet(const int goreSetTag)
 {
 	std::map<int, CGoreSet*>::iterator f = GoreSets.find(goreSetTag);
 	if (f != GoreSets.end())
@@ -122,7 +122,7 @@ CGoreSet* NewGoreSet()
 	return ret;
 }
 
-void DeleteGoreSet(int goreSetTag)
+void DeleteGoreSet(const int goreSetTag)
 {
 	std::map<int, CGoreSet*>::iterator f = GoreSets.find(goreSetTag);
 	if (f != GoreSets.end())
@@ -345,7 +345,7 @@ qboolean G2_GetAnimFileName(const char* file_name, char** filename)
 //
 /////////////////////////////////////////////////////////////////////
 
-int G2_DecideTraceLod(CGhoul2Info& ghoul2, int use_lod)
+int G2_DecideTraceLod(const CGhoul2Info& ghoul2, const int use_lod)
 {
 	int returnLod = use_lod;
 
@@ -370,7 +370,7 @@ int G2_DecideTraceLod(CGhoul2Info& ghoul2, int use_lod)
 	return returnLod;
 }
 
-void R_TransformEachSurface(const mdxmSurface_t* surface, vec3_t scale, IHeapAllocator* G2VertSpace, size_t* TransformedVertsArray, CBoneCache* boneCache)
+static void R_TransformEachSurface(const mdxmSurface_t* surface, vec3_t scale, IHeapAllocator* G2VertSpace, size_t* TransformedVertsArray, CBoneCache* boneCache)
 {
 	int				 j, k;
 	mdxmVertex_t* v;
@@ -481,8 +481,7 @@ void R_TransformEachSurface(const mdxmSurface_t* surface, vec3_t scale, IHeapAll
 	}
 }
 
-void G2_TransformSurfaces(int surfaceNum, surfaceInfo_v& rootSList,
-	CBoneCache* boneCache, const model_t* currentModel, int lod, vec3_t scale, IHeapAllocator* G2VertSpace, size_t* TransformedVertArray, bool secondTimeAround)
+static void G2_TransformSurfaces(const int surfaceNum, surfaceInfo_v& rootSList, CBoneCache* boneCache, const model_t* currentModel, const int lod, vec3_t scale, IHeapAllocator* G2VertSpace, size_t* TransformedVertArray, const bool secondTimeAround)
 {
 	int	i;
 	assert(currentModel);
@@ -672,9 +671,7 @@ static void G2_BuildHitPointST(const vec3_t A, const float SA, const float TA,
 }
 
 // routine that works out given a ray whether or not it hits a poly
-qboolean G2_SegmentTriangleTest(const vec3_t start, const vec3_t end,
-	const vec3_t A, const vec3_t B, const vec3_t C,
-	qboolean backFaces, qboolean frontFaces, vec3_t returnedPoint, vec3_t returnedNormal, float* denom)
+static qboolean G2_SegmentTriangleTest(const vec3_t start, const vec3_t end, const vec3_t A, const vec3_t B, const vec3_t C, const qboolean backFaces, const qboolean frontFaces, vec3_t returnedPoint, vec3_t returnedNormal, float* denom)
 {
 	static const float tiny = 1E-10f;
 	vec3_t returnedNormalT;
@@ -764,7 +761,7 @@ static int GoreIndecies[MAX_GORE_INDECIES];
 int	G2API_GetTime(int argTime);
 
 // now we at poly level, check each model space transformed poly against the model world transfomed ray
-void G2_GorePolys(const mdxmSurface_t* surface, CTraceSurface& TS, const mdxmSurfHierarchy_t* surfInfo)
+static void G2_GorePolys(const mdxmSurface_t* surface, CTraceSurface& TS, const mdxmSurfHierarchy_t* surfInfo)
 {
 	int				j;
 	vec3_t basis1;
@@ -810,7 +807,7 @@ void G2_GorePolys(const mdxmSurface_t* surface, CTraceSurface& TS, const mdxmSur
 	for (j = 0; j < numVerts; j++)
 	{
 		int pos = j * 5;
-		vec3_t delta;
+		vec3_t delta{};
 		delta[0] = verts[pos + 0] - TS.rayStart[0];
 		delta[1] = verts[pos + 1] - TS.rayStart[1];
 		delta[2] = verts[pos + 2] - TS.rayStart[2];
@@ -933,7 +930,7 @@ void G2_GorePolys(const mdxmSurface_t* surface, CTraceSurface& TS, const mdxmSur
 			TS.ghoul2info->mGoreSetTag = goreSet->mMyGoreSetTag;
 		}
 		assert(goreSet);
-		SGoreSurface add;
+		SGoreSurface add{};
 		add.shader = TS.goreShader;
 		add.mDeleteTime = 0;
 		if (TS.gore->lifeTime)
@@ -1166,14 +1163,11 @@ static bool G2_TracePolys(const mdxmSurface_t* surface, const mdxmSurfHierarchy_
 }
 
 // now we're at poly level, check each model space transformed poly against the model world transfomed ray
-static bool G2_RadiusTracePolys(
-	const mdxmSurface_t* surface,
-	CTraceSurface& TS
-)
+static bool G2_RadiusTracePolys(const mdxmSurface_t* surface,CTraceSurface& TS)
 {
 	int		j;
 	vec3_t basis1;
-	vec3_t basis2;
+	vec3_t basis2{};
 	vec3_t taxis;
 	vec3_t saxis;
 
@@ -1224,7 +1218,7 @@ static bool G2_RadiusTracePolys(
 	for (j = 0; j < numVerts; j++)
 	{
 		const int pos = j * 5;
-		vec3_t delta;
+		vec3_t delta{};
 		delta[0] = verts[pos + 0] - TS.rayStart[0];
 		delta[1] = verts[pos + 1] - TS.rayStart[1];
 		delta[2] = verts[pos + 2] - TS.rayStart[2];
@@ -1630,7 +1624,7 @@ void G2_GenerateWorldMatrix(const vec3_t angles, const vec3_t origin)
 }
 
 // go away and determine what the pointer for a specific surface definition within the model definition is
-void* G2_FindSurface(void* mod_t, int index, int lod)
+void* G2_FindSurface(void* mod_t, const int index, const int lod)
 {
 	// damn include file dependancies
 	model_t* mod = (model_t*)mod_t;
@@ -1752,7 +1746,7 @@ qboolean G2_SaveGhoul2Models(CGhoul2Info_v& ghoul2, char** buffer, int* size)
 }
 
 // have to free space malloced in the save system here because the game DLL can't.
-void G2_FreeSaveBuffer(char* buffer)
+static void G2_FreeSaveBuffer(char* buffer)
 {
 	Z_Free(buffer);
 }
@@ -1830,7 +1824,7 @@ void G2_LoadGhoul2Model(CGhoul2Info_v& ghoul2, const char* buffer)
 	}
 }
 
-void G2_LerpAngles(CGhoul2Info_v& ghoul2, CGhoul2Info_v& nextGhoul2, float interpolation)
+static void G2_LerpAngles(CGhoul2Info_v& ghoul2, CGhoul2Info_v& nextGhoul2, const float interpolation)
 {
 	// loop each model
 	for (int i = 0; i < ghoul2.size(); i++)

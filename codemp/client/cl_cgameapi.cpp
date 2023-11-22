@@ -727,11 +727,11 @@ static int CL_G2API_CopyGhoul2Instance(void* g2_from, void* g2_to, const int mod
 		model_index);
 }
 
-static void CL_G2API_CopySpecificGhoul2Model(void* g2_from, const int modelFrom, void* g2_to, const int model_to)
+static void CL_G2API_CopySpecificGhoul2Model(void* g2_from, const int modelFrom, void* g2_to, const int modelTo)
 {
 	if (!g2_from || !g2_to) return;
 	re->G2API_CopySpecificG2Model(*static_cast<CGhoul2Info_v*>(g2_from), modelFrom, *static_cast<CGhoul2Info_v*>(g2_to),
-		model_to);
+		modelTo);
 }
 
 static void CL_G2API_DuplicateGhoul2Instance(void* g2_from, void** g2_to)

@@ -115,7 +115,7 @@ GoreTextureCoordinates* FindGoreRecord(const int tag)
 	return nullptr;
 }
 
-void* G2_GetGoreRecord(const int tag)
+static void* G2_GetGoreRecord(const int tag)
 {
 	return FindGoreRecord(tag);
 }
@@ -375,7 +375,7 @@ int G2_DecideTraceLod(const CGhoul2Info& ghoul2, const int use_lod)
 	return returnLod;
 }
 
-void R_TransformEachSurface(const mdxmSurface_t* surface, vec3_t scale, IHeapAllocator* G2VertSpace, size_t* TransformedVertsArray, CBoneCache* boneCache)
+static void R_TransformEachSurface(const mdxmSurface_t* surface, vec3_t scale, IHeapAllocator* G2VertSpace, size_t* TransformedVertsArray, CBoneCache* boneCache)
 {
 	int				 j, k;
 
@@ -484,8 +484,7 @@ void R_TransformEachSurface(const mdxmSurface_t* surface, vec3_t scale, IHeapAll
 	}
 }
 
-void G2_TransformSurfaces(const int surfaceNum, surfaceInfo_v& rootSList,
-	CBoneCache* boneCache, const model_t* currentModel, const int lod, vec3_t scale, IHeapAllocator* G2VertSpace, size_t* TransformedVertArray, const bool secondTimeAround)
+static void G2_TransformSurfaces(const int surfaceNum, surfaceInfo_v& rootSList, CBoneCache* boneCache, const model_t* currentModel, const int lod, vec3_t scale, IHeapAllocator* G2VertSpace, size_t* TransformedVertArray, const bool secondTimeAround)
 {
 	assert(currentModel);
 	assert(currentModel->mdxm);
@@ -676,9 +675,7 @@ static void G2_BuildHitPointST(const vec3_t A, const float SA, const float TA,
 }
 
 // routine that works out given a ray whether or not it hits a poly
-qboolean G2_SegmentTriangleTest(const vec3_t start, const vec3_t end,
-	const vec3_t A, const vec3_t B, const vec3_t C,
-	const qboolean backFaces, const qboolean frontFaces, vec3_t returnedPoint, vec3_t returnedNormal, float* denom)
+static qboolean G2_SegmentTriangleTest(const vec3_t start, const vec3_t end, const vec3_t A, const vec3_t B, const vec3_t C, const qboolean backFaces, const qboolean frontFaces, vec3_t returnedPoint, vec3_t returnedNormal, float* denom)
 {
 	static constexpr float tiny = 1E-10f;
 	vec3_t returnedNormalT;
@@ -1176,10 +1173,7 @@ static bool G2_TracePolys(const mdxmSurface_t* surface, const mdxmSurfHierarchy_
 }
 
 // now we're at poly level, check each model space transformed poly against the model world transfomed ray
-static bool G2_RadiusTracePolys(
-	const mdxmSurface_t* surface,
-	CTraceSurface& TS
-)
+static bool G2_RadiusTracePolys(const mdxmSurface_t* surface,CTraceSurface& TS)
 {
 	int		j;
 	vec3_t basis1;
@@ -1563,7 +1557,8 @@ void G2_TraceModels(CGhoul2Info_v& ghoul2, vec3_t rayStart, vec3_t rayEnd, Colli
 	}
 }
 
-void TransformPoint(const vec3_t in, vec3_t out, const mdxaBone_t* mat) {
+void TransformPoint(const vec3_t in, vec3_t out, const mdxaBone_t* mat) 
+{
 	for (int i = 0; i < 3; i++)
 	{
 		out[i] = in[0] * mat->matrix[i][0] + in[1] * mat->matrix[i][1] + in[2] * mat->matrix[i][2];
@@ -1755,7 +1750,7 @@ qboolean G2_SaveGhoul2Models(CGhoul2Info_v& ghoul2, char** buffer, int* size)
 }
 
 // have to free space malloced in the save system here because the game DLL can't.
-void G2_FreeSaveBuffer(char* buffer)
+static void G2_FreeSaveBuffer(char* buffer)
 {
 	Z_Free(buffer);
 }
@@ -1833,7 +1828,7 @@ void G2_LoadGhoul2Model(CGhoul2Info_v& ghoul2, const char* buffer)
 	}
 }
 
-void G2_LerpAngles(CGhoul2Info_v& ghoul2, CGhoul2Info_v& nextGhoul2, const float interpolation)
+static void G2_LerpAngles(CGhoul2Info_v& ghoul2, CGhoul2Info_v& nextGhoul2, const float interpolation)
 {
 	// loop each model
 	for (int i = 0; i < ghoul2.size(); i++)

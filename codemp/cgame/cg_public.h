@@ -677,7 +677,7 @@ typedef struct cgameImport_s {
 	qboolean(*G2API_GetBoneFrame)					(void* ghoul2, const char* boneName, int current_time, float* current_frame, int* model_list, int model_index);
 	void			(*G2API_GetGLAName)						(void* ghoul2, int model_index, char* fillBuf);
 	int				(*G2API_CopyGhoul2Instance)				(void* g2_from, void* g2_to, int model_index);
-	void			(*G2API_CopySpecificGhoul2Model)		(void* g2_from, int modelFrom, void* g2_to, int model_to);
+	void			(*G2API_CopySpecificGhoul2Model)		(void* g2_from, int modelFrom, void* g2_to, int modelTo);
 	void			(*G2API_DuplicateGhoul2Instance)		(void* g2_from, void** g2_to);
 	qboolean(*G2API_HasGhoul2ModelOnIndex)			(void* ghlInfo, int model_index);
 	qboolean(*G2API_RemoveGhoul2Model)				(void* ghlInfo, int model_index);

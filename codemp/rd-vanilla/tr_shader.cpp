@@ -1951,7 +1951,7 @@ const char* materialNames[MATERIAL_LAST] =
 	MATERIALS
 };
 
-void ParseMaterial(const char** text)
+static void ParseMaterial(const char** text)
 {
 	const char* token = COM_ParseExt(text, qfalse);
 	if (token[0] == 0)
@@ -3216,7 +3216,7 @@ shader_t* R_FindShaderByName(const char* name) {
 	return tr.defaultShader;
 }
 
-inline qboolean IsShader(const shader_t* sh, const char* name, const int* lightmapIndex, const byte* styles)
+inline static qboolean IsShader(const shader_t* sh, const char* name, const int* lightmapIndex, const byte* styles)
 {
 	if (Q_stricmp(sh->name, name))
 	{
@@ -3766,7 +3766,7 @@ void	R_ShaderList_f()
 	ri->Printf(PRINT_ALL, "------------------\n");
 }
 
-int COM_CompressShader(char* data_p)
+static int COM_CompressShader(char* data_p)
 {
 	char* out;
 	qboolean newline = qfalse, whitespace = qfalse;

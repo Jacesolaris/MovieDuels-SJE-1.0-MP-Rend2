@@ -83,7 +83,7 @@ int G2_IsSurfaceLegal(void* mod, const char* surface_name, int* flags)
  *    pointer to surface if successful, false otherwise
  *
  ************************************************************************************************/
-mdxmSurface_t* G2_FindSurface(const CGhoul2Info* ghlInfo, const surfaceInfo_v& slist, const char* surface_name, int* surf_index)
+static mdxmSurface_t* G2_FindSurface(const CGhoul2Info* ghlInfo, const surfaceInfo_v& slist, const char* surface_name, int* surf_index)
 {
 	int						i = 0;
 	// find the model we want
@@ -289,7 +289,7 @@ void G2_FindRecursiveSurface(model_t* currentModel, int surfaceNum, surfaceInfo_
 	}
 }
 
-void G2_RemoveRedundantGeneratedSurfaces(surfaceInfo_v& slist, int* activeSurfaces)
+static void G2_RemoveRedundantGeneratedSurfaces(surfaceInfo_v& slist, int* activeSurfaces)
 {
 	// walk the surface list, removing surface overrides or generated surfaces that are pointing at surfaces that aren't active anymore
 	for (size_t i = 0; i < slist.size(); i++)
@@ -492,7 +492,7 @@ qboolean G2_SetRootSurface(CGhoul2Info_v& ghoul2, const int model_index, const c
 	return qfalse;
 }
 
-extern int G2_DecideTraceLod(CGhoul2Info& ghoul2, int use_lod);
+extern int G2_DecideTraceLod(const CGhoul2Info& ghoul2, const int use_lod);
 int G2_AddSurface(CGhoul2Info* ghoul2, const int surface_number, const int poly_number, const float barycentric_i, const float barycentric_j, int lod)
 {
 	surfaceInfo_t temp_slist_entry;

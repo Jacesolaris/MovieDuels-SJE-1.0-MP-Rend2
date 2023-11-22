@@ -45,7 +45,7 @@ int g_G2AllocServer = 0;
 static bool g_G2AllocTrackInit = false; //want to keep this thing contained
 static CGhoul2Info_v* g_G2AllocTrack[MAX_TRACKED_ALLOC];
 
-void G2_DEBUG_InitPtrTracker(void)
+static void G2_DEBUG_InitPtrTracker(void)
 {
 	memset(g_G2AllocTrack, 0, sizeof(g_G2AllocTrack));
 	g_G2AllocTrackInit = true;
@@ -82,7 +82,7 @@ void G2_DEBUG_ReportLeaks(void)
 	}
 }
 
-void G2_DEBUG_ShovePtrInTracker(CGhoul2Info_v* g2)
+static void G2_DEBUG_ShovePtrInTracker(CGhoul2Info_v* g2)
 {
 	int i = 0;
 
@@ -118,7 +118,7 @@ void G2_DEBUG_ShovePtrInTracker(CGhoul2Info_v* g2)
 	}
 }
 
-void G2_DEBUG_RemovePtrFromTracker(CGhoul2Info_v* g2)
+static void G2_DEBUG_RemovePtrFromTracker(CGhoul2Info_v* g2)
 {
 	int i = 0;
 
@@ -477,7 +477,7 @@ IGhoul2InfoArray& TheGhoul2InfoArray()
 	return *singleton;
 }
 
-void Ghoul2InfoArray_Free(void)
+static void Ghoul2InfoArray_Free(void)
 {
 	if (singleton)
 	{
@@ -557,7 +557,7 @@ void G2API_CleanGhoul2Models(CGhoul2Info_v** ghoul2Ptr)
 	}
 }
 
-qboolean G2_ShouldRegisterServer(void)
+static qboolean G2_ShouldRegisterServer(void)
 {
 	if (!ri->GetCurrentVM)
 		return qfalse;
@@ -1593,11 +1593,9 @@ qboolean G2API_RagForceSolve(CGhoul2Info_v& ghoul2, const qboolean force)
 	return qtrue;
 }
 
-qboolean G2_SetBoneIKState(CGhoul2Info_v& ghoul2, int time, const char* boneName, int ik_state,
-	sharedSetBoneIKStateParams_t* params);
+qboolean G2_SetBoneIKState(CGhoul2Info_v& ghoul2, const int time, const char* boneName, const int ikState, sharedSetBoneIKStateParams_t* params);
 
-qboolean G2API_SetBoneIKState(CGhoul2Info_v& ghoul2, const int time, const char* boneName, const int ikState,
-	sharedSetBoneIKStateParams_t* params)
+qboolean G2API_SetBoneIKState(CGhoul2Info_v& ghoul2, const int time, const char* boneName, const int ikState, sharedSetBoneIKStateParams_t* params)
 {
 	return G2_SetBoneIKState(ghoul2, time, boneName, ikState, params);
 }
@@ -1709,10 +1707,7 @@ qboolean G2API_AttachEnt(int* boltInfo, CGhoul2Info_v& ghoul2, const int model_i
 qboolean gG2_GBMNoReconstruct;
 qboolean gG2_GBMUseSPMethod;
 
-qboolean G2API_GetBoltMatrix_SPMethod(CGhoul2Info_v& ghoul2, const int model_index, const int bolt_index,
-	mdxaBone_t* matrix, const vec3_t angles,
-	const vec3_t position, const int frame_num, qhandle_t* model_list,
-	const vec3_t scale)
+static qboolean G2API_GetBoltMatrix_SPMethod(CGhoul2Info_v& ghoul2, const int model_index, const int bolt_index, mdxaBone_t* matrix, const vec3_t angles, const vec3_t position, const int frame_num, qhandle_t* model_list, const vec3_t scale)
 {
 	assert(ghoul2.size() > model_index);
 
@@ -2085,13 +2080,10 @@ void G2API_CollisionDetectCache(CollisionRecord_t* collRecMap, CGhoul2Info_v& gh
 		// now sort the resulting array of collision records so they are distance ordered
 		qsort(collRecMap, i,
 			sizeof(CollisionRecord_t), QsortDistance);
-}
+	}
 }
 
-void G2API_CollisionDetect(CollisionRecord_t* collRecMap, CGhoul2Info_v& ghoul2, const vec3_t angles,
-	const vec3_t position,
-	int frameNumber, int ent_num, vec3_t rayStart, vec3_t rayEnd, vec3_t scale,
-	IHeapAllocator* G2VertSpace, int traceFlags, int use_lod, float fRadius)
+void G2API_CollisionDetect(CollisionRecord_t* collRecMap, CGhoul2Info_v& ghoul2, const vec3_t angles, const vec3_t position, int frameNumber, int ent_num, vec3_t rayStart, vec3_t rayEnd, vec3_t scale, IHeapAllocator* G2VertSpace, int traceFlags, int use_lod, float fRadius)
 {
 	/*
 	if (1)
@@ -2244,13 +2236,12 @@ int G2API_CopyGhoul2Instance(const CGhoul2Info_v& g2_from, CGhoul2Info_v& g2_to,
 #endif
 		//G2ANIM(ghoul2From,"G2API_CopyGhoul2Instance (source)");
 		//G2ANIM(ghoul2To,"G2API_CopyGhoul2Instance (dest)");
-		}
-
-	return -1;
 	}
 
-void G2API_CopySpecificG2Model(CGhoul2Info_v& ghoul2From, const int modelFrom, CGhoul2Info_v& ghoul2To,
-	const int model_to)
+	return -1;
+}
+
+void G2API_CopySpecificG2Model(CGhoul2Info_v& ghoul2From, const int modelFrom, CGhoul2Info_v& ghoul2To, const int modelTo)
 {
 #if 0
 	qboolean forceReconstruct = qtrue;
@@ -2261,25 +2252,25 @@ void G2API_CopySpecificG2Model(CGhoul2Info_v& ghoul2From, const int modelFrom, C
 	if (ghoul2From.size() > modelFrom)
 	{
 		// if we don't have enough models on the to side, resize us so we do
-		if (ghoul2To.size() <= model_to)
+		if (ghoul2To.size() <= modelTo)
 		{
-			assert(model_to < 5);
-			ghoul2To.resize(model_to + 1);
+			assert(modelTo < 5);
+			ghoul2To.resize(modelTo + 1);
 #if 0
 			forceReconstruct = qtrue;
 #endif
 		}
 		// do the copy
-		if (ghoul2To.IsValid() && ghoul2To.size() >= model_to)
+		if (ghoul2To.IsValid() && ghoul2To.size() >= modelTo)
 		{
 			//remove the bonecache before we stomp over this instance.
-			if (ghoul2To[model_to].mBoneCache)
+			if (ghoul2To[modelTo].mBoneCache)
 			{
-				RemoveBoneCache(ghoul2To[model_to].mBoneCache);
-				ghoul2To[model_to].mBoneCache = nullptr;
+				RemoveBoneCache(ghoul2To[modelTo].mBoneCache);
+				ghoul2To[modelTo].mBoneCache = nullptr;
 			}
 		}
-		ghoul2To[model_to] = ghoul2From[modelFrom];
+		ghoul2To[modelTo] = ghoul2From[modelFrom];
 #if 0
 		if (forceReconstruct)
 		{ //rww - we should really do this shouldn't we? If we don't mark a reconstruct after this,
@@ -2320,7 +2311,7 @@ void G2API_DuplicateGhoul2Instance(const CGhoul2Info_v& g2_from, CGhoul2Info_v**
 
 	/*ignore = */
 	G2API_CopyGhoul2Instance(g2_from, ghoul2, -1);
-	}
+}
 
 char* G2API_GetSurfaceName(CGhoul2Info_v& ghoul2, const int model_index, const int surfNumber)
 {
@@ -2361,10 +2352,10 @@ char* G2API_GetSurfaceName(CGhoul2Info_v& ghoul2, const int model_index, const i
 			const auto surfIndexes = reinterpret_cast<mdxmHierarchyOffsets_t*>(reinterpret_cast<byte*>(mod->mdxm) + sizeof(mdxmHeader_t));
 			surf_info = reinterpret_cast<mdxmSurfHierarchy_t*>(reinterpret_cast<byte*>(surfIndexes) + surfIndexes->offsets[surf->thisSurfaceIndex]);
 			return surf_info->name;
-			}
 		}
+	}
 	return noSurface;
-		}
+}
 
 int G2API_GetSurfaceIndex(CGhoul2Info* ghlInfo, const char* surface_name)
 {
@@ -2528,7 +2519,7 @@ void G2API_ClearSkinGore(CGhoul2Info_v& ghoul2)
 	}
 }
 
-extern int G2_DecideTraceLod(const CGhoul2Info& ghoul2, int use_lod);
+extern int G2_DecideTraceLod(const CGhoul2Info& ghoul2, const int use_lod);
 
 void G2API_AddSkinGore(CGhoul2Info_v& ghoul2, SSkinGoreData& gore)
 {
