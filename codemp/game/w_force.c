@@ -3021,7 +3021,7 @@ static void force_lightning_damage(gentity_t* self, gentity_t* trace_ent, vec3_t
 	self->client->ps.eFlags &= ~EF_INVULNERABLE;
 	self->client->invulnerableTimer = 0;
 
-	if (trace_ent && trace_ent->takedamage && trace_ent->client->ps.duelInProgress == 0)
+	if (trace_ent && trace_ent->takedamage)
 	{
 		if (!trace_ent->client && trace_ent->s.eType == ET_NPC)
 		{
