@@ -1582,7 +1582,7 @@ float G_GroundDistance(const gentity_t* self)
 
 	down[2] -= 4096;
 
-	trap->Trace(&tr, self->client->ps.origin, self->r.mins, self->r.maxs, down, self->s.client_num, MASK_SOLID, qfalse,
+	trap->Trace(&tr, self->client->ps.origin, self->r.mins, self->r.maxs, down, self->s.clientNum, MASK_SOLID, qfalse,
 		0, 0);
 
 	VectorSubtract(self->r.currentOrigin, tr.endpos, down);
