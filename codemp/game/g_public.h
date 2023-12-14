@@ -1083,7 +1083,7 @@ typedef struct gameImport_s {
 	qboolean(*G2API_GetBoltMatrix_NoReconstruct)	(void* ghoul2, int model_index, int bolt_index, mdxaBone_t* matrix, const vec3_t angles, const vec3_t position, int frameNum, qhandle_t* model_list, vec3_t scale);
 	qboolean(*G2API_GetBoltMatrix_NoRecNoRot)		(void* ghoul2, int model_index, int bolt_index, mdxaBone_t* matrix, const vec3_t angles, const vec3_t position, int frameNum, qhandle_t* model_list, vec3_t scale);
 	int			(*G2API_InitGhoul2Model)				(void** ghoul2Ptr, const char* fileName, int model_index, qhandle_t customSkin, qhandle_t customShader, int modelFlags, int lodBias);
-	qboolean(*G2API_SetSkin)						(void* ghoul2, int model_index, qhandle_t customSkin, qhandle_t render_skin);
+	qboolean(*G2API_SetSkin)						(void* ghoul2, const int model_index, const qhandle_t customSkin, const qhandle_t render_skin);
 	int			(*G2API_Ghoul2Size)						(void* ghlInfo);
 	int			(*G2API_AddBolt)						(void* ghoul2, int model_index, const char* boneName);
 	void		(*G2API_SetBoltInfo)					(void* ghoul2, int model_index, int boltInfo);

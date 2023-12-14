@@ -938,7 +938,7 @@ static void CG_ColorFromInt(const int val, vec3_t color)
 }
 
 //load anim info
-int CG_G2SkelForModel(void* g2)
+static int CG_G2SkelForModel(void* g2)
 {
 	int anim_index = -1;
 	char gla_name[MAX_QPATH];
@@ -958,7 +958,7 @@ int CG_G2SkelForModel(void* g2)
 }
 
 //get the appropriate anim events file index
-int CG_G2EvIndexForModel(void* g2, const int anim_index)
+static int CG_G2EvIndexForModel(void* g2, const int anim_index)
 {
 	int evt_index = -1;
 	char gla_name[MAX_QPATH];
@@ -1297,7 +1297,7 @@ This will usually be deferred to a safe time
 */
 void CG_LoadHolsterData(clientInfo_t* ci);
 
-void CG_LoadClientInfo(clientInfo_t* ci)
+static void CG_LoadClientInfo(clientInfo_t* ci)
 {
 	char teamname[MAX_QPATH];
 	char* fallback_model = DEFAULT_MODEL;
@@ -16922,7 +16922,7 @@ void CG_HolsteredWeaponRender(centity_t* cent, const clientInfo_t* ci, const int
 #define		G2MODEL_LAUNCHER_HOLSTERED		9
 #define		G2MODEL_GOLAN_HOLSTERED			10
 
-void CG_VisualWeaponsUpdate(centity_t* cent, clientInfo_t* ci)
+static void CG_VisualWeaponsUpdate(centity_t* cent, clientInfo_t* ci)
 {
 	//renders holstered weapons on players.
 	//flag to indicate that

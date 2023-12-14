@@ -2027,20 +2027,6 @@ void CG_TestModelPrevSkin_f(void);
 void CG_AddBufferedSound(sfxHandle_t sfx);
 
 void CG_DrawActiveFrame(int serverTime, stereoFrame_t stereoView, qboolean demoPlayback);
-/*
-Ghoul2 Insert Start
-*/
-
-void CG_TestG2Model_f(void);
-void CG_TestModelSurfaceOnOff_f(void);
-void CG_ListModelSurfaces_f(void);
-void CG_ListModelBones_f(void);
-void CG_TestModelSetAnglespre_f(void);
-void CG_TestModelSetAnglespost_f(void);
-void CG_TestModelAnimate_f(void);
-/*
-Ghoul2 Insert End
-*/
 
 //
 // cg_drawtools.c
