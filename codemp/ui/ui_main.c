@@ -2263,7 +2263,6 @@ static void UI_DrawJediNonJedi(rectDef_t* rect, float scale, vec4_t color, int t
 	int i_menu_font)
 {
 	char s[256];
-	//menuDef_t *menu;
 
 	char info[MAX_INFO_VALUE];
 
@@ -6694,7 +6693,7 @@ static void UI_RunMenuScript(char** args)
 		{
 			trap->Cmd_ExecuteText(EXEC_APPEND, "cvar_restart\n");
 			Controls_SetDefaults();
-			trap->Cmd_ExecuteText(EXEC_APPEND, "exec mpdefault.cfg\n");
+			trap->Cmd_ExecuteText(EXEC_APPEND, "exec MD-MP-default.cfg\n");
 			trap->Cmd_ExecuteText(EXEC_APPEND, "vid_restart\n");
 		}
 		else if (Q_stricmp(name, "loadArenas") == 0)

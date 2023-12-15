@@ -127,7 +127,8 @@ R_SetupEntityLightingGrid
 
 =================
 */
-static void R_SetupEntityLightingGrid(trRefEntity_t* ent, world_t* world) {
+static void R_SetupEntityLightingGrid(trRefEntity_t* ent, world_t* world)
+{
 	vec3_t	lightOrigin;
 	int		pos[3]{};
 	int		i, j;
