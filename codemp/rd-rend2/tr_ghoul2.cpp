@@ -1532,16 +1532,16 @@ static void G2_TransformBone(int child, CBoneCache& BC)
 		// set blending stuff if we need to
 		if (boneFlags & BONE_ANIM_BLEND)
 		{
-			const float blend_time = BC.incomingTime - bone.blendStart;
+			const float blendTime = BC.incomingTime - bone.blendStart;
 
 			// only set up the blend anim if we actually have some blend time
 			// left on this bone anim - otherwise we might corrupt some blend
 			// higher up the hiearchy
-			if (blend_time >= 0.0f && blend_time < bone.blend_time)
+			if (blendTime >= 0.0f && blendTime < bone.blendTime)
 			{
 				TB.blendFrame = bone.blendFrame;
 				TB.blendOldFrame = bone.blendLerpFrame;
-				TB.blendLerp = (blend_time / bone.blend_time);
+				TB.blendLerp = (blendTime / bone.blendTime);
 				TB.blendMode = true;
 			}
 			else
@@ -1650,7 +1650,7 @@ static void G2_TransformBone(int child, CBoneCache& BC)
 				bone.anim_speed,
 				bone.flags,
 				bone.blendStart,
-				bone.blendStart + bone.blend_time,
+				bone.blendStart + bone.blendTime,
 				bone.blendFrame,
 				bone.blendLerpFrame);
 		}
@@ -1752,8 +1752,8 @@ static void G2_TransformBone(int child, CBoneCache& BC)
 
 			temp = toMatrix * skel->BasePoseMatInv;
 
-			float blend_time = BC.incomingTime - boneOverride.boneBlendStart;
-			float blendLerp = (blend_time / boneOverride.boneBlendTime);
+			float blendTime = BC.incomingTime - boneOverride.boneBlendStart;
+			float blendLerp = (blendTime / boneOverride.boneBlendTime);
 			if (blendLerp > 0.0f)
 			{
 				// has started
@@ -1775,8 +1775,8 @@ static void G2_TransformBone(int child, CBoneCache& BC)
 				(((boneOverride.boneBlendStart + boneOverride.boneBlendTime) < BC.incomingTime)))
 			{
 				// ok, we are supposed to be blending. Work out lerp
-				const float blend_time = BC.incomingTime - boneOverride.boneBlendStart;
-				const float blendLerp = (blend_time / boneOverride.boneBlendTime);
+				const float blendTime = BC.incomingTime - boneOverride.boneBlendStart;
+				const float blendLerp = (blendTime / boneOverride.boneBlendTime);
 
 				if (blendLerp <= 1)
 				{

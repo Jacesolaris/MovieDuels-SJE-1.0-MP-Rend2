@@ -209,7 +209,7 @@ Check for lava / slime contents and drowning
 =============
 */
 extern qboolean G_PointInBounds(vec3_t point, vec3_t mins, vec3_t maxs);
-extern void NPC_SetAnim(gentity_t* ent, int set_anim_parts, int anim, int set_anim_flags);
+extern void NPC_SetAnim(gentity_t* ent, int setAnimParts, int anim, int setAnimFlags);
 extern void WP_ForcePowerStart(const gentity_t* self, forcePowers_t forcePower, int overrideAmt);
 
 static void P_WorldEffects(gentity_t* ent)
@@ -1430,6 +1430,11 @@ void G_CheapWeaponFire(const int entNum, const int ev)
 			return;
 		}
 
+		if (ent && ent->client && ent->client->frozenTime > level.time)
+		{
+			return; //this entity is mind-tricking the current client, so don't render it
+		}
+
 		if (ent->m_pVehicle && ent->m_pVehicle->m_pVehicleInfo->type == VH_SPEEDER &&
 			ent->client && ent->client->ps.m_iVehicleNum)
 		{
@@ -1456,6 +1461,11 @@ void G_CheapWeaponFire(const int entNum, const int ev)
 		if (PM_ReloadAnim(ent->client->ps.torsoAnim))
 		{
 			return;
+		}
+
+		if (ent && ent->client && ent->client->frozenTime > level.time)
+		{
+			return; //this entity is mind-tricking the current client, so don't render it
 		}
 		FireWeapon(ent, qtrue);
 		ent->client->dangerTime = level.time;
@@ -1636,6 +1646,11 @@ static void ClientEvents(gentity_t* ent, int old_event_sequence)
 			{
 				return;
 			}
+
+			if (ent && ent->client && ent->client->frozenTime > level.time)
+			{
+				return; //this entity is mind-tricking the current client, so don't render it
+			}
 			FireWeapon(ent, qfalse);
 			ent->client->dangerTime = level.time;
 			ent->client->ps.eFlags &= ~EF_INVULNERABLE;
@@ -1646,6 +1661,11 @@ static void ClientEvents(gentity_t* ent, int old_event_sequence)
 			if (PM_ReloadAnim(Client->ps.torsoAnim))
 			{
 				return;
+			}
+
+			if (ent && ent->client && ent->client->frozenTime > level.time)
+			{
+				return; //this entity is mind-tricking the current client, so don't render it
 			}
 			FireWeapon(ent, qtrue);
 			ent->client->dangerTime = level.time;

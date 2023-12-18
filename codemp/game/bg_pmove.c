@@ -9769,7 +9769,7 @@ static void PM_Footsteps(void)
 {
 	float bobmove;
 	int old;
-	int set_anim_flags = 0;
+	int setAnimFlags = 0;
 
 	const qboolean is_holding_block_button = pm->ps->ManualBlockingFlags & 1 << HOLDINGBLOCK ? qtrue : qfalse;
 	//Holding Block Button
@@ -9797,7 +9797,7 @@ static void PM_Footsteps(void)
 		if (pm->ps->legsAnim == BOTH_TURN_LEFT1 || pm->ps->legsAnim == BOTH_TURN_RIGHT1)
 		{
 			//moving overrides turning
-			set_anim_flags |= SETANIM_FLAG_OVERRIDE;
+			setAnimFlags |= SETANIM_FLAG_OVERRIDE;
 		}
 	}
 	else
@@ -9823,7 +9823,7 @@ static void PM_Footsteps(void)
 			|| PM_ForceAnim(pm->ps->legsAnim))
 		{
 			//legs are in a saber anim, and not spinning, be sure to override it
-			set_anim_flags |= SETANIM_FLAG_OVERRIDE;
+			setAnimFlags |= SETANIM_FLAG_OVERRIDE;
 		}
 	}
 
@@ -9915,7 +9915,7 @@ static void PM_Footsteps(void)
 			{
 				if (pm->ps->legsAnim != BOTH_CROUCH1IDLE)
 				{
-					PM_SetAnim(SETANIM_LEGS, BOTH_CROUCH1IDLE, set_anim_flags);
+					PM_SetAnim(SETANIM_LEGS, BOTH_CROUCH1IDLE, setAnimFlags);
 				}
 				else
 				{
@@ -10031,7 +10031,7 @@ static void PM_Footsteps(void)
 				{
 					if (pm->ps->legsAnim != BOTH_CROUCH1WALKBACK)
 					{
-						PM_SetAnim(SETANIM_LEGS, BOTH_CROUCH1WALKBACK, set_anim_flags);
+						PM_SetAnim(SETANIM_LEGS, BOTH_CROUCH1WALKBACK, setAnimFlags);
 					}
 					else
 					{
@@ -10042,7 +10042,7 @@ static void PM_Footsteps(void)
 				{
 					if (pm->ps->legsAnim != BOTH_CROUCH1WALK)
 					{
-						PM_SetAnim(SETANIM_LEGS, BOTH_CROUCH1WALK, set_anim_flags);
+						PM_SetAnim(SETANIM_LEGS, BOTH_CROUCH1WALK, setAnimFlags);
 					}
 					else
 					{
@@ -10093,7 +10093,7 @@ static void PM_Footsteps(void)
 		{
 			if (pm->ps->legsAnim != BOTH_CROUCH1WALKBACK)
 			{
-				PM_SetAnim(SETANIM_LEGS, BOTH_CROUCH1WALKBACK, set_anim_flags);
+				PM_SetAnim(SETANIM_LEGS, BOTH_CROUCH1WALKBACK, setAnimFlags);
 			}
 			else
 			{
@@ -10104,7 +10104,7 @@ static void PM_Footsteps(void)
 		{
 			if (pm->ps->legsAnim != BOTH_CROUCH1WALK)
 			{
-				PM_SetAnim(SETANIM_LEGS, BOTH_CROUCH1WALK, set_anim_flags);
+				PM_SetAnim(SETANIM_LEGS, BOTH_CROUCH1WALK, setAnimFlags);
 			}
 			else
 			{
@@ -10998,23 +10998,23 @@ static void PM_Footsteps(void)
 							{
 								if (pm->ps->fd.forcePowersActive & 1 << FP_SPEED)
 								{
-									PM_SetAnim(SETANIM_BOTH, BOTH_SPRINT, set_anim_flags);
+									PM_SetAnim(SETANIM_BOTH, BOTH_SPRINT, setAnimFlags);
 								}
 								else
 								{
 									if (pm->ps->stats[STAT_HEALTH] <= 70 && pm->ps->stats[STAT_HEALTH] >= 40)
 									{
-										PM_SetAnim(SETANIM_BOTH, BOTH_RUN9, set_anim_flags);
+										PM_SetAnim(SETANIM_BOTH, BOTH_RUN9, setAnimFlags);
 									}
 									else if (pm->ps->stats[STAT_HEALTH] <= 40)
 									{
-										PM_SetAnim(SETANIM_BOTH, BOTH_RUN8, set_anim_flags);
+										PM_SetAnim(SETANIM_BOTH, BOTH_RUN8, setAnimFlags);
 									}
 									else
 									{
 										if (is_holding_block_button && pm->ps->sprintFuel > 15) // staff sprint here
 										{
-											PM_SetAnim(SETANIM_BOTH, BOTH_SPRINT_STAFF_LIGHTSABER, set_anim_flags);
+											PM_SetAnim(SETANIM_BOTH, BOTH_SPRINT_STAFF_LIGHTSABER, setAnimFlags);
 
 											if (!(pm->ps->PlayerEffectFlags & 1 << PEF_SPRINTING))
 											{
@@ -11030,7 +11030,7 @@ static void PM_Footsteps(void)
 										}
 										else
 										{
-											PM_SetAnim(SETANIM_BOTH, BOTH_RUN1, set_anim_flags);
+											PM_SetAnim(SETANIM_BOTH, BOTH_RUN1, setAnimFlags);
 											if (pm->ps->PlayerEffectFlags & 1 << PEF_SPRINTING ||
 												pm->ps->PlayerEffectFlags & 1 << PEF_WEAPONSPRINTING)
 											{
@@ -11048,7 +11048,7 @@ static void PM_Footsteps(void)
 							{
 								if (pm->ps->fd.forcePowersActive & 1 << FP_SPEED)
 								{
-									PM_SetAnim(SETANIM_BOTH, BOTH_SPRINT, set_anim_flags);
+									PM_SetAnim(SETANIM_BOTH, BOTH_SPRINT, setAnimFlags);
 
 									if (!(pm->ps->PlayerEffectFlags & 1 << PEF_SPRINTING))
 									{
@@ -11066,11 +11066,11 @@ static void PM_Footsteps(void)
 								{
 									if (pm->ps->stats[STAT_HEALTH] <= 70 && pm->ps->stats[STAT_HEALTH] >= 40)
 									{
-										PM_SetAnim(SETANIM_BOTH, BOTH_RUN7, set_anim_flags);
+										PM_SetAnim(SETANIM_BOTH, BOTH_RUN7, setAnimFlags);
 									}
 									else if (pm->ps->stats[STAT_HEALTH] <= 40)
 									{
-										PM_SetAnim(SETANIM_BOTH, BOTH_RUN8, set_anim_flags);
+										PM_SetAnim(SETANIM_BOTH, BOTH_RUN8, setAnimFlags);
 									}
 									else
 									{
@@ -11078,15 +11078,15 @@ static void PM_Footsteps(void)
 										{
 											if (saber1 && saber1->type == SABER_GRIE)
 											{
-												PM_SetAnim(SETANIM_BOTH, BOTH_RUN7, set_anim_flags);
+												PM_SetAnim(SETANIM_BOTH, BOTH_RUN7, setAnimFlags);
 											}
 											else if (saber1 && saber1->type == SABER_GRIE4)
 											{
-												PM_SetAnim(SETANIM_BOTH, BOTH_RUN7, set_anim_flags);
+												PM_SetAnim(SETANIM_BOTH, BOTH_RUN7, setAnimFlags);
 											}
 											else
 											{
-												PM_SetAnim(SETANIM_BOTH, BOTH_SPRINT_DUAL_LIGHTSABER, set_anim_flags);
+												PM_SetAnim(SETANIM_BOTH, BOTH_SPRINT_DUAL_LIGHTSABER, setAnimFlags);
 											}
 
 											if (!(pm->ps->PlayerEffectFlags & 1 << PEF_SPRINTING))
@@ -11103,7 +11103,7 @@ static void PM_Footsteps(void)
 										}
 										else
 										{
-											PM_SetAnim(SETANIM_BOTH, BOTH_RUN1, set_anim_flags);
+											PM_SetAnim(SETANIM_BOTH, BOTH_RUN1, setAnimFlags);
 											if (pm->ps->PlayerEffectFlags & 1 << PEF_SPRINTING ||
 												pm->ps->PlayerEffectFlags & 1 << PEF_WEAPONSPRINTING)
 											{
@@ -11125,7 +11125,7 @@ static void PM_Footsteps(void)
 							{
 								if (pm->ps->fd.forcePowersActive & 1 << FP_SPEED)
 								{
-									PM_SetAnim(SETANIM_BOTH, BOTH_SPRINT, set_anim_flags);
+									PM_SetAnim(SETANIM_BOTH, BOTH_SPRINT, setAnimFlags);
 
 									if (!(pm->ps->PlayerEffectFlags & 1 << PEF_SPRINTING))
 									{
@@ -11143,11 +11143,11 @@ static void PM_Footsteps(void)
 								{
 									if (pm->ps->stats[STAT_HEALTH] <= 70 && pm->ps->stats[STAT_HEALTH] >= 40)
 									{
-										PM_SetAnim(SETANIM_BOTH, BOTH_RUN9, set_anim_flags);
+										PM_SetAnim(SETANIM_BOTH, BOTH_RUN9, setAnimFlags);
 									}
 									else if (pm->ps->stats[STAT_HEALTH] <= 40)
 									{
-										PM_SetAnim(SETANIM_BOTH, BOTH_RUN8, set_anim_flags);
+										PM_SetAnim(SETANIM_BOTH, BOTH_RUN8, setAnimFlags);
 									}
 									else
 									{
@@ -11156,23 +11156,23 @@ static void PM_Footsteps(void)
 											if (saber1 && (saber1->type == SABER_BACKHAND
 												|| saber1->type == SABER_ASBACKHAND)) //saber backhand
 											{
-												PM_SetAnim(SETANIM_BOTH, BOTH_RUN_STAFF, set_anim_flags);
+												PM_SetAnim(SETANIM_BOTH, BOTH_RUN_STAFF, setAnimFlags);
 											}
 											else if (saber1 && saber1->type == SABER_YODA) //saber yoda
 											{
-												PM_SetAnim(SETANIM_BOTH, BOTH_RUN10, set_anim_flags);
+												PM_SetAnim(SETANIM_BOTH, BOTH_RUN10, setAnimFlags);
 											}
 											else if (saber1 && saber1->type == SABER_GRIE) //saber kylo
 											{
-												PM_SetAnim(SETANIM_BOTH, BOTH_RUN7, set_anim_flags);
+												PM_SetAnim(SETANIM_BOTH, BOTH_RUN7, setAnimFlags);
 											}
 											else if (saber1 && saber1->type == SABER_GRIE4) //saber kylo
 											{
-												PM_SetAnim(SETANIM_BOTH, BOTH_RUN7, set_anim_flags);
+												PM_SetAnim(SETANIM_BOTH, BOTH_RUN7, setAnimFlags);
 											}
 											else
 											{
-												PM_SetAnim(SETANIM_BOTH, BOTH_SPRINT_SINGLE_LIGHTSABER, set_anim_flags);
+												PM_SetAnim(SETANIM_BOTH, BOTH_SPRINT_SINGLE_LIGHTSABER, setAnimFlags);
 											}
 
 											if (!(pm->ps->PlayerEffectFlags & 1 << PEF_SPRINTING))
@@ -11189,7 +11189,7 @@ static void PM_Footsteps(void)
 										}
 										else
 										{
-											PM_SetAnim(SETANIM_BOTH, BOTH_RUN1, set_anim_flags);
+											PM_SetAnim(SETANIM_BOTH, BOTH_RUN1, setAnimFlags);
 
 											if (pm->ps->PlayerEffectFlags & 1 << PEF_SPRINTING ||
 												pm->ps->PlayerEffectFlags & 1 << PEF_WEAPONSPRINTING)
@@ -11641,7 +11641,7 @@ static void PM_Footsteps(void)
 
 			if (pm->ps->legsAnim != desiredAnim && ires == desiredAnim)
 			{
-				PM_SetAnim(SETANIM_LEGS, desiredAnim, set_anim_flags);
+				PM_SetAnim(SETANIM_LEGS, desiredAnim, setAnimFlags);
 			}
 			else
 			{
@@ -16450,7 +16450,7 @@ static qboolean BG_InRollES(entityState_t* ps, const int anim)
 void BG_IK_MoveArm(void* ghoul2, const int lHandBolt, const int time, const entityState_t* ent, const int basePose,
 	vec3_t desiredPos,
 	qboolean* ikInProgress,
-	vec3_t origin, vec3_t angles, vec3_t scale, const int blend_time, const qboolean forceHalt)
+	vec3_t origin, vec3_t angles, vec3_t scale, const int blendTime, const qboolean forceHalt)
 {
 	mdxaBone_t l_hand_matrix;
 
@@ -16477,7 +16477,7 @@ void BG_IK_MoveArm(void* ghoul2, const int lHandBolt, const int time, const enti
 		VectorSet(ikP.pcjMaxs, 0, 0, 0);
 
 		//give the info on our entity.
-		ikP.blend_time = blend_time;
+		ikP.blendTime = blendTime;
 		VectorCopy(origin, ikP.origin);
 		VectorCopy(angles, ikP.angles);
 		ikP.angles[PITCH] = 0;

@@ -4291,7 +4291,7 @@ void ForceJump(gentity_t* self, const usercmd_t* ucmd)
 	self->client->ps.groundEntityNum = ENTITYNUM_NONE;
 }
 
-static void WP_AddAsMindtricked(forcedata_t* fd, const int entNum)
+void WP_AddAsMindtricked(forcedata_t* fd, const int entNum)
 {
 	if (!fd)
 	{
@@ -7278,7 +7278,7 @@ void DoGripAction(gentity_t* self, const forcePowers_t forcePower)
 	}
 }
 
-static qboolean G_IsMindTricked(const forcedata_t* fd, const int client)
+qboolean G_IsMindTricked(const forcedata_t* fd, const int client)
 {
 	int checkIn;
 	int sub = 0;
@@ -8570,8 +8570,6 @@ void WP_ForcePowersUpdate(gentity_t* self, usercmd_t* ucmd)
 
 		self->client->ps.fd.forceUsingAdded = 0;
 	}
-
-	//i = 0;
 
 	if (!(self->client->ps.fd.forcePowersActive & 1 << FP_TELEPATHY))
 	{

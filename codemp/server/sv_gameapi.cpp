@@ -1858,19 +1858,19 @@ static void SV_G2API_CleanGhoul2Models(void** ghoul2Ptr)
 
 static qboolean SV_G2API_SetBoneAngles(void* ghoul2, const int model_index, const char* boneName, const vec3_t angles,
 	const int flags, const int up, const int right, const int forward,
-	qhandle_t* model_list, const int blend_time, const int current_time)
+	qhandle_t* model_list, const int blendTime, const int current_time)
 {
 	return re->G2API_SetBoneAngles(*static_cast<CGhoul2Info_v*>(ghoul2), model_index, boneName, angles, flags,
 		static_cast<const Eorientations>(up), static_cast<const Eorientations>(right),
-		static_cast<const Eorientations>(forward), model_list, blend_time, current_time);
+		static_cast<const Eorientations>(forward), model_list, blendTime, current_time);
 }
 
 static qboolean SV_G2API_SetBoneAnim(void* ghoul2, const int model_index, const char* boneName, const int startFrame,
 	const int endFrame, const int flags, const float animSpeed, const int current_time,
-	const float setFrame, const int blend_time)
+	const float setFrame, const int blendTime)
 {
 	return re->G2API_SetBoneAnim(*static_cast<CGhoul2Info_v*>(ghoul2), model_index, boneName, startFrame, endFrame,
-		flags, animSpeed, current_time, setFrame, blend_time);
+		flags, animSpeed, current_time, setFrame, blendTime);
 }
 
 static qboolean SV_G2API_GetBoneAnim(void* ghoul2, const char* boneName, const int current_time, float* current_frame,

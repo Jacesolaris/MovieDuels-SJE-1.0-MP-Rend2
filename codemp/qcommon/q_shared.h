@@ -524,7 +524,7 @@ typedef struct sharedSetBoneIKStateParams_s {
 	vec3_t angles; //angles of caller
 	vec3_t scale; //scale of caller
 	float radius; //bone rad
-	int blend_time; //bone blend time
+	int blendTime; //bone blend time
 	int pcjOverrides; //override ik bone flags
 	int startFrame; //base pose start
 	int endFrame; //base pose end

@@ -32,7 +32,7 @@ short* snd_out;
 
 // FIXME: proper fix for that ?
 #if !defined(_MSC_VER) || !id386
-void S_WriteLinearBlastStereo16(void)
+static void S_WriteLinearBlastStereo16(void)
 {
 	int		i;
 	int		val;
@@ -58,7 +58,7 @@ void S_WriteLinearBlastStereo16(void)
 }
 #else
 unsigned int uiMMXAvailable = 0; // leave as 32 bit
-__declspec(naked) void S_WriteLinearBlastStereo16(void)
+static __declspec(naked) void S_WriteLinearBlastStereo16(void)
 {
 	__asm {
 		push edi
@@ -145,7 +145,7 @@ __declspec(naked) void S_WriteLinearBlastStereo16(void)
 
 #endif
 
-void S_TransferStereo16(unsigned long* pbuf, const int endtime)
+static void S_TransferStereo16(unsigned long* pbuf, const int endtime)
 {
 	snd_p = reinterpret_cast<int*>(paintbuffer);
 	int ls_paintedtime = s_paintedtime;
@@ -185,7 +185,7 @@ S_TransferPaintBuffer
 
 ===================
 */
-void S_TransferPaintBuffer(const int endtime)
+static void S_TransferPaintBuffer(const int endtime)
 {
 	const auto pbuf = reinterpret_cast<unsigned long*>(dma.buffer);
 
@@ -252,8 +252,7 @@ CHANNEL MIXING
 
 ===============================================================================
 */
-static void S_PaintChannelFrom16(channel_t* ch, const sfx_t* sfx, const int count, const int sampleOffset,
-	const int buffer_offset)
+static void S_PaintChannelFrom16(channel_t* ch, const sfx_t* sfx, const int count, const int sampleOffset, const int buffer_offset)
 {
 	float ofst = sampleOffset;
 
@@ -264,10 +263,10 @@ static void S_PaintChannelFrom16(channel_t* ch, const sfx_t* sfx, const int coun
 
 	for (int i = 0; i < count; i++)
 	{
-		const int i_data = sfx->pSoundData[static_cast<int>(ofst)];
+		const int iData = sfx->pSoundData[static_cast<int>(ofst)];
 
-		p_samples_dest[i].left += i_data * i_left_vol >> 8;
-		p_samples_dest[i].right += i_data * i_right_vol >> 8;
+		p_samples_dest[i].left += iData * i_left_vol >> 8;
+		p_samples_dest[i].right += iData * i_right_vol >> 8;
 		if (ch->doppler && ch->dopplerScale > 1)
 		{
 			ofst += 1 * ch->dopplerScale;
@@ -279,7 +278,7 @@ static void S_PaintChannelFrom16(channel_t* ch, const sfx_t* sfx, const int coun
 	}
 }
 
-void S_PaintChannelFromMP3(channel_t* ch, const sfx_t* sc, int count, const int sampleOffset, const int buffer_offset)
+static void S_PaintChannelFromMP3(channel_t* ch, const sfx_t* sc, int count, const int sampleOffset, const int buffer_offset)
 {
 	int data;
 	static short tempMP3Buffer[PAINTBUFFER_SIZE];
@@ -325,7 +324,7 @@ void S_PaintChannelFromMP3(channel_t* ch, const sfx_t* sc, int count, const int 
 
 // subroutinised to save code dup (called twice)	-ste
 //
-void ChannelPaint(channel_t* ch, sfx_t* sc, const int count, const int sampleOffset, const int buffer_offset)
+static void ChannelPaint(channel_t* ch, sfx_t* sc, const int count, const int sampleOffset, const int buffer_offset)
 {
 	switch (sc->eSoundCompressionMethod)
 	{
@@ -441,41 +440,6 @@ void S_PaintChannels(const int endtime)
 				}
 			} while (ltime < end && ch->loopSound);
 		}
-		/* temprem
-				// paint in the looped channels.
-				ch = loop_channels;
-				for ( i = 0; i < numLoopChannels ; i++, ch++ ) {
-					if ( !ch->thesfx || (!ch->leftvol && !ch->rightvol )) {
-						continue;
-					}
-
-					{
-						ltime = s_paintedtime;
-						sc = ch->thesfx;
-
-						if (sc->soundData==NULL || sc->soundLength==0) {
-							continue;
-						}
-						// we might have to make two passes if it
-						// is a looping sound effect and the end of
-						// the sample is hit
-						do {
-							sampleOffset = (ltime % sc->soundLength);
-
-							count = end - ltime;
-							if ( sampleOffset + count > sc->soundLength ) {
-								count = sc->soundLength - sampleOffset;
-							}
-
-							if ( count > 0 )
-							{
-								ChannelPaint(ch, sc, count, sampleOffset, ltime - s_paintedtime);
-								ltime += count;
-							}
-						} while ( ltime < end);
-					}
-				}
-		*/
 		// transfer out according to DMA format
 		S_TransferPaintBuffer(end);
 		s_paintedtime = end;

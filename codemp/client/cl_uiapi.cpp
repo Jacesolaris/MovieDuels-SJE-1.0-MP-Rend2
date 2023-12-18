@@ -466,7 +466,7 @@ static qboolean CL_G2API_SetBoneAngles(
 	const int right,
 	const int forward,
 	qhandle_t* model_list,
-	const int blend_time,
+	const int blendTime,
 	const int current_time)
 {
 	if (!ghoul2)
@@ -484,7 +484,7 @@ static qboolean CL_G2API_SetBoneAngles(
 		static_cast<const Eorientations>(right),
 		static_cast<const Eorientations>(forward),
 		model_list,
-		blend_time,
+		blendTime,
 		current_time);
 }
 
@@ -498,7 +498,7 @@ static qboolean CL_G2API_SetBoneAnim(
 	const float animSpeed,
 	const int current_time,
 	const float setFrame,
-	const int blend_time)
+	const int blendTime)
 {
 	if (!ghoul2)
 	{
@@ -515,7 +515,7 @@ static qboolean CL_G2API_SetBoneAnim(
 		animSpeed,
 		current_time,
 		setFrame,
-		blend_time);
+		blendTime);
 }
 
 static qboolean CL_G2API_GetBoneAnim(

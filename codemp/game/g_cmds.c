@@ -3510,6 +3510,10 @@ qboolean G_ValidSaberStyle(const gentity_t* ent, const int saber_style)
 	}
 }
 
+extern qboolean PM_InKnockDown(const playerState_t* ps);
+extern qboolean PM_InSlapDown(const playerState_t* ps);
+extern qboolean PM_InRoll(const playerState_t* ps);
+
 void Cmd_SaberAttackCycle_f(gentity_t* ent)
 {
 	int select_level = 0;
@@ -3556,6 +3560,25 @@ void Cmd_SaberAttackCycle_f(gentity_t* ent)
 
 		if (veh->m_pVehicle && veh->m_pVehicle->m_pVehicleInfo->type == VH_FIGHTER)
 			return;
+	}
+
+	if (ent->r.svFlags & SVF_BOT)
+	{
+		if (ent->client->ps.weapon == WP_SABER && ent->client->ps.saber_holstered == 0)
+		{
+			return;
+		}
+
+		if (ent->client->ps.weapon == WP_SABER	&& ent->client->ps.saberInFlight)
+		{
+			//saber not currently in use or available.
+			return qfalse;
+		}
+
+		if (PM_InKnockDown(&ent->client->ps) || PM_InSlapDown(&ent->client->ps) || PM_InRoll(&ent->client->ps))
+		{
+			return qfalse;
+		}
 	}
 
 	if (ent->client->ps.weapon != WP_SABER)

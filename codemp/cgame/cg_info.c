@@ -93,6 +93,7 @@ Draw all the status / pacifier stuff during level loading
 ====================
 overlays UI_DrawConnectScreen
 */
+
 #define UI_INFOFONT (UI_SMALLFONT)
 
 int SCREENSHOT_TOTAL = -1;
@@ -101,7 +102,7 @@ int SCREENSHOT_CHOICE = 0;
 int SCREENSHOT_NEXT_UPDATE_TIME = 0;
 char SCREENSHOT_CURRENT[64] = { 0 };
 
-char* cg_GetCurrentLevelshot1(const char* s)
+static char* cg_GetCurrentLevelshot1(const char* s)
 {
 	const qhandle_t levelshot1 = trap->R_RegisterShaderNoMip(va("levelshots/%s", s));
 	const int time = trap->Milliseconds();
@@ -149,7 +150,7 @@ char* cg_GetCurrentLevelshot1(const char* s)
 	return SCREENSHOT_CURRENT;
 }
 
-char* cg_GetCurrentLevelshot2(const char* s)
+static char* cg_GetCurrentLevelshot2(const char* s)
 {
 	const qhandle_t levelshot2 = trap->R_RegisterShaderNoMip(va("levelshots/%s2", s));
 	const int time = trap->Milliseconds();
@@ -199,12 +200,12 @@ char* cg_GetCurrentLevelshot2(const char* s)
 
 int SCREENTIP_NEXT_UPDATE_TIME = 0;
 
-void LoadTips(void)
+static void LoadTips(void)
 {
 	const int time = trap->Milliseconds();
 	const int index = rand() % 20;
 
-	if ((SCREENTIP_NEXT_UPDATE_TIME < time || SCREENTIP_NEXT_UPDATE_TIME == 0) && cg.loadLCARSStage <= 9)
+	if ((SCREENTIP_NEXT_UPDATE_TIME < time || SCREENTIP_NEXT_UPDATE_TIME == 0))
 	{
 		switch (index)
 		{

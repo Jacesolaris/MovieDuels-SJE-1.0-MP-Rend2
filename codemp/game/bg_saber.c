@@ -1577,7 +1577,7 @@ int PM_SaberLockWinAnim(const qboolean victory, const qboolean super_break)
 }
 
 #ifdef _GAME
-extern void NPC_SetAnim(gentity_t* ent, int set_anim_parts, int anim, int set_anim_flags);
+extern void NPC_SetAnim(gentity_t* ent, int setAnimParts, int anim, int setAnimFlags);
 extern gentity_t g_entities[];
 #elif defined(_CGAME)
 #include "cgame/cg_local.h"

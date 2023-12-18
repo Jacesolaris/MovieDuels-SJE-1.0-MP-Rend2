@@ -1477,7 +1477,7 @@ void G_FreeFakeClient(gclient_t** cl);
 void G_CreateFakeClient(int entNum, gclient_t** cl);
 void G_CleanAllFakeClients(void);
 
-void G_SetAnim(gentity_t* ent, usercmd_t* ucmd, int set_anim_parts, int anim, int set_anim_flags, int blend_time);
+void G_SetAnim(gentity_t* ent, usercmd_t* ucmd, int setAnimParts, int anim, int setAnimFlags, int blendTime);
 gentity_t* G_PickTarget(char* targetname);
 void GlobalUse(gentity_t* self, gentity_t* other, gentity_t* activator);
 void G_UseTargets2(gentity_t* ent, gentity_t* activator, const char* string);
@@ -1694,7 +1694,7 @@ qboolean G_FilterPacket(char* from);
 //
 // g_weapon.c
 //
-void FireWeapon(gentity_t* ent, qboolean alt_fire);
+void FireWeapon(gentity_t* ent, const qboolean alt_fire);
 void BlowDetpacks(const gentity_t* ent);
 void RemoveDetpacks(const gentity_t* ent);
 

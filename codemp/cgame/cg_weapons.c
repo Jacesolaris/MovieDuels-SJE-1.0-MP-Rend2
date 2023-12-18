@@ -42,7 +42,7 @@ extern qboolean PM_ReloadAnim(int anim);
 Ghoul2 Insert Start
 */
 // set up the appropriate ghoul2 info to a refent
-void CG_SetGhoul2InfoRef(refEntity_t* ent, const refEntity_t* s1)
+static void CG_SetGhoul2InfoRef(refEntity_t* ent, const refEntity_t* s1)
 {
 	ent->ghoul2 = s1->ghoul2;
 	VectorCopy(s1->modelScale, ent->modelScale);
@@ -240,7 +240,7 @@ CG_MachinegunSpinAngle
 #define		SPIN_SPEED	0.9
 #define		COAST_TIME	1000
 
-float cg_machinegun_spin_angle(centity_t* cent)
+static float cg_machinegun_spin_angle(centity_t* cent)
 {
 	float angle;
 
@@ -1674,7 +1674,7 @@ void CG_DrawIconBackground(void)
 	CG_DrawPic(prong_right_x - x_add, y2 - 10, -40, 80, background);
 }
 
-qboolean CG_WeaponCheck(const int weap)
+static qboolean CG_WeaponCheck(const int weap)
 {
 	if (cg.snap->ps.ammo[weaponData[weap].ammoIndex] < weaponData[weap].energyPerShot &&
 		cg.snap->ps.ammo[weaponData[weap].ammoIndex] < weaponData[weap].altEnergyPerShot)
@@ -2595,9 +2595,19 @@ void CG_FireWeapon(centity_t* cent, const qboolean alt_fire)
 		return;
 	}
 
-	if (PM_ReloadAnim(cent->currentState.torsoAnim) || PM_WeponRestAnim(cent->currentState.torsoAnim))
+	if (PM_ReloadAnim(cent->currentState.torsoAnim))
 	{
 		return;
+	}
+
+	if (PM_WeponRestAnim(cent->currentState.torsoAnim))
+	{
+		return;
+	}
+
+	if (cg.predicted_player_state.frozenTime > cg.time)
+	{
+		return; //this entity is mind-tricking the current client, so don't render it
 	}
 
 	const weapon_info_t* weap = &cg_weapons[ent->weapon];
