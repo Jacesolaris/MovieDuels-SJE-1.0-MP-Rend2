@@ -40,9 +40,6 @@ extern void Q3_SetParm(int ent_id, int parmNum, const char* parmValue);
 extern char* TeamNames[TEAM_NUM_TEAMS];
 extern void bubble_shield_update(void);
 
-extern void PM_SetTorsoAnimTimer(gentity_t* ent, int* torsoAnimTimer, int time);
-extern void PM_SetLegsAnimTimer(gentity_t* ent, int* legsAnimTimer, int time);
-
 extern void ST_ClearTimers(const gentity_t* ent);
 extern void Jedi_ClearTimers(const gentity_t* ent);
 extern void npc_shadow_trooper_precache(void);

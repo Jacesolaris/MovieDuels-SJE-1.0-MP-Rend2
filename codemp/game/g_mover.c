@@ -145,7 +145,7 @@ gentity_t* G_TestEntityPosition(const gentity_t* ent)
 G_CreateRotationMatrix
 ================
 */
-void G_CreateRotationMatrix(vec3_t angles, matrix3_t matrix)
+static void G_CreateRotationMatrix(vec3_t angles, matrix3_t matrix)
 {
 	AngleVectors(angles, matrix[0], matrix[1], matrix[2]);
 	VectorInverse(matrix[1]);
@@ -156,7 +156,7 @@ void G_CreateRotationMatrix(vec3_t angles, matrix3_t matrix)
 G_TransposeMatrix
 ================
 */
-void G_TransposeMatrix(matrix3_t matrix, matrix3_t transpose)
+static void G_TransposeMatrix(matrix3_t matrix, matrix3_t transpose)
 {
 	for (int i = 0; i < 3; i++)
 	{
@@ -172,7 +172,7 @@ void G_TransposeMatrix(matrix3_t matrix, matrix3_t transpose)
 G_RotatePoint
 ================
 */
-void G_RotatePoint(vec3_t point, matrix3_t matrix)
+static void G_RotatePoint(vec3_t point, matrix3_t matrix)
 {
 	vec3_t tvec;
 
@@ -189,7 +189,7 @@ G_TryPushingEntity
 Returns qfalse if the move is blocked
 ==================
 */
-qboolean G_TryPushingEntity(gentity_t* check, gentity_t* pusher, vec3_t move, vec3_t amove)
+static qboolean G_TryPushingEntity(gentity_t* check, gentity_t* pusher, vec3_t move, vec3_t amove)
 {
 	matrix3_t matrix, transpose;
 	vec3_t org, org2, move2;
@@ -317,7 +317,7 @@ If qfalse is returned, *obstacle will be the blocking entity
 */
 void NPC_RemoveBody(gentity_t* ent);
 
-qboolean g_mover_push(gentity_t* pusher, vec3_t move, vec3_t amove, gentity_t** obstacle)
+static qboolean g_mover_push(gentity_t* pusher, vec3_t move, vec3_t amove, gentity_t** obstacle)
 {
 	int i;
 	vec3_t mins, maxs;
@@ -486,7 +486,7 @@ qboolean g_mover_push(gentity_t* pusher, vec3_t move, vec3_t amove, gentity_t** 
 G_MoverTeam
 =================
 */
-void G_MoverTeam(gentity_t* ent)
+static void G_MoverTeam(gentity_t* ent)
 {
 	gentity_t* part, * obstacle;
 
@@ -698,7 +698,7 @@ void MatchTeam(gentity_t* team_leader, const int mover_state, const int time)
 ReturnToPos1
 ================
 */
-void ReturnToPos1(gentity_t* ent)
+static void ReturnToPos1(gentity_t* ent)
 {
 	ent->think = 0;
 	ent->nextthink = 0;
@@ -717,7 +717,7 @@ Reached_BinaryMover
 ================
 */
 
-void Reached_BinaryMover(gentity_t* ent)
+static void Reached_BinaryMover(gentity_t* ent)
 {
 	// stop the looping sound
 	ent->s.loopSound = 0;
@@ -796,7 +796,7 @@ void Reached_BinaryMover(gentity_t* ent)
 Use_BinaryMover_Go
 ================
 */
-void Use_BinaryMover_Go(gentity_t* ent)
+static void Use_BinaryMover_Go(gentity_t* ent)
 {
 	int total;
 	int partial;
@@ -953,7 +953,7 @@ void lock_doors(gentity_t* ent)
 Use_BinaryMover
 ================
 */
-void Use_BinaryMover(gentity_t* ent, gentity_t* other, gentity_t* activator)
+static void Use_BinaryMover(gentity_t* ent, gentity_t* other, gentity_t* activator)
 {
 	if (!ent->use)
 	{
@@ -1025,7 +1025,7 @@ void InitMoverTrData(gentity_t* ent)
 	}
 }
 
-void InitMover(gentity_t* ent)
+static void InitMover(gentity_t* ent)
 {
 	float light;
 	vec3_t color;
@@ -1111,7 +1111,7 @@ targeted by another entity.
 Blocked_Door
 ================
 */
-void Blocked_Door(gentity_t* ent, gentity_t* other)
+static void Blocked_Door(gentity_t* ent, gentity_t* other)
 {
 	//determines if we need to relock after moving or not.
 	const qboolean relock = ent->spawnflags & MOVER_LOCKED ? qtrue : qfalse;
@@ -1268,7 +1268,7 @@ All of the parts of a door have been spawned, so create
 a trigger that encloses all of them
 ======================
 */
-void Think_SpawnNewDoorTrigger(gentity_t* ent)
+static void Think_SpawnNewDoorTrigger(gentity_t* ent)
 {
 	gentity_t* other;
 	vec3_t mins, maxs;
@@ -1319,7 +1319,7 @@ void Think_SpawnNewDoorTrigger(gentity_t* ent)
 	MatchTeam(ent, ent->moverState, level.time);
 }
 
-void Think_MatchTeam(gentity_t* ent)
+static void Think_MatchTeam(gentity_t* ent)
 {
 	MatchTeam(ent, ent->moverState, level.time);
 }
@@ -1598,7 +1598,7 @@ Touch_Plat
 Don't allow descent if a living player is on it
 ===============
 */
-void Touch_Plat(gentity_t* ent, const gentity_t* other, trace_t* trace)
+static void Touch_Plat(gentity_t* ent, const gentity_t* other, trace_t* trace)
 {
 	if (!other->client || other->client->ps.stats[STAT_HEALTH] <= 0)
 	{
@@ -1619,7 +1619,7 @@ Touch_PlatCenterTrigger
 If the plat is at the bottom position, start it going up
 ===============
 */
-void Touch_PlatCenterTrigger(gentity_t* ent, gentity_t* other, trace_t* trace)
+static void Touch_PlatCenterTrigger(gentity_t* ent, gentity_t* other, trace_t* trace)
 {
 	if (!other->client)
 	{
@@ -1641,7 +1641,7 @@ Elevator cars require that the trigger extend through the entire low position,
 not just sit on top of it.
 ================
 */
-void SpawnPlatTrigger(gentity_t* ent)
+static void SpawnPlatTrigger(gentity_t* ent)
 {
 	vec3_t tmin, tmax;
 
@@ -1848,7 +1848,7 @@ Think_BeginMoving
 The wait time at a corner has completed, so start moving again
 ===============
 */
-void Think_BeginMoving(gentity_t* ent)
+static void Think_BeginMoving(gentity_t* ent)
 {
 	G_PlayDoorSound(ent, BMS_START);
 	G_PlayDoorLoopSound(ent);
@@ -1861,7 +1861,7 @@ void Think_BeginMoving(gentity_t* ent)
 Reached_Train
 ===============
 */
-void Reached_Train(gentity_t* ent)
+static void Reached_Train(gentity_t* ent)
 {
 	float speed;
 	vec3_t move;
@@ -1929,7 +1929,7 @@ Think_SetupTrainTargets
 Link all the corners together
 ===============
 */
-void Think_SetupTrainTargets(gentity_t* ent)
+static void Think_SetupTrainTargets(gentity_t* ent)
 {
 	gentity_t* next;
 
@@ -2176,7 +2176,7 @@ ROTATING
 ===============================================================================
 */
 
-void func_rotating_use(gentity_t* self, gentity_t* other, gentity_t* activator)
+static void func_rotating_use(gentity_t* self, gentity_t* other, gentity_t* activator)
 {
 	if (self->s.apos.trType == TR_LINEAR)
 	{
@@ -2559,7 +2559,7 @@ void G_Chunks(const int owner, vec3_t origin, const vec3_t normal, const vec3_t 
 }
 
 //--------------------------------------
-void funcBBrushDieGo(gentity_t* ent)
+static void funcBBrushDieGo(gentity_t* ent)
 {
 	vec3_t org, dir, up;
 	gentity_t* attacker = ent->enemy;
@@ -2668,7 +2668,7 @@ void funcBBrushDieGo(gentity_t* ent)
 	ent->nextthink = level.time + 50;
 }
 
-void funcBBrushDie(gentity_t* self, gentity_t* inflictor, gentity_t* attacker, int damage, int mod)
+static void funcBBrushDie(gentity_t* self, gentity_t* inflictor, gentity_t* attacker, int damage, int mod)
 {
 	self->takedamage = qfalse; //stop chain reaction runaway loops
 
@@ -2684,7 +2684,7 @@ void funcBBrushDie(gentity_t* self, gentity_t* inflictor, gentity_t* attacker, i
 	funcBBrushDieGo(self);
 }
 
-void funcBBrushUse(gentity_t* self, gentity_t* other, gentity_t* activator)
+static void funcBBrushUse(gentity_t* self, gentity_t* other, gentity_t* activator)
 {
 	G_ActivateBehavior(self, BSET_USE);
 	if (self->spawnflags & 64)
@@ -2832,7 +2832,7 @@ static void InitBBrush(gentity_t* ent)
 	VectorCopy(ent->pos1, ent->s.pos.trBase);
 }
 
-void funcBBrushTouch(gentity_t* ent, gentity_t* other, trace_t* trace)
+static void funcBBrushTouch(gentity_t* ent, gentity_t* other, trace_t* trace)
 {
 }
 
@@ -3066,7 +3066,7 @@ GLASS
 
 ===============================================================================
 */
-void GlassDie(gentity_t* self, gentity_t* inflictor, gentity_t* attacker, int damage, int mod)
+static void GlassDie(gentity_t* self, gentity_t* inflictor, gentity_t* attacker, int damage, int mod)
 {
 	vec3_t dif;
 
@@ -3096,7 +3096,7 @@ void GlassDie(gentity_t* self, gentity_t* inflictor, gentity_t* attacker, int da
 	G_FreeEntity(self);
 }
 
-void GlassDie_Old(gentity_t* self, gentity_t* inflictor, gentity_t* attacker, int damage, int mod)
+static void GlassDie_Old(gentity_t* self, gentity_t* inflictor, gentity_t* attacker, int damage, int mod)
 {
 	vec3_t dif;
 
@@ -3114,13 +3114,13 @@ void GlassDie_Old(gentity_t* self, gentity_t* inflictor, gentity_t* attacker, in
 	G_FreeEntity(self);
 }
 
-void GlassPain(gentity_t* self, gentity_t* attacker, int damage)
+static void GlassPain(gentity_t* self, gentity_t* attacker, int damage)
 {
 	//trap->Print("Mr. Glass says: PLZ NO IT HURTS\n");
 	//Make "cracking" sound?
 }
 
-void GlassUse(gentity_t* self, gentity_t* other, gentity_t* activator)
+static void GlassUse(gentity_t* self, gentity_t* other, gentity_t* activator)
 {
 	vec3_t temp1, temp2;
 
@@ -3187,7 +3187,7 @@ void func_usable_use(gentity_t* self, const gentity_t* other, gentity_t* activat
 
 extern gentity_t* G_TestEntityPosition(const gentity_t* ent);
 
-void func_wait_return_solid(gentity_t* self)
+static void func_wait_return_solid(gentity_t* self)
 {
 	//once a frame, see if it's clear.
 	self->clipmask = CONTENTS_BODY;
@@ -3224,7 +3224,7 @@ void func_wait_return_solid(gentity_t* self)
 	}
 }
 
-void func_usable_think(gentity_t* self)
+static void func_usable_think(gentity_t* self)
 {
 	if (self->spawnflags & 8)
 	{
@@ -3314,7 +3314,7 @@ void func_usable_pain(gentity_t* self, gentity_t* attacker, int damage)
 	GlobalUse(self, attacker, attacker);
 }
 
-void func_usable_die(gentity_t* self, gentity_t* inflictor, gentity_t* attacker, int damage, int mod)
+static void func_usable_die(gentity_t* self, gentity_t* inflictor, gentity_t* attacker, int damage, int mod)
 {
 	self->takedamage = qfalse;
 	GlobalUse(self, inflictor, attacker);
@@ -3433,7 +3433,7 @@ WALL
 */
 
 //static -slc
-void use_wall(gentity_t* ent, gentity_t* other, gentity_t* activator)
+static void use_wall(gentity_t* ent, gentity_t* other, gentity_t* activator)
 {
 	G_ActivateBehavior(ent, BSET_USE);
 
