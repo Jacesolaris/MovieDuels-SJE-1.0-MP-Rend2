@@ -1944,7 +1944,7 @@ static void EWeb_SetBoneAngles(gentity_t* ent, const char* bone, vec3_t angles)
 	int* thebone = &ent->s.boneIndex1;
 	int* firstFree = NULL;
 	int i = 0;
-	const int bone_index = G_BoneIndex(bone);
+	const int boneIndex = G_BoneIndex(bone);
 	vec3_t* boneVector = &ent->s.boneAngles1;
 	vec3_t* freeBoneVec = NULL;
 
@@ -1958,7 +1958,7 @@ static void EWeb_SetBoneAngles(gentity_t* ent, const char* bone, vec3_t angles)
 		}
 		else if (*thebone)
 		{
-			if (*thebone == bone_index)
+			if (*thebone == boneIndex)
 			{
 				//this is it
 				break;
@@ -2000,7 +2000,7 @@ static void EWeb_SetBoneAngles(gentity_t* ent, const char* bone, vec3_t angles)
 
 		thebone = firstFree;
 
-		*thebone = bone_index;
+		*thebone = boneIndex;
 		boneVector = freeBoneVec;
 	}
 

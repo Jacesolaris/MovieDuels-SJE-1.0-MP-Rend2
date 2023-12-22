@@ -1454,15 +1454,15 @@ static boneInfo_t* G2_GetRagBoneConveniently(CGhoul2Info_v& ghoul2, const char* 
 		return nullptr;
 	}
 
-	const int bone_index = G2_Find_Bone_Rag(ghlInfo, ghlInfo->mBlist, boneName);
+	const int boneIndex = G2_Find_Bone_Rag(ghlInfo, ghlInfo->mBlist, boneName);
 
-	if (bone_index < 0)
+	if (boneIndex < 0)
 	{
 		//bad bone specification
 		return nullptr;
 	}
 
-	boneInfo_t* bone = &ghlInfo->mBlist[bone_index];
+	boneInfo_t* bone = &ghlInfo->mBlist[boneIndex];
 
 	if (!(bone->flags & BONE_ANGLES_RAGDOLL))
 	{
@@ -2198,7 +2198,7 @@ void G2API_GiveMeVectorFromMatrix(const mdxaBone_t* bolt_matrix, const Eorientat
 	}
 }
 
-int G2API_CopyGhoul2Instance(const CGhoul2Info_v& g2_from, CGhoul2Info_v& g2_to, const int model_index)
+int G2API_CopyGhoul2Instance(const CGhoul2Info_v& g2_from, CGhoul2Info_v& g2To, const int model_index)
 {
 	assert(model_index == -1); // copy individual bolted parts is not used in jk2 and I didn't want to deal with it
 	// if ya want it, we will add it back correctly
@@ -2207,26 +2207,26 @@ int G2API_CopyGhoul2Instance(const CGhoul2Info_v& g2_from, CGhoul2Info_v& g2_to,
 	if (g2_from.IsValid())
 	{
 #ifdef _DEBUG
-		if (g2_to.IsValid())
+		if (g2To.IsValid())
 		{
 			assert(!"Copying to a valid g2 instance?!");
 
-			if (g2_to[0].mBoneCache)
+			if (g2To[0].mBoneCache)
 			{
 				assert(!"Instance has a bonecache too.. it's gonna get stomped");
 			}
 		}
 #endif
-		g2_to.DeepCopy(g2_from);
+		g2To.DeepCopy(g2_from);
 
 #ifdef _G2_GORE //check through gore stuff then, as well.
 		int model = 0;
 
-		while (model < g2_to.size())
+		while (model < g2To.size())
 		{
-			if (g2_to[model].mGoreSetTag)
+			if (g2To[model].mGoreSetTag)
 			{
-				CGoreSet* gore = FindGoreSet(g2_to[model].mGoreSetTag);
+				CGoreSet* gore = FindGoreSet(g2To[model].mGoreSetTag);
 				assert(gore);
 				gore->mRefCount++;
 			}
@@ -2283,18 +2283,18 @@ void G2API_CopySpecificG2Model(CGhoul2Info_v& ghoul2From, const int modelFrom, C
 }
 
 // This version will automatically copy everything about this model, and make a new one if necessary.
-void G2API_DuplicateGhoul2Instance(const CGhoul2Info_v& g2_from, CGhoul2Info_v** g2_to)
+void G2API_DuplicateGhoul2Instance(const CGhoul2Info_v& g2_from, CGhoul2Info_v** g2To)
 {
 	//int ignore;
 
-	if (*g2_to)
+	if (*g2To)
 	{
 		// This is bad.  We only want to do this if there is not yet a to declared.
 		assert(0);
 		return;
 	}
 
-	*g2_to = new CGhoul2Info_v;
+	*g2To = new CGhoul2Info_v;
 #ifdef _FULL_G2_LEAK_CHECKING
 	if (g_G2AllocServer)
 	{
@@ -2305,9 +2305,9 @@ void G2API_DuplicateGhoul2Instance(const CGhoul2Info_v& g2_from, CGhoul2Info_v**
 		g_G2ClientAlloc += sizeof(CGhoul2Info_v);
 	}
 	g_Ghoul2Allocations += sizeof(CGhoul2Info_v);
-	G2_DEBUG_ShovePtrInTracker(*g2_to);
+	G2_DEBUG_ShovePtrInTracker(*g2To);
 #endif
-	CGhoul2Info_v& ghoul2 = **g2_to;
+	CGhoul2Info_v& ghoul2 = **g2To;
 
 	/*ignore = */
 	G2API_CopyGhoul2Instance(g2_from, ghoul2, -1);

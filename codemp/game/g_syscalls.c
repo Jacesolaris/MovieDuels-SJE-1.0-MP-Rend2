@@ -1492,19 +1492,19 @@ void trap_G2API_GetGLAName(void* ghoul2, const int model_index, char* fillBuf)
 	Q_syscall(G_G2_GETGLANAME, ghoul2, model_index, fillBuf);
 }
 
-int trap_G2API_CopyGhoul2Instance(void* g2_from, void* g2_to, const int model_index)
+int trap_G2API_CopyGhoul2Instance(void* g2_from, void* g2To, const int model_index)
 {
-	return Q_syscall(G_G2_COPYGHOUL2INSTANCE, g2_from, g2_to, model_index);
+	return Q_syscall(G_G2_COPYGHOUL2INSTANCE, g2_from, g2To, model_index);
 }
 
-void trap_G2API_CopySpecificGhoul2Model(void* g2_from, const int modelFrom, void* g2_to, const int modelTo)
+void trap_G2API_CopySpecificGhoul2Model(void* g2_from, const int modelFrom, void* g2To, const int modelTo)
 {
-	Q_syscall(G_G2_COPYSPECIFICGHOUL2MODEL, g2_from, modelFrom, g2_to, modelTo);
+	Q_syscall(G_G2_COPYSPECIFICGHOUL2MODEL, g2_from, modelFrom, g2To, modelTo);
 }
 
-void trap_G2API_DuplicateGhoul2Instance(void* g2_from, void** g2_to)
+void trap_G2API_DuplicateGhoul2Instance(void* g2_from, void** g2To)
 {
-	Q_syscall(G_G2_DUPLICATEGHOUL2INSTANCE, g2_from, g2_to);
+	Q_syscall(G_G2_DUPLICATEGHOUL2INSTANCE, g2_from, g2To);
 }
 
 qboolean trap_G2API_HasGhoul2ModelOnIndex(void* ghlInfo, const int model_index)

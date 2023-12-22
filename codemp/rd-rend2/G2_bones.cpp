@@ -3293,16 +3293,16 @@ static inline void G2_RagGetPelvisLumbarOffsets(CGhoul2Info& ghoul2, CRagDollUpd
 	//static vec3_t lumbarPos;
 
 	assert(ghoul2.animModel);
-	int bone_index = G2_Find_Bone(ghoul2.animModel, ghoul2.mBlist, "pelvis");
-	assert(bone_index != -1);
+	int boneIndex = G2_Find_Bone(ghoul2.animModel, ghoul2.mBlist, "pelvis");
+	assert(boneIndex != -1);
 
-	G2_RagGetWorldAnimMatrix(ghoul2, ghoul2.mBlist[bone_index], params, final);
+	G2_RagGetWorldAnimMatrix(ghoul2, ghoul2.mBlist[boneIndex], params, final);
 	G2API_GiveMeVectorFromMatrix(&final, ORIGIN, animPos);
 	G2API_GiveMeVectorFromMatrix(&final, POSITIVE_X, animDir);
 
 #if 0
 	//We have the anim matrix pelvis pos now, so get the normal one as well
-	G2_GetBoneMatrixLow(ghoul2, bone_index, params->scale, final, unused1, unused2);
+	G2_GetBoneMatrixLow(ghoul2, boneIndex, params->scale, final, unused1, unused2);
 	G2API_GiveMeVectorFromMatrix(&final, ORIGIN, pos);
 	G2API_GiveMeVectorFromMatrix(&final, POSITIVE_X, dir);
 #else

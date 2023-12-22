@@ -2353,7 +2353,7 @@ void G2_ProcessSurfaceBolt(const mdxaBone_v& bone_ptr, mdxmSurface_t* surface, c
 				const int iBoneIndex = G2_GetVertBoneIndex(v, k);
 				const float fBoneWeight = G2_GetVertBoneWeight(v, k, fTotalWeight, iNumWeights);
 
-				//bone = bone_ptr + piBoneRefs[w->bone_index];
+				//bone = bone_ptr + piBoneRefs[w->boneIndex];
 				pTri[j][0] += fBoneWeight * (DotProduct(bone_ptr[piBoneRefs[iBoneIndex]].second.matrix[0], v->vertCoords)
 					+ bone_ptr[piBoneRefs[iBoneIndex]].second.matrix[0][3]);
 				pTri[j][1] += fBoneWeight * (DotProduct(bone_ptr[piBoneRefs[iBoneIndex]].second.matrix[1], v->vertCoords)
@@ -4555,12 +4555,12 @@ qboolean BoneIsBottom(char* name)
 	return qfalse;
 }
 
-void ShiftMemoryDown(mdxaSkelOffsets_t* offsets, mdxaHeader_t* mdxa, int bone_index, byte** endMarker)
+void ShiftMemoryDown(mdxaSkelOffsets_t* offsets, mdxaHeader_t* mdxa, int boneIndex, byte** endMarker)
 {
 	int i = 0;
 
 	//where the next bone starts
-	byte* nextBone = ((byte*)mdxa + sizeof(mdxaHeader_t) + offsets->offsets[bone_index + 1]);
+	byte* nextBone = ((byte*)mdxa + sizeof(mdxaHeader_t) + offsets->offsets[boneIndex + 1]);
 	int size = (*endMarker - nextBone);
 
 	memmove((nextBone + CHILD_PADDING), nextBone, size);
@@ -4568,7 +4568,7 @@ void ShiftMemoryDown(mdxaSkelOffsets_t* offsets, mdxaHeader_t* mdxa, int bone_in
 	*endMarker += CHILD_PADDING;
 	//Move the whole thing down CHILD_PADDING amount in memory, clear the new preceding space, and increment the end pointer.
 
-	i = bone_index + 1;
+	i = boneIndex + 1;
 
 	//Now add CHILD_PADDING amount to every offset beginning at the offset of the bone that was moved.
 	while (i < mdxa->numBones)

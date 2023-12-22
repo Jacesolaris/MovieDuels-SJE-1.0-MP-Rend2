@@ -179,11 +179,11 @@ using refexport_t = struct refexport_s
 		const vec3_t position, int frameNumber, int entNum, vec3_t rayStart,
 		vec3_t rayEnd, vec3_t scale, IHeapAllocator* G2VertSpace, int traceFlags,
 		int useLod, float fRadius);
-	int (*G2API_CopyGhoul2Instance)(const CGhoul2Info_v& g2_from, CGhoul2Info_v& g2_to, int model_index);
+	int (*G2API_CopyGhoul2Instance)(const CGhoul2Info_v& g2_from, CGhoul2Info_v& g2To, int model_index);
 	void (*G2API_CopySpecificG2Model)(CGhoul2Info_v& ghoul2From, int modelFrom, CGhoul2Info_v& ghoul2To, int modelTo);
 	qboolean(*G2API_DetachG2Model)(CGhoul2Info* ghlInfo);
 	qboolean(*G2API_DoesBoneExist)(CGhoul2Info_v& ghoul2, int model_index, const char* boneName);
-	void (*G2API_DuplicateGhoul2Instance)(const CGhoul2Info_v& g2_from, CGhoul2Info_v** g2_to);
+	void (*G2API_DuplicateGhoul2Instance)(const CGhoul2Info_v& g2_from, CGhoul2Info_v** g2To);
 	void (*G2API_FreeSaveBuffer)(char* buffer);
 	qboolean(*G2API_GetAnimFileName)(CGhoul2Info* ghlInfo, char** filename);
 	char* (*G2API_GetAnimFileNameIndex)(qhandle_t model_index);

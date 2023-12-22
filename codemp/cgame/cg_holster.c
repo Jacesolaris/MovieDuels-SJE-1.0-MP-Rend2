@@ -39,7 +39,7 @@ static void InitHolsterData(clientInfo_t* ci)
 	//initialize holster data with the premade defaults.
 	for (int i = 0; i < MAX_HOLSTER; i++)
 	{
-		ci->holsterData[i].bone_index = HOLSTER_NONE;
+		ci->holsterData[i].boneIndex = HOLSTER_NONE;
 		VectorCopy(vec3_origin, ci->holsterData[i].posOffset);
 		VectorCopy(vec3_origin, ci->holsterData[i].angOffset);
 	}
@@ -108,7 +108,7 @@ void CG_LoadHolsterData(clientInfo_t* ci)
 	//parse file
 	while ((s = BG_GetNextValueGroup(s, holster_type_group)) != NULL)
 	{
-		vec3_t vector_data;
+		vec3_t vectorData;
 		char holster_type_value[MAX_QPATH];
 		if (!BG_SiegeGetPairedValue(holster_type_group, "holsterType", holster_type_value))
 		{
@@ -124,32 +124,32 @@ void CG_LoadHolsterData(clientInfo_t* ci)
 			continue;
 		}
 
-		if (BG_SiegeGetPairedValue(holster_type_group, "bone_index", holster_type_value))
+		if (BG_SiegeGetPairedValue(holster_type_group, "boneIndex", holster_type_value))
 		{
 			//have bone index data for this holster type, use it
 			if (!Q_stricmp(holster_type_value, "disabled"))
 			{
 				//disable the rendering of this holster type on this model
-				ci->holsterData[i].bone_index = HOLSTER_NONE;
+				ci->holsterData[i].boneIndex = HOLSTER_NONE;
 			}
 			else
 			{
-				ci->holsterData[i].bone_index = GetIDForString(holsterBoneTable, holster_type_value);
+				ci->holsterData[i].boneIndex = GetIDForString(holsterBoneTable, holster_type_value);
 			}
 		}
 
 		if (BG_SiegeGetPairedValue(holster_type_group, "posOffset", holster_type_value))
 		{
 			//parsing positional offset data
-			sscanf(holster_type_value, "%f, %f, %f", &vector_data[0], &vector_data[1], &vector_data[2]);
-			VectorCopy(vector_data, ci->holsterData[i].posOffset);
+			sscanf(holster_type_value, "%f, %f, %f", &vectorData[0], &vectorData[1], &vectorData[2]);
+			VectorCopy(vectorData, ci->holsterData[i].posOffset);
 		}
 
 		if (BG_SiegeGetPairedValue(holster_type_group, "angOffset", holster_type_value))
 		{
 			//parsing angular offset
-			sscanf(holster_type_value, "%f, %f, %f", &vector_data[0], &vector_data[1], &vector_data[2]);
-			VectorCopy(vector_data, ci->holsterData[i].angOffset);
+			sscanf(holster_type_value, "%f, %f, %f", &vectorData[0], &vectorData[1], &vectorData[2]);
+			VectorCopy(vectorData, ci->holsterData[i].angOffset);
 		}
 	}
 #ifdef _DEBUG

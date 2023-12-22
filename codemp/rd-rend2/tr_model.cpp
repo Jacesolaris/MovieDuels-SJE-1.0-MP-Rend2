@@ -1466,7 +1466,7 @@ static qboolean R_LoadMDR(model_t* mod, void* buffer, int filesize, const char* 
 				// Now copy all the weights
 				for (k = 0; k < v->numWeights; k++)
 				{
-					weight->bone_index = LittleLong(curweight->bone_index);
+					weight->boneIndex = LittleLong(curweight->boneIndex);
 					weight->boneWeight = LittleFloat(curweight->boneWeight);
 
 					weight->offset[0] = LittleFloat(curweight->offset[0]);
@@ -1533,7 +1533,7 @@ static qboolean R_LoadMDR(model_t* mod, void* buffer, int filesize, const char* 
 
 	for (i = 0; i < mdr->numTags; i++)
 	{
-		tag->bone_index = LittleLong(curtag->bone_index);
+		tag->boneIndex = LittleLong(curtag->boneIndex);
 		Q_strncpyz(tag->name, curtag->name, sizeof(tag->name));
 
 		tag++;
@@ -1696,12 +1696,12 @@ void R_GetAnimTag(mdrHeader_t* mod, int framenum, const char* tagName, mdvTag_t*
 			for (j = 0; j < 3; j++)
 			{
 				for (k = 0; k < 3; k++)
-					dest->axis[j][k] = frame->bones[tag->bone_index].matrix[k][j];
+					dest->axis[j][k] = frame->bones[tag->boneIndex].matrix[k][j];
 			}
 
-			dest->origin[0] = frame->bones[tag->bone_index].matrix[0][3];
-			dest->origin[1] = frame->bones[tag->bone_index].matrix[1][3];
-			dest->origin[2] = frame->bones[tag->bone_index].matrix[2][3];
+			dest->origin[0] = frame->bones[tag->boneIndex].matrix[0][3];
+			dest->origin[1] = frame->bones[tag->boneIndex].matrix[1][3];
+			dest->origin[2] = frame->bones[tag->boneIndex].matrix[2][3];
 
 			return;
 		}

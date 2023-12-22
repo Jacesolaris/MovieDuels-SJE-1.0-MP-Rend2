@@ -16764,7 +16764,7 @@ void CG_HolsteredWeaponRender(centity_t* cent, const clientInfo_t* ci, const int
 	qhandle_t offset_bolt;
 	int weapon_type;
 	qboolean second_weap = qfalse;
-	int bone_index;
+	int boneIndex;
 
 	if (cent->currentState.number == cg.snap->ps.clientNum &&
 		!cg.renderingThirdPerson && !cg_trueguns.integer && cg.snap->ps.weapon != WP_SABER)
@@ -16783,19 +16783,19 @@ void CG_HolsteredWeaponRender(centity_t* cent, const clientInfo_t* ci, const int
 	if (cg_holsterdebug.integer == holster_type)
 	{
 		//debug has been set for this holsterType, use the debug overrides
-		bone_index = cg_holsterdebug_boneindex.integer;
+		boneIndex = cg_holsterdebug_boneindex.integer;
 		sscanf(cg_holsterdebug_posoffset.string, "%f %f %f", &pos_offset[0], &pos_offset[1], &pos_offset[2]);
 		sscanf(cg_holsterdebug_angoffset.string, "%f %f %f", &ang_offset[0], &ang_offset[1], &ang_offset[2]);
 	}
 	else
 	{
 		//use the model's loaded data for this holsterType
-		bone_index = ci->holsterData[holster_type].bone_index;
+		boneIndex = ci->holsterData[holster_type].boneIndex;
 		VectorCopy(ci->holsterData[holster_type].posOffset, pos_offset);
 		VectorCopy(ci->holsterData[holster_type].angOffset, ang_offset);
 	}
 
-	if (bone_index == HOLSTER_NONE)
+	if (boneIndex == HOLSTER_NONE)
 	{
 		//this weapon isn't set up to be rendered on this player model.
 		return;
@@ -16852,7 +16852,7 @@ void CG_HolsteredWeaponRender(centity_t* cent, const clientInfo_t* ci, const int
 	}
 
 	//set offsetBolt
-	switch (bone_index)
+	switch (boneIndex)
 	{
 	case HOLSTER_UPPERBACK:
 		offset_bolt = 2; //2 = jetpack tag position
@@ -16867,7 +16867,7 @@ void CG_HolsteredWeaponRender(centity_t* cent, const clientInfo_t* ci, const int
 		offset_bolt = ci->bolt_rfemurYZ; //use right hip bone
 		break;
 	default:
-		Com_Printf("Unknown offsetBolt for bone_index %i in CG_HolsteredWeaponRender.\n", bone_index);
+		Com_Printf("Unknown offsetBolt for boneIndex %i in CG_HolsteredWeaponRender.\n", boneIndex);
 		return;
 	}
 
@@ -17448,8 +17448,7 @@ static void CG_VisualWeaponsUpdate(centity_t* cent, clientInfo_t* ci)
 				if (ci->holster_golan != -1 && !ci->golan_holstered)
 				{
 					//we have a valid holster bolt for this weapon and we haven't bolted
-					trap->G2API_CopySpecificGhoul2Model(CG_G2WeaponInstance(cent, WP_ROCKET_LAUNCHER), 0, cent->ghoul2,
-						G2MODEL_GOLAN_HOLSTERED);
+					trap->G2API_CopySpecificGhoul2Model(CG_G2WeaponInstance(cent, WP_ROCKET_LAUNCHER), 0, cent->ghoul2,	G2MODEL_GOLAN_HOLSTERED);
 					trap->G2API_SetBoltInfo(cent->ghoul2, G2MODEL_GOLAN_HOLSTERED, ci->holster_golan);
 					ci->golan_holstered = qtrue;
 				}
@@ -17777,6 +17776,7 @@ static void CG_VisualWeaponsUpdate(centity_t* cent, clientInfo_t* ci)
 		* End Back Gun Holster code
 		*============================
 		*/
+
 	}
 }
 

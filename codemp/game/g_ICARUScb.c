@@ -7771,7 +7771,7 @@ qboolean Q3_Set(const int taskID, const int ent_id, const char* type_name, const
 	gentity_t* ent = &g_entities[ent_id];
 	float float_data;
 	int int_data;
-	vec3_t vector_data;
+	vec3_t vectorData;
 	vec3_t vector2_data;
 	vec4_t color, color2;
 	float float2_data;
@@ -7786,39 +7786,39 @@ qboolean Q3_Set(const int taskID, const int ent_id, const char* type_name, const
 	switch (toSet)
 	{
 	case SET_ORIGIN:
-		if (sscanf(data, "%f %f %f", &vector_data[0], &vector_data[1], &vector_data[2]) != 3)
+		if (sscanf(data, "%f %f %f", &vectorData[0], &vectorData[1], &vectorData[2]) != 3)
 		{
 			G_DebugPrint(WL_WARNING, "Q3_Set: failed sscanf on SET_ORIGIN (%s)\n", type_name);
-			VectorClear(vector_data);
+			VectorClear(vectorData);
 		}
-		G_SetOrigin(ent, vector_data);
+		G_SetOrigin(ent, vectorData);
 		if (Q_strncmp("NPC_", ent->classname, 4) == 0)
 		{
 			//hack for moving spawners
-			VectorCopy(vector_data, ent->s.origin);
+			VectorCopy(vectorData, ent->s.origin);
 		}
 		if (in_camera && ent->s.number < MAX_CLIENTS)
 		{
 			//the players are currently in a cutscene.  This means that we need to change the player's stored origin.
-			UpdatePlayerCameraOrigin(ent, vector_data);
+			UpdatePlayerCameraOrigin(ent, vectorData);
 		}
 
 		//SP Code
 		if (ent->client)
 		{
 			//clear jump start positions so we don't take damage when we land...
-			ent->client->ps.fd.forceJumpZStart = vector_data[2];
+			ent->client->ps.fd.forceJumpZStart = vectorData[2];
 		}
 		trap->LinkEntity((sharedEntity_t*)ent);
 		break;
 
 	case SET_TELEPORT_DEST:
-		if (sscanf(data, "%f %f %f", &vector_data[0], &vector_data[1], &vector_data[2]) != 3)
+		if (sscanf(data, "%f %f %f", &vectorData[0], &vectorData[1], &vectorData[2]) != 3)
 		{
 			G_DebugPrint(WL_WARNING, "Q3_Set: failed sscanf on SET_TELEPORT_DEST (%s)\n", type_name);
-			VectorClear(vector_data);
+			VectorClear(vectorData);
 		}
-		if (!Q3_SetTeleportDest(ent_id, vector_data))
+		if (!Q3_SetTeleportDest(ent_id, vectorData))
 		{
 			trap->ICARUS_TaskIDSet((sharedEntity_t*)ent, TID_MOVE_NAV, taskID);
 			return qfalse;
@@ -7830,12 +7830,12 @@ qboolean Q3_Set(const int taskID, const int ent_id, const char* type_name, const
 		break;
 
 	case SET_ANGLES:
-		if (sscanf(data, "%f %f %f", &vector_data[0], &vector_data[1], &vector_data[2]) != 3)
+		if (sscanf(data, "%f %f %f", &vectorData[0], &vectorData[1], &vectorData[2]) != 3)
 		{
 			G_DebugPrint(WL_WARNING, "Q3_Set: failed sscanf on SET_ANGLES (%s)\n", type_name);
-			VectorClear(vector_data);
+			VectorClear(vectorData);
 		}
-		Q3_SetAngles(ent_id, vector_data);
+		Q3_SetAngles(ent_id, vectorData);
 		break;
 
 	case SET_XVELOCITY:
@@ -8943,15 +8943,15 @@ qboolean Q3_Set(const int taskID, const int ent_id, const char* type_name, const
 	case PAN:
 		ParseTags(ent_id, data);
 		//0.000 0.000 0.000, < 0.000 0.000 0.000 >, 0
-		if (sscanf(data, "%*s %f %f %f %*s %*s %f %f %f %*s %f", &vector_data[0], &vector_data[1],
-			&vector_data[2], &vector2_data[0], &vector2_data[1], &vector2_data[2], &float_data) != 7)
+		if (sscanf(data, "%*s %f %f %f %*s %*s %f %f %f %*s %f", &vectorData[0], &vectorData[1],
+			&vectorData[2], &vector2_data[0], &vector2_data[1], &vector2_data[2], &float_data) != 7)
 		{
 			G_DebugPrint(WL_WARNING, "Q3_Set: failed sscanf on PAN (%s)\n", type_name);
-			VectorClear(vector_data);
+			VectorClear(vectorData);
 			VectorClear(vector2_data);
 		}
 
-		ICam_Pan(vector_data, vector2_data, float_data);
+		ICam_Pan(vectorData, vector2_data, float_data);
 		break;
 
 	case FADE:

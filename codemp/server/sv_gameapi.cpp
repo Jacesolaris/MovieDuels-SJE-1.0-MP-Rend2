@@ -1893,28 +1893,28 @@ static void SV_G2API_GetGLAName(void* ghoul2, const int model_index, char* fillB
 	}
 }
 
-static int SV_G2API_CopyGhoul2Instance(void* g2_from, void* g2_to, const int model_index)
+static int SV_G2API_CopyGhoul2Instance(void* g2_from, void* g2To, const int model_index)
 {
-	return re->G2API_CopyGhoul2Instance(*static_cast<CGhoul2Info_v*>(g2_from), *static_cast<CGhoul2Info_v*>(g2_to),
+	return re->G2API_CopyGhoul2Instance(*static_cast<CGhoul2Info_v*>(g2_from), *static_cast<CGhoul2Info_v*>(g2To),
 		model_index);
 }
 
-static void SV_G2API_CopySpecificGhoul2Model(void* g2_from, const int modelFrom, void* g2_to, const int modelTo)
+static void SV_G2API_CopySpecificGhoul2Model(void* g2_from, const int modelFrom, void* g2To, const int modelTo)
 {
-	if (!g2_from || !g2_to)
+	if (!g2_from || !g2To)
 	{
 		return;
 	}
-	re->G2API_CopySpecificG2Model(*static_cast<CGhoul2Info_v*>(g2_from), modelFrom, *static_cast<CGhoul2Info_v*>(g2_to),
+	re->G2API_CopySpecificG2Model(*static_cast<CGhoul2Info_v*>(g2_from), modelFrom, *static_cast<CGhoul2Info_v*>(g2To),
 		modelTo);
 }
 
-static void SV_G2API_DuplicateGhoul2Instance(void* g2_from, void** g2_to)
+static void SV_G2API_DuplicateGhoul2Instance(void* g2_from, void** g2To)
 {
 #ifdef _FULL_G2_LEAK_CHECKING
 	g_G2AllocServer = 1;
 #endif
-	re->G2API_DuplicateGhoul2Instance(*static_cast<CGhoul2Info_v*>(g2_from), reinterpret_cast<CGhoul2Info_v**>(g2_to));
+	re->G2API_DuplicateGhoul2Instance(*static_cast<CGhoul2Info_v*>(g2_from), reinterpret_cast<CGhoul2Info_v**>(g2To));
 }
 
 static qboolean SV_G2API_HasGhoul2ModelOnIndex(void* ghlInfo, const int model_index)

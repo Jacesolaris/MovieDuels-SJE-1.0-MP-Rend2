@@ -917,7 +917,7 @@ qboolean ServerLoadMDXM(model_t* mod, void* buffer, const char* mod_name, qboole
 
 				for (k = 0; k < surf->maxVertBoneWeights; k++)
 				{
-					v->weights[k].bone_index = LittleLong(v->weights[k].bone_index);
+					v->weights[k].boneIndex = LittleLong(v->weights[k].boneIndex);
 					v->weights[k].boneWeight = LittleFloat(v->weights[k].boneWeight);
 				}
 				v = (mdxmVertex_t*)&v->weights[surf->maxVertBoneWeights];

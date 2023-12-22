@@ -2003,7 +2003,7 @@ void CMD_CGCam_Disable(void)
 void CG_CameraParse(void)
 {
 	int int_data;
-	vec3_t vector_data;
+	vec3_t vectorData;
 	float float_data, float2_data;
 
 	const char* o = CG_ConfigString(CS_CAMERA);
@@ -2013,15 +2013,15 @@ void CG_CameraParse(void)
 	}
 	else if (strncmp("move", o, 4) == 0)
 	{
-		sscanf(o, "%*s %f %f %f %f", &vector_data[0], &vector_data[1], &vector_data[2], &float_data);
-		CGCam_Move(vector_data, float_data);
+		sscanf(o, "%*s %f %f %f %f", &vectorData[0], &vectorData[1], &vectorData[2], &float_data);
+		CGCam_Move(vectorData, float_data);
 	}
 	else if (strncmp("pan", o, 3) == 0)
 	{
 		vec3_t vector2_data;
-		sscanf(o, "%*s %f %f %f %f %f %f %f", &vector_data[0], &vector_data[1],
-			&vector_data[2], &vector2_data[0], &vector2_data[1], &vector2_data[2], &float_data);
-		CGCam_Pan(vector_data, vector2_data, float_data);
+		sscanf(o, "%*s %f %f %f %f %f %f %f", &vectorData[0], &vectorData[1],
+			&vectorData[2], &vector2_data[0], &vector2_data[1], &vector2_data[2], &float_data);
+		CGCam_Pan(vectorData, vector2_data, float_data);
 	}
 	else if (strncmp("fade", o, 4) == 0)
 	{
