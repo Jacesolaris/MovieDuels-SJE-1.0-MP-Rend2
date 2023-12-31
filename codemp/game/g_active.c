@@ -80,6 +80,8 @@ extern qboolean PM_SaberLockBreakAnim(int anim); //bg_panimate.c
 extern qboolean PM_SuperBreakWinAnim(int anim);
 extern qboolean PM_LungeAnim(int anim);
 extern qboolean PM_RollingAnim(int anim);
+extern void Sphereshield_On(gentity_t* self);
+extern void Sphereshield_Off(gentity_t* self);
 
 static void P_SetTwitchInfo(gclient_t* client)
 {
@@ -1680,44 +1682,53 @@ static void ClientEvents(gentity_t* ent, int old_event_sequence)
 			break;
 
 			//rww - Note that these must be in the same order (ITEM#-wise) as they are in holdable_t
-		case EV_USE_ITEM1: //seeker droid
+		case EV_USE_ITEM1: //seeker droid        HI_SEEKER
 			ItemUse_Seeker(ent);
 			break;
-		case EV_USE_ITEM2: //shield
+		case EV_USE_ITEM2: //shield              HI_SHIELD
 			ItemUse_Shield(ent);
 			break;
-		case EV_USE_ITEM3: //medpack
+		case EV_USE_ITEM3: //medpack             HI_MEDPAC
 			ItemUse_MedPack(ent);
 			break;
-		case EV_USE_ITEM4: //big medpack
+		case EV_USE_ITEM4: //big medpack         HI_MEDPAC_BIG
 			ItemUse_MedPack_Big(ent);
 			break;
-		case EV_USE_ITEM5: //binoculars
+		case EV_USE_ITEM5: //binoculars          HI_BINOCULARS
 			ItemUse_Binoculars(ent);
 			break;
-		case EV_USE_ITEM6: //sentry gun
+		case EV_USE_ITEM6: //sentry gun          HI_SENTRY_GUN
 			ItemUse_Sentry(ent);
 			break;
-		case EV_USE_ITEM7: //jetpack
+		case EV_USE_ITEM7: //jetpack             HI_JETPACK
 			ItemUse_Jetpack(ent);
 			break;
-		case EV_USE_ITEM8: //health disp
-			//ItemUse_UseDisp(ent, HI_HEALTHDISP);
+		case EV_USE_ITEM8: //health disp         HI_HEALTHDISP
+			ItemUse_UseDisp(ent, HI_HEALTHDISP);
 			break;
-		case EV_USE_ITEM9: //ammo disp
-			//ItemUse_UseDisp(ent, HI_AMMODISP);
+		case EV_USE_ITEM9: //ammo disp           HI_AMMODISP
+			ItemUse_UseDisp(ent, HI_AMMODISP);
 			break;
-		case EV_USE_ITEM10: //eweb
+		case EV_USE_ITEM10: //eweb               HI_EWEB
 			ItemUse_UseEWeb(ent);
 			break;
-		case EV_USE_ITEM11: //cloak
+		case EV_USE_ITEM11: //cloak              HI_CLOAK
 			ItemUse_UseCloak(ent);
 			break;
-		case EV_USE_ITEM12: //flamethrower
+		case EV_USE_ITEM12: //flamethrower       HI_FLAMETHROWER
 			ItemUse_FlameThrower(ent);
 			break;
-		case EV_USE_ITEM13: //droidecca
+		case EV_USE_ITEM13: //swoop              HI_SWOOP
+			ItemUse_Swoop(ent);
+			break;
+		case EV_USE_ITEM14: //Decca              HI_DROIDEKA
 			ItemUse_Decca(ent);
+			break;
+		case EV_USE_ITEM15: //sphereshield       HI_SPHERESHIELD
+			ItemUse_UseSphereshield(ent);
+			break;
+		case EV_USE_ITEM16: //Grapple hook       HI_GRAPPLE
+			//
 			break;
 		default:
 			break;
@@ -6506,9 +6517,9 @@ static void ClientThink_real(gentity_t* ent)
 			Cmd_ToggleSaber_f(ent);
 			break;
 		case GENCMD_ENGAGE_DUEL:
-			if (level.gametype == GT_MOVIEDUELS_DUEL || level.gametype == GT_MOVIEDUELS_POWERDUEL)
+			if (level.gametype == GT_DUEL || level.gametype == GT_POWERDUEL)
 			{
-				//already in a duel, made it a taunt command
+				G_SetTauntAnim(ent, TAUNT_TAUNT);
 			}
 			else
 			{
@@ -6548,43 +6559,44 @@ static void ClientThink_real(gentity_t* ent)
 		case GENCMD_FORCE_SEEING:
 			ForceSeeing(ent);
 			break;
-		case GENCMD_USE_SEEKER:
+
+			/////////////////////////////////////////////////////////////////////////////////////////
+		case GENCMD_USE_SEEKER: //HI_SEEKER
 			if (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & 1 << HI_SEEKER &&
 				G_ItemUsable(&ent->client->ps, HI_SEEKER))
 			{
 				ItemUse_Seeker(ent);
 				G_AddEvent(ent, EV_USE_ITEM0 + HI_SEEKER, 0);
-				ent->client->ps.stats[STAT_HOLDABLE_ITEMS] &= ~(1 << HI_SEEKER);
+				ent->client->ps.stats[STAT_HOLDABLE_ITEMS] &= ~(1 << HI_SEEKER); // TAKE AWAY AFTER USE ?
 			}
 			break;
-		case GENCMD_USE_FIELD:
+		case GENCMD_USE_SHIELD: //HI_SHIELD
 			if (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & 1 << HI_SHIELD &&
 				G_ItemUsable(&ent->client->ps, HI_SHIELD))
 			{
 				ItemUse_Shield(ent);
 				G_AddEvent(ent, EV_USE_ITEM0 + HI_SHIELD, 0);
-				ent->client->ps.stats[STAT_HOLDABLE_ITEMS] &= ~(1 << HI_SHIELD);
 			}
 			break;
-		case GENCMD_USE_BACTA:
+		case GENCMD_USE_MEDPAC: //HI_MEDPAC
 			if (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & 1 << HI_MEDPAC &&
 				G_ItemUsable(&ent->client->ps, HI_MEDPAC))
 			{
 				ItemUse_MedPack(ent);
 				G_AddEvent(ent, EV_USE_ITEM0 + HI_MEDPAC, 0);
-				ent->client->ps.stats[STAT_HOLDABLE_ITEMS] &= ~(1 << HI_MEDPAC);
+				ent->client->ps.stats[STAT_HOLDABLE_ITEMS] &= ~(1 << HI_MEDPAC); // TAKE AWAY AFTER USE ?
 			}
 			break;
-		case GENCMD_USE_BACTABIG:
+		case GENCMD_USE_MEDPAC_BIG:  //HI_MEDPAC_BIG
 			if (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & 1 << HI_MEDPAC_BIG &&
 				G_ItemUsable(&ent->client->ps, HI_MEDPAC_BIG))
 			{
 				ItemUse_MedPack_Big(ent);
 				G_AddEvent(ent, EV_USE_ITEM0 + HI_MEDPAC_BIG, 0);
-				ent->client->ps.stats[STAT_HOLDABLE_ITEMS] &= ~(1 << HI_MEDPAC_BIG);
+				ent->client->ps.stats[STAT_HOLDABLE_ITEMS] &= ~(1 << HI_MEDPAC_BIG); // TAKE AWAY AFTER USE ?
 			}
 			break;
-		case GENCMD_USE_ELECTROBINOCULARS:
+		case GENCMD_USE_ELECTROBINOCULARS: //HI_BINOCULARS
 			if (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & 1 << HI_BINOCULARS &&
 				G_ItemUsable(&ent->client->ps, HI_BINOCULARS))
 			{
@@ -6599,31 +6611,16 @@ static void ClientThink_real(gentity_t* ent)
 				}
 			}
 			break;
-		case GENCMD_ZOOM:
-			if (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & 1 << HI_BINOCULARS &&
-				G_ItemUsable(&ent->client->ps, HI_BINOCULARS))
-			{
-				ItemUse_Binoculars(ent);
-				if (ent->client->ps.zoomMode == 0)
-				{
-					G_AddEvent(ent, EV_USE_ITEM0 + HI_BINOCULARS, 1);
-				}
-				else
-				{
-					G_AddEvent(ent, EV_USE_ITEM0 + HI_BINOCULARS, 2);
-				}
-			}
-			break;
-		case GENCMD_USE_SENTRY:
+		case GENCMD_USE_SENTRY: //HI_SENTRY_GUN
 			if (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & 1 << HI_SENTRY_GUN &&
 				G_ItemUsable(&ent->client->ps, HI_SENTRY_GUN))
 			{
 				ItemUse_Sentry(ent);
 				G_AddEvent(ent, EV_USE_ITEM0 + HI_SENTRY_GUN, 0);
-				ent->client->ps.stats[STAT_HOLDABLE_ITEMS] &= ~(1 << HI_SENTRY_GUN);
+				ent->client->ps.stats[STAT_HOLDABLE_ITEMS] &= ~(1 << HI_SENTRY_GUN); // TAKE AWAY AFTER USE ?
 			}
 			break;
-		case GENCMD_USE_JETPACK:
+		case GENCMD_USE_JETPACK: //HI_JETPACK
 			if (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & 1 << HI_JETPACK &&
 				G_ItemUsable(&ent->client->ps, HI_JETPACK))
 			{
@@ -6631,21 +6628,24 @@ static void ClientThink_real(gentity_t* ent)
 				G_AddEvent(ent, EV_USE_ITEM0 + HI_JETPACK, 0);
 			}
 			break;
-		case GENCMD_USE_HEALTHDISP:
+
+		case GENCMD_USE_HEALTHDISP: // HI_HEALTHDISP
 			if (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & 1 << HI_HEALTHDISP &&
 				G_ItemUsable(&ent->client->ps, HI_HEALTHDISP))
 			{
+				ItemUse_UseDisp(ent, HI_HEALTHDISP);
 				G_AddEvent(ent, EV_USE_ITEM0 + HI_HEALTHDISP, 0);
 			}
 			break;
-		case GENCMD_USE_AMMODISP:
+		case GENCMD_USE_AMMODISP: //HI_AMMODISP
 			if (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & 1 << HI_AMMODISP &&
 				G_ItemUsable(&ent->client->ps, HI_AMMODISP))
 			{
+				ItemUse_UseDisp(ent, HI_AMMODISP);
 				G_AddEvent(ent, EV_USE_ITEM0 + HI_AMMODISP, 0);
 			}
 			break;
-		case GENCMD_USE_EWEB:
+		case GENCMD_USE_EWEB: //HI_EWEB
 			if (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & 1 << HI_EWEB &&
 				G_ItemUsable(&ent->client->ps, HI_EWEB))
 			{
@@ -6653,7 +6653,7 @@ static void ClientThink_real(gentity_t* ent)
 				G_AddEvent(ent, EV_USE_ITEM0 + HI_EWEB, 0);
 			}
 			break;
-		case GENCMD_USE_CLOAK:
+		case GENCMD_USE_CLOAK: //HI_CLOAK
 			if (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & 1 << HI_CLOAK &&
 				G_ItemUsable(&ent->client->ps, HI_CLOAK))
 			{
@@ -6684,6 +6684,57 @@ static void ClientThink_real(gentity_t* ent)
 				}
 			}
 			break;
+		case GENCMD_FLAMETHROWER://HI_FLAMETHROWER
+			if (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & 1 << HI_FLAMETHROWER &&
+				G_ItemUsable(&ent->client->ps, HI_FLAMETHROWER))
+			{
+				ItemUse_FlameThrower(ent);
+				G_AddEvent(ent, EV_USE_ITEM0 + HI_FLAMETHROWER, 0);
+			}
+			break;
+
+		case GENCMD_USE_SWOOP: //HI_SWOOP
+			if (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & 1 << HI_SWOOP &&
+				G_ItemUsable(&ent->client->ps, HI_SWOOP))
+			{
+				ItemUse_Swoop(ent);
+				G_AddEvent(ent, EV_USE_ITEM0 + HI_SWOOP, 0);
+			}
+			break;
+		case GENCMD_USE_DECCA: //HI_DROIDEKA
+			if (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & 1 << HI_DROIDEKA &&
+				G_ItemUsable(&ent->client->ps, HI_DROIDEKA))
+			{
+				ItemUse_Decca(ent);
+				G_AddEvent(ent, EV_USE_ITEM0 + HI_DROIDEKA, 0);
+			}
+			break;
+
+		case GENCMD_USE_SPHERESHIELD: //HI_SPHERESHIELD
+			if ((ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_SPHERESHIELD)) &&
+				G_ItemUsable(&ent->client->ps, HI_SPHERESHIELD))
+			{
+				if (ent->client->ps.powerups[PW_SPHERESHIELDED])
+				{//decloak
+					Sphereshield_Off(ent);
+				}
+				else
+				{//cloak
+					Sphereshield_On(ent);
+				}
+			}
+			break;
+
+		case GENCMD_USE_GRAPPLE: //HI_GRAPPLE
+			if (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & 1 << HI_GRAPPLE &&
+				G_ItemUsable(&ent->client->ps, HI_GRAPPLE))
+			{
+				//
+				G_AddEvent(ent, EV_USE_ITEM0 + HI_GRAPPLE, 0);
+			}
+			break;
+			//////////////////////////////////////////////////////////////////////////////////////////////////
+
 		case GENCMD_SABERATTACKCYCLE:
 			Cmd_SaberAttackCycle_f(ent);
 			break;

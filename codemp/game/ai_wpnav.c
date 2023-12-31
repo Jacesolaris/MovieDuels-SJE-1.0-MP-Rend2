@@ -2548,7 +2548,7 @@ static void G_NodeClearForNext(void)
 	}
 }
 
-void G_NodeClearFlags(void)
+static void G_NodeClearFlags(void)
 {
 	//only clear out flags so nodes can be reused.
 	int i = 0;

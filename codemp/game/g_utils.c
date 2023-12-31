@@ -90,7 +90,7 @@ G_FindConfigstringIndex
 
 ================
 */
-int G_FindConfigstringIndex(const char* name, const int start, const int max, const qboolean create)
+static int G_FindConfigstringIndex(const char* name, const int start, const int max, const qboolean create)
 {
 	int i;
 
@@ -501,7 +501,7 @@ void G_AllocateVehicleObject(Vehicle_t** p_veh)
 }
 
 //free the pointer, sort of a lame method
-void G_FreeVehicleObject(const Vehicle_t* p_veh)
+static void G_FreeVehicleObject(const Vehicle_t* p_veh)
 {
 	int i = 0;
 	while (i < MAX_VEHICLES_AT_A_TIME)
@@ -886,7 +886,7 @@ angles and bad trails.
 =================
 */
 
-gentity_t* find_remove_able_gent(void)
+static gentity_t* find_remove_able_gent(void)
 {
 	//returns an entity that we can remove to prevent the game from overloading
 	//on map entities.
@@ -1283,7 +1283,7 @@ G_SoundTempEntity
 Special event entity that keeps sound trackers in mind
 =================
 */
-gentity_t* G_SoundTempEntity(vec3_t origin, const int event, int channel)
+static gentity_t* G_SoundTempEntity(vec3_t origin, const int event, int channel)
 {
 	vec3_t snapped;
 
@@ -1656,7 +1656,7 @@ ValidUseTarget
 Returns whether or not the targeted entity is useable
 ==============
 */
-qboolean ValidUseTarget(const gentity_t* ent)
+static qboolean ValidUseTarget(const gentity_t* ent)
 {
 	if (!ent->use)
 	{
@@ -1679,7 +1679,7 @@ qboolean ValidUseTarget(const gentity_t* ent)
 }
 
 //use an ammo/health dispenser on another client
-void G_UseDispenserOn(const gentity_t* ent, const int dispType, gentity_t* target)
+static void G_UseDispenserOn(const gentity_t* ent, const int dispType, gentity_t* target)
 {
 	if (dispType == HI_HEALTHDISP)
 	{
@@ -1718,7 +1718,7 @@ void G_UseDispenserOn(const gentity_t* ent, const int dispType, gentity_t* targe
 }
 
 //see if this guy needs servicing from a specific type of dispenser
-int G_CanUseDispOn(const gentity_t* ent, const int dispType)
+static int G_CanUseDispOn(const gentity_t* ent, const int dispType)
 {
 	if (!ent->client || !ent->inuse || ent->health < 1 ||
 		ent->client->ps.stats[STAT_HEALTH] < 1)
@@ -2171,7 +2171,7 @@ void G_SetAngles(gentity_t* ent, vec3_t angles)
 	VectorCopy(angles, ent->s.apos.trBase);
 }
 
-qboolean G_ClearTrace(vec3_t start, vec3_t mins, vec3_t maxs, vec3_t end, const int ignore, const int clipmask)
+static qboolean G_ClearTrace(vec3_t start, vec3_t mins, vec3_t maxs, vec3_t end, const int ignore, const int clipmask)
 {
 	static trace_t tr;
 
@@ -2263,7 +2263,7 @@ DebugLine
   with r_debugSurface set to 2
 ================
 */
-int DebugLine(vec3_t start, vec3_t end, const int color)
+static int DebugLine(vec3_t start, vec3_t end, const int color)
 {
 	vec3_t points[4], dir, cross;
 	const vec3_t up = { 0, 0, 1 };

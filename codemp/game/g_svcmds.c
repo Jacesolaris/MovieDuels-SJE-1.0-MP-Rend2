@@ -248,7 +248,7 @@ void G_ProcessIPBans(void)
 Svcmd_AddIP_f
 =================
 */
-void Svcmd_AddIP_f(void)
+static void Svcmd_AddIP_f(void)
 {
 	char str[MAX_TOKEN_CHARS];
 
@@ -279,7 +279,7 @@ void G_Rename_Player(gentity_t* player, const char* newname)
 	player->client->pers.netnameTime = level.time + 5000; // hmmm...
 }
 
-void Svcmd_Weather_f(void)
+static void Svcmd_Weather_f(void)
 {
 	char arg1[MAX_STRING_CHARS];
 	int num;
@@ -348,7 +348,7 @@ void Svcmd_Weather_f(void)
 Svcmd_RemoveIP_f
 =================
 */
-void Svcmd_RemoveIP_f(void)
+static void Svcmd_RemoveIP_f(void)
 {
 	ipFilter_t f;
 	char str[MAX_TOKEN_CHARS];
@@ -380,7 +380,7 @@ void Svcmd_RemoveIP_f(void)
 	trap->Print("Didn't find %s.\n", str);
 }
 
-void Svcmd_ListIP_f(void)
+static void Svcmd_ListIP_f(void)
 {
 	int count = 0;
 
@@ -397,12 +397,41 @@ void Svcmd_ListIP_f(void)
 	trap->Print("%i bans.\n", count);
 }
 
+qboolean SJE_AllPlayersHaveClientPlugin(void);
+char* ConcatArgs(int start);
+static void Svcmd_CenterSay_f(void)
+{
+	if (SJE_AllPlayersHaveClientPlugin())
+	{//just fire off the text without editting it for line breaks.
+		trap->SendServerCommand(-1, va("cp \"%s\n\"", ConcatArgs(1)));
+	}
+	else
+	{//since someone is running basejka, we need to add line breaks to make up for the
+		//50 chars per line limit of basejka's cp code.
+		char temp[1024];  //MAX_STRINGED_SV_STRING
+		char output[1024];
+
+		//copy the print text.
+		strcpy(temp, ConcatArgs(1));
+
+		TextWrapCenterPrint(temp, output);
+
+		trap->SendServerCommand(-1, va("cp \"%s\n\"", output));
+	}
+
+	//also duplicate the message in the chat buffer and in the game log. (so the admin can follow admin<->player
+	//conversations
+	trap->SendServerCommand(-1, va("print \"server: %s\n\"", ConcatArgs(1)));
+	G_LogPrintf("server: %s\n", ConcatArgs(1));
+	return;
+}
+
 /*
 ===================
 Svcmd_EntityList_f
 ===================
 */
-void Svcmd_EntityList_f(void)
+static void Svcmd_EntityList_f(void)
 {
 	gentity_t* check = g_entities;
 	for (int e = 0; e < level.num_entities; e++, check++)
@@ -487,7 +516,7 @@ qboolean StringIsInteger(const char* s);
 ClientForString
 ===================
 */
-gclient_t* ClientForString(const char* s)
+static gclient_t* ClientForString(const char* s)
 {
 	gclient_t* cl;
 	int idnum;
@@ -534,7 +563,7 @@ Svcmd_ForceTeam_f
 forceteam <player> <team>
 ===================
 */
-void Svcmd_ForceTeam_f(void)
+static void Svcmd_ForceTeam_f(void)
 {
 	char str[MAX_TOKEN_CHARS];
 
@@ -557,9 +586,7 @@ void Svcmd_ForceTeam_f(void)
 	SetTeam(&g_entities[cl - level.clients], str);
 }
 
-char* ConcatArgs(int start);
-
-void Svcmd_Say_f(void)
+static void Svcmd_Say_f(void)
 {
 	// don't let text be too long for malicious reasons
 	char text[MAX_SAY_TEXT] = { 0 };
@@ -589,7 +616,7 @@ typedef struct svcmd_s
 	qboolean dedicated;
 } svcmd_t;
 
-int svcmdcmp(const void* a, const void* b)
+static int svcmdcmp(const void* a, const void* b)
 {
 	return Q_stricmp(a, ((svcmd_t*)b)->name);
 }
@@ -606,6 +633,7 @@ svcmd_t svcmds[] = {
 	{"say", Svcmd_Say_f, qtrue},
 	{"toggleallowvote", Svcmd_ToggleAllowVote_f, qfalse},
 	{"toggleuserinfovalidation", Svcmd_ToggleUserinfoValidation_f, qfalse},
+	{"centersay", Svcmd_CenterSay_f, qfalse},
 };
 static const size_t numsvcmds = ARRAY_LEN(svcmds);
 

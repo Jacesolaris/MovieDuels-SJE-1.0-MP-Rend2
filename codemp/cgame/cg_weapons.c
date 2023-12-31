@@ -61,20 +61,20 @@ CG_RegisterItemVisuals
 The server says this item is used on this level
 =================
 */
-void CG_RegisterItemVisuals(const int item_num)
+void CG_RegisterItemVisuals(const int itemNum)
 {
-	if (item_num < 0 || item_num >= bg_numItems)
+	if (itemNum < 0 || itemNum >= bg_numItems)
 	{
-		trap->Error(ERR_DROP, "CG_RegisterItemVisuals: itemNum %d out of range [0-%d]", item_num, bg_numItems - 1);
+		trap->Error(ERR_DROP, "CG_RegisterItemVisuals: itemNum %d out of range [0-%d]", itemNum, bg_numItems - 1);
 	}
 
-	itemInfo_t* itemInfo = &cg_items[item_num];
+	itemInfo_t* itemInfo = &cg_items[itemNum];
 	if (itemInfo->registered)
 	{
 		return;
 	}
 
-	const gitem_t* item = &bg_itemlist[item_num];
+	const gitem_t* item = &bg_itemlist[itemNum];
 
 	memset(itemInfo, 0, sizeof * itemInfo);
 	itemInfo->registered = qtrue;
@@ -405,7 +405,7 @@ static void CG_AddWeaponWithPowerups(refEntity_t* gun)
 	// add powerup effects
 	trap->R_AddRefEntityToScene(gun);
 
-	if (cg.predicted_player_state.electrifyTime > cg.time)
+	if (cg.predictedPlayerState.electrifyTime > cg.time)
 	{
 		//add electrocution shell
 		const int pre_shader = gun->customShader;
@@ -448,8 +448,8 @@ void cg_add_player_weaponduals(refEntity_t* parent, playerState_t* ps, centity_t
 		return;
 	}
 
-	if (cg.predicted_player_state.pm_type == PM_SPECTATOR &&
-		cent->currentState.number == cg.predicted_player_state.clientNum)
+	if (cg.predictedPlayerState.pm_type == PM_SPECTATOR &&
+		cent->currentState.number == cg.predictedPlayerState.clientNum)
 	{
 		//spectator mode, don't draw it...
 		return;
@@ -594,7 +594,7 @@ void cg_add_player_weaponduals(refEntity_t* parent, playerState_t* ps, centity_t
 
 	// Do special charge bits
 	//-----------------------
-	if ((ps || cg.renderingThirdPerson || cg.predicted_player_state.clientNum != cent->currentState.number || cg_trueguns
+	if ((ps || cg.renderingThirdPerson || cg.predictedPlayerState.clientNum != cent->currentState.number || cg_trueguns
 		.
 		integer) &&
 		(cent->currentState.modelindex2 == WEAPON_CHARGING_ALT && cent->currentState.weapon == WP_BRYAR_PISTOL ||
@@ -727,7 +727,7 @@ void cg_add_player_weaponduals(refEntity_t* parent, playerState_t* ps, centity_t
 	}
 
 	if (ps || cg.renderingThirdPerson || cg_trueguns.integer
-		|| cent->currentState.number != cg.predicted_player_state.clientNum)
+		|| cent->currentState.number != cg.predictedPlayerState.clientNum)
 	{
 		// Make sure we don't do the thirdperson model effects for the local player if we're in first person
 		vec3_t flashorigin, flashdir;
@@ -882,8 +882,8 @@ void CG_AddPlayerWeapon(refEntity_t* parent, playerState_t* ps, centity_t* cent,
 		return;
 	}
 
-	if (cg.predicted_player_state.pm_type == PM_SPECTATOR &&
-		cent->currentState.number == cg.predicted_player_state.clientNum)
+	if (cg.predictedPlayerState.pm_type == PM_SPECTATOR &&
+		cent->currentState.number == cg.predictedPlayerState.clientNum)
 	{
 		//spectator mode, don't draw it...
 		return;
@@ -1028,7 +1028,7 @@ void CG_AddPlayerWeapon(refEntity_t* parent, playerState_t* ps, centity_t* cent,
 
 	// Do special charge bits
 	//-----------------------
-	if ((ps || cg.renderingThirdPerson || cg.predicted_player_state.clientNum != cent->currentState.number || cg_trueguns
+	if ((ps || cg.renderingThirdPerson || cg.predictedPlayerState.clientNum != cent->currentState.number || cg_trueguns
 		.
 		integer) &&
 		(cent->currentState.modelindex2 == WEAPON_CHARGING_ALT && cent->currentState.weapon == WP_BRYAR_PISTOL ||
@@ -1155,7 +1155,7 @@ void CG_AddPlayerWeapon(refEntity_t* parent, playerState_t* ps, centity_t* cent,
 	}
 
 	if (ps || cg.renderingThirdPerson || cg_trueguns.integer
-		|| cent->currentState.number != cg.predicted_player_state.clientNum)
+		|| cent->currentState.number != cg.predictedPlayerState.clientNum)
 	{
 		// Make sure we don't do the thirdperson model effects for the local player if we're in first person
 		vec3_t flashorigin, flashdir;
@@ -1305,10 +1305,10 @@ void CG_AddViewWeapon(playerState_t* ps)
 	weapon_info_t* weapon;
 	float cgFov;
 
-	if (!cg.renderingThirdPerson && (cg_trueguns.integer || cg.predicted_player_state.weapon == WP_SABER
-		|| cg.predicted_player_state.weapon == WP_MELEE) && cg_truefov.value
-		&& cg.predicted_player_state.pm_type != PM_SPECTATOR
-		&& cg.predicted_player_state.pm_type != PM_INTERMISSION)
+	if (!cg.renderingThirdPerson && (cg_trueguns.integer || cg.predictedPlayerState.weapon == WP_SABER
+		|| cg.predictedPlayerState.weapon == WP_MELEE) && cg_truefov.value
+		&& cg.predictedPlayerState.pm_type != PM_SPECTATOR
+		&& cg.predictedPlayerState.pm_type != PM_INTERMISSION)
 	{
 		cgFov = cg_truefov.value;
 	}
@@ -1344,10 +1344,10 @@ void CG_AddViewWeapon(playerState_t* ps)
 	}
 
 	// allow the gun to be completely removed
-	if (!cg_drawGun.integer || cg.predicted_player_state.zoomMode || cg_trueguns.integer
-		|| cg.predicted_player_state.weapon == WP_SABER || cg.predicted_player_state.weapon == WP_MELEE)
+	if (!cg_drawGun.integer || cg.predictedPlayerState.zoomMode || cg_trueguns.integer
+		|| cg.predictedPlayerState.weapon == WP_SABER || cg.predictedPlayerState.weapon == WP_MELEE)
 	{
-		if (cg.predicted_player_state.eFlags & EF_FIRING)
+		if (cg.predictedPlayerState.eFlags & EF_FIRING)
 		{
 			vec3_t origin;
 			// special hack for lightning gun...
@@ -1374,7 +1374,7 @@ void CG_AddViewWeapon(playerState_t* ps)
 		fov_offset = 0;
 	}
 
-	cent = &cg_entities[cg.predicted_player_state.clientNum];
+	cent = &cg_entities[cg.predictedPlayerState.clientNum];
 	CG_RegisterWeapon(ps->weapon);
 	weapon = &cg_weapons[ps->weapon];
 
@@ -1443,7 +1443,7 @@ void CG_AddViewWeapon(playerState_t* ps)
 	hand.renderfx = RF_DEPTHHACK | RF_FIRST_PERSON; // | RF_MINLIGHT;
 
 	// add everything onto the hand
-	CG_AddPlayerWeapon(&hand, ps, &cg_entities[cg.predicted_player_state.clientNum], angles, qfalse);
+	CG_AddPlayerWeapon(&hand, ps, &cg_entities[cg.predictedPlayerState.clientNum], angles, qfalse);
 
 	if (ps->eFlags & EF3_DUAL_WEAPONS && ps->weapon == WP_BRYAR_PISTOL)
 	{
@@ -1511,7 +1511,7 @@ void CG_AddViewWeapon(playerState_t* ps)
 		hand.renderfx = RF_DEPTHHACK | RF_FIRST_PERSON;
 		angles[2] += 20;
 		// add everything onto the hand
-		cg_add_player_weaponduals(&hand, ps, &cg_entities[cg.predicted_player_state.clientNum], angles, qfalse, qtrue);
+		cg_add_player_weaponduals(&hand, ps, &cg_entities[cg.predictedPlayerState.clientNum], angles, qfalse, qtrue);
 	}
 }
 
@@ -1541,7 +1541,7 @@ void CG_DrawIconBackground(void)
 		return;
 	}
 
-	if (cg.predicted_player_state.pm_type == PM_SPECTATOR)
+	if (cg.predictedPlayerState.pm_type == PM_SPECTATOR)
 	{
 		return;
 	}
@@ -1552,18 +1552,18 @@ void CG_DrawIconBackground(void)
 		return;
 	}
 
-	if (cg.predicted_player_state.pm_flags & PMF_FOLLOW || cg.predicted_player_state.persistant[PERS_TEAM] == TEAM_SPECTATOR)
+	if (cg.predictedPlayerState.pm_flags & PMF_FOLLOW || cg.predictedPlayerState.persistant[PERS_TEAM] == TEAM_SPECTATOR)
 	{
 		return;
 	}
 
-	if (cg.predicted_player_state.m_iVehicleNum)
+	if (cg.predictedPlayerState.m_iVehicleNum)
 	{
 		//I'm in a vehicle
 		return;
 	}
 
-	if (cg.predicted_player_state.communicatingflags & (1 << CF_SABERLOCKING) && g_saberLockCinematicCamera.integer)
+	if (cg.predictedPlayerState.communicatingflags & (1 << CF_SABERLOCKING) && g_saberLockCinematicCamera.integer)
 	{
 		return;
 	}
@@ -1697,19 +1697,19 @@ static qboolean CG_WeaponSelectable(const int i)
 		return qfalse;
 	}
 
-	if (cg.predicted_player_state.ammo[weaponData[i].ammoIndex] < weaponData[i].energyPerShot &&
-		cg.predicted_player_state.ammo[weaponData[i].ammoIndex] < weaponData[i].altEnergyPerShot)
+	if (cg.predictedPlayerState.ammo[weaponData[i].ammoIndex] < weaponData[i].energyPerShot &&
+		cg.predictedPlayerState.ammo[weaponData[i].ammoIndex] < weaponData[i].altEnergyPerShot)
 	{
 		return qfalse;
 	}
 
-	if (i == WP_DET_PACK && cg.predicted_player_state.ammo[weaponData[i].ammoIndex] < 1 &&
-		!cg.predicted_player_state.hasDetPackPlanted)
+	if (i == WP_DET_PACK && cg.predictedPlayerState.ammo[weaponData[i].ammoIndex] < 1 &&
+		!cg.predictedPlayerState.hasDetPackPlanted)
 	{
 		return qfalse;
 	}
 
-	if (!(cg.predicted_player_state.stats[STAT_WEAPONS] & 1 << i))
+	if (!(cg.predictedPlayerState.stats[STAT_WEAPONS] & 1 << i))
 	{
 		return qfalse;
 	}
@@ -1729,7 +1729,7 @@ void CG_DrawWeaponSelect(void)
 	int icon_cnt;
 	const int y_offset = 0;
 
-	if (cg.predicted_player_state.emplacedIndex)
+	if (cg.predictedPlayerState.emplacedIndex)
 	{
 		//can't cycle when on a weapon
 		cg.weaponSelectTime = 0;
@@ -1741,7 +1741,7 @@ void CG_DrawWeaponSelect(void)
 	}
 
 	// don't display if dead
-	if (cg.predicted_player_state.stats[STAT_HEALTH] <= 0)
+	if (cg.predictedPlayerState.stats[STAT_HEALTH] <= 0)
 	{
 		return;
 	}
@@ -1751,7 +1751,7 @@ void CG_DrawWeaponSelect(void)
 		return;
 	}
 
-	if (cg.predicted_player_state.communicatingflags & (1 << CF_SABERLOCKING) && g_saberLockCinematicCamera.integer)
+	if (cg.predictedPlayerState.communicatingflags & (1 << CF_SABERLOCKING) && g_saberLockCinematicCamera.integer)
 	{
 		return;
 	}
@@ -1759,7 +1759,7 @@ void CG_DrawWeaponSelect(void)
 	// showing weapon select clears pickup item display, but not the blend blob
 	cg.itemPickupTime = 0;
 
-	const int bits = cg.predicted_player_state.stats[STAT_WEAPONS];
+	const int bits = cg.predictedPlayerState.stats[STAT_WEAPONS];
 
 	// count the number of weapons owned
 	int count = 0;
@@ -2035,12 +2035,12 @@ void CG_NextWeapon_f(void)
 		return;
 	}
 
-	if (cg.predicted_player_state.pm_type == PM_SPECTATOR)
+	if (cg.predictedPlayerState.pm_type == PM_SPECTATOR)
 	{
 		return;
 	}
 
-	if (cg.predicted_player_state.ManualBlockingFlags & 1 << HOLDINGBLOCK)
+	if (cg.predictedPlayerState.ManualBlockingFlags & 1 << HOLDINGBLOCK)
 	{
 		return;
 	}
@@ -2124,7 +2124,7 @@ void CG_PrevWeapon_f(void)
 		return;
 	}
 
-	if (cg.predicted_player_state.ManualBlockingFlags & 1 << HOLDINGBLOCK)
+	if (cg.predictedPlayerState.ManualBlockingFlags & 1 << HOLDINGBLOCK)
 	{
 		return;
 	}
@@ -2134,7 +2134,7 @@ void CG_PrevWeapon_f(void)
 		return;
 	}
 
-	if (cg.predicted_player_state.pm_type == PM_SPECTATOR)
+	if (cg.predictedPlayerState.pm_type == PM_SPECTATOR)
 	{
 		return;
 	}
@@ -2221,7 +2221,7 @@ void CG_Weapon_f(void)
 		return;
 	}
 
-	if (cg.predicted_player_state.ManualBlockingFlags & 1 << HOLDINGBLOCK)
+	if (cg.predictedPlayerState.ManualBlockingFlags & 1 << HOLDINGBLOCK)
 	{
 		return;
 	}
@@ -2244,7 +2244,7 @@ void CG_Weapon_f(void)
 	}
 
 	if (num == 1 && cg.snap->ps.weapon == WP_SABER
-		&& !(cg.predicted_player_state.ManualBlockingFlags & 1 << HOLDINGBLOCK))
+		&& !(cg.predictedPlayerState.ManualBlockingFlags & 1 << HOLDINGBLOCK))
 	{
 		if (cg.snap->ps.weaponTime < 1)
 		{
@@ -2605,7 +2605,7 @@ void CG_FireWeapon(centity_t* cent, const qboolean alt_fire)
 		return;
 	}
 
-	if (cg.predicted_player_state.frozenTime > cg.time)
+	if (cg.predictedPlayerState.frozenTime > cg.time)
 	{
 		return; //this entity is mind-tricking the current client, so don't render it
 	}
@@ -2621,7 +2621,7 @@ void CG_FireWeapon(centity_t* cent, const qboolean alt_fire)
 		cent->muzzleOverheatTime = cg.time;
 	}
 
-	if (cg.predicted_player_state.clientNum == cent->currentState.number)
+	if (cg.predictedPlayerState.clientNum == cent->currentState.number)
 	{
 		if (ent->weapon == WP_BRYAR_PISTOL && alt_fire ||
 			ent->weapon == WP_BRYAR_OLD && alt_fire ||
@@ -3047,7 +3047,7 @@ qboolean CG_Calcmuzzle_point(const int entityNum, vec3_t muzzle)
 		//I'm not exactly sure why we'd be rendering someone else's crosshair, but hey.
 		const int weapontype = cg.snap->ps.weapon;
 		vec3_t weapon_muzzle;
-		const centity_t* pEnt = &cg_entities[cg.predicted_player_state.clientNum];
+		const centity_t* pEnt = &cg_entities[cg.predictedPlayerState.clientNum];
 
 		VectorCopy(WP_muzzle_point[weapontype], weapon_muzzle);
 

@@ -7892,6 +7892,7 @@ void ClientSpawn(gentity_t* ent)
 	else
 	{
 		//New class system
+		//New class system
 		switch (client->pers.botclass)
 		{
 			//botclass holdable stuff armour and health here
@@ -7901,60 +7902,46 @@ void ClientSpawn(gentity_t* ent)
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			break;
 		case BCLASS_ASSASSIN_DROID:
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SPHERESHIELD;
 			client->ps.stats[STAT_ARMOR] = 500;
 			client->ps.stats[STAT_MAX_HEALTH] = 100;
 			break;
 		case BCLASS_BARTENDER:
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SPHERESHIELD;
 			client->ps.stats[STAT_ARMOR] = 100;
 			client->ps.stats[STAT_MAX_HEALTH] = 100;
 			break;
 		case BCLASS_BESPIN_COP:
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SHIELD;
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SPHERESHIELD;
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			client->ps.stats[STAT_ARMOR] = 100;
 			client->ps.stats[STAT_MAX_HEALTH] = 100;
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			break;
 		case BCLASS_BOBAFETT:
 			client->ps.stats[STAT_ARMOR] = 300;
-			client->ps.stats[STAT_MAX_HEALTH] = 110;
+			client->ps.stats[STAT_MAX_HEALTH] = 100;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_JETPACK;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_FLAMETHROWER;
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_GRAPPLE;
-			ent->flags |= FL_SABERDAMAGE_RESIST;
-			ent->flags |= FL_DINDJARIN;
-			break;
-		case BCLASS_JANGO_NOJP:
-			client->ps.stats[STAT_ARMOR] = 300;
-			client->ps.stats[STAT_MAX_HEALTH] = 110;
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_JETPACK;
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_FLAMETHROWER;
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SEEKER;
+			//client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SWOOP;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_GRAPPLE;
 			ent->flags |= FL_SABERDAMAGE_RESIST;
 			ent->flags |= FL_DINDJARIN;
 			break;
 		case BCLASS_CHEWIE:
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SENTRY_GUN;
 			client->ps.stats[STAT_ARMOR] = 300;
-			client->ps.stats[STAT_MAX_HEALTH] = 110;
+			client->ps.stats[STAT_MAX_HEALTH] = 100;
 			client->ps.fd.forcePowerLevel[FP_RAGE] = FORCE_LEVEL_3; //chewie gets rage
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			break;
 		case BCLASS_CULTIST:
 			client->ps.stats[STAT_ARMOR] = 100;
 			client->ps.stats[STAT_MAX_HEALTH] = 100;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			break;
-		case BCLASS_OBIWAN:
-			client->ps.stats[STAT_ARMOR] = 100;
-			client->ps.stats[STAT_MAX_HEALTH] = 100;
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
-			break;
 		case BCLASS_DESANN:
 			client->ps.stats[STAT_ARMOR] = 300;
-			client->ps.stats[STAT_MAX_HEALTH] = 125;
+			client->ps.stats[STAT_MAX_HEALTH] = 100;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			break;
 		case BCLASS_UNSTABLESABER:
@@ -7963,48 +7950,42 @@ void ClientSpawn(gentity_t* ent)
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			break;
 		case BCLASS_ELDER:
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SENTRY_GUN;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_EWEB;
-			//client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_DROIDEKA;
 			client->ps.stats[STAT_ARMOR] = 100;
 			client->ps.stats[STAT_MAX_HEALTH] = 100;
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			break;
 		case BCLASS_GALAK:
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_EWEB;
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SPHERESHIELD;
 			client->ps.stats[STAT_ARMOR] = 100;
 			client->ps.stats[STAT_MAX_HEALTH] = 100;
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			break;
 		case BCLASS_GRAN:
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			client->ps.stats[STAT_ARMOR] = 300;
 			client->ps.stats[STAT_MAX_HEALTH] = 100;
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			break;
 		case BCLASS_HAZARDTROOPER:
 			client->ps.stats[STAT_ARMOR] = 300;
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SENTRY_GUN;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_JETPACK;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_FLAMETHROWER;
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SENTRY_GUN;
 			client->ps.stats[STAT_MAX_HEALTH] = 100;
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			break;
 		case BCLASS_HUMAN_MERC:
 			client->ps.stats[STAT_ARMOR] = 100;
 			client->ps.stats[STAT_MAX_HEALTH] = 100;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			break;
-		case BCLASS_IMPCOMMANDER:
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SHIELD;
-			client->ps.stats[STAT_ARMOR] = 100;
-			client->ps.stats[STAT_MAX_HEALTH] = 100;
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
-			break;
 		case BCLASS_IMPERIAL:
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SENTRY_GUN;
 			client->ps.stats[STAT_ARMOR] = 100;
 			client->ps.stats[STAT_MAX_HEALTH] = 100;
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			break;
 		case BCLASS_IMPWORKER:
 			client->ps.stats[STAT_ARMOR] = 100;
@@ -8012,11 +7993,12 @@ void ClientSpawn(gentity_t* ent)
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			break;
 		case BCLASS_JAN:
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SENTRY_GUN;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_EWEB;
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SPHERESHIELD;
 			client->ps.stats[STAT_ARMOR] = 200;
 			client->ps.stats[STAT_MAX_HEALTH] = 100;
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			break;
 		case BCLASS_JAWA:
 			client->ps.stats[STAT_ARMOR] = 100;
@@ -8030,10 +8012,15 @@ void ClientSpawn(gentity_t* ent)
 			break;
 		case BCLASS_JEDIMASTER:
 			client->ps.stats[STAT_ARMOR] = 125;
-			client->ps.stats[STAT_MAX_HEALTH] = 125;
+			client->ps.stats[STAT_MAX_HEALTH] = 100;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			break;
 		case BCLASS_JEDITRAINER:
+			client->ps.stats[STAT_ARMOR] = 100;
+			client->ps.stats[STAT_MAX_HEALTH] = 100;
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
+			break;
+		case BCLASS_OBIWAN:
 			client->ps.stats[STAT_ARMOR] = 100;
 			client->ps.stats[STAT_MAX_HEALTH] = 100;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
@@ -8044,13 +8031,13 @@ void ClientSpawn(gentity_t* ent)
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			break;
 		case BCLASS_LANDO:
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SENTRY_GUN;
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_EWEB;
 			client->ps.stats[STAT_ARMOR] = 100;
 			client->ps.stats[STAT_MAX_HEALTH] = 100;
 			break;
 		case BCLASS_LUKE:
 			client->ps.stats[STAT_ARMOR] = 200;
-			client->ps.stats[STAT_MAX_HEALTH] = 150;
+			client->ps.stats[STAT_MAX_HEALTH] = 100;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			break;
 		case BCLASS_DUELS:
@@ -8059,16 +8046,20 @@ void ClientSpawn(gentity_t* ent)
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			break;
 		case BCLASS_GALAKMECH:
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_EWEB;
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SPHERESHIELD;
 			client->ps.stats[STAT_ARMOR] = 100;
 			client->ps.stats[STAT_MAX_HEALTH] = 100;
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			break;
 		case BCLASS_MONMOTHA:
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_EWEB;
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC_BIG;
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_HEALTHDISP;
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_AMMODISP;
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SPHERESHIELD;
+
 			client->ps.stats[STAT_ARMOR] = 100;
 			client->ps.stats[STAT_MAX_HEALTH] = 100;
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			break;
 		case BCLASS_MORGANKATARN:
 			client->ps.stats[STAT_ARMOR] = 100;
@@ -8082,13 +8073,13 @@ void ClientSpawn(gentity_t* ent)
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			break;
 		case BCLASS_RAX:
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_EWEB;
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC_BIG;
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SPHERESHIELD;
 			client->ps.stats[STAT_ARMOR] = 100;
 			client->ps.stats[STAT_MAX_HEALTH] = 100;
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			break;
 		case BCLASS_REBEL:
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_EWEB;
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SWOOP;
 			client->ps.stats[STAT_ARMOR] = 100;
 			client->ps.stats[STAT_MAX_HEALTH] = 100;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
@@ -8116,18 +8107,18 @@ void ClientSpawn(gentity_t* ent)
 			break;
 		case BCLASS_ROCKETTROOPER:
 			client->ps.stats[STAT_ARMOR] = 300;
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_JETPACK;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SEEKER;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_EWEB;
 			client->ps.stats[STAT_MAX_HEALTH] = 100;
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			break;
 		case BCLASS_RODIAN:
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SHIELD;
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_EWEB;
 			client->ps.stats[STAT_ARMOR] = 100;
 			client->ps.stats[STAT_MAX_HEALTH] = 100;
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SHIELD;
 			break;
 		case BCLASS_ROSH_PENIN:
 			client->ps.stats[STAT_ARMOR] = 150;
@@ -8147,27 +8138,26 @@ void ClientSpawn(gentity_t* ent)
 			break;
 		case BCLASS_SHADOWTROOPER:
 			client->ps.stats[STAT_ARMOR] = 175;
-			client->ps.stats[STAT_MAX_HEALTH] = 115;
+			client->ps.stats[STAT_MAX_HEALTH] = 100;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_CLOAK;
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC_BIG;
 			break;
 		case BCLASS_STORMTROOPER:
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_EWEB;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SHIELD;
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			client->ps.stats[STAT_ARMOR] = 100;
 			client->ps.stats[STAT_MAX_HEALTH] = 100;
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			break;
 		case BCLASS_STORMPILOT:
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SEEKER;
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_EWEB;
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SHIELD;
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SWOOP;
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SPHERESHIELD;
 			client->ps.stats[STAT_ARMOR] = 100;
 			client->ps.stats[STAT_MAX_HEALTH] = 100;
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			break;
 		case BCLASS_SWAMPTROOPER:
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SHIELD;
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_EWEB;
 			client->ps.stats[STAT_ARMOR] = 100;
 			client->ps.stats[STAT_MAX_HEALTH] = 100;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
@@ -8187,18 +8177,20 @@ void ClientSpawn(gentity_t* ent)
 			client->ps.stats[STAT_ARMOR] = 100;
 			client->ps.stats[STAT_MAX_HEALTH] = 100;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_BINOCULARS;
 			break;
 		case BCLASS_TUSKEN_RAIDER:
 			client->ps.stats[STAT_ARMOR] = 100;
 			client->ps.stats[STAT_MAX_HEALTH] = 100;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SWOOP;
 			break;
 		case BCLASS_UGNAUGHT:
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_EWEB;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SHIELD;
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_EWEB;
 			client->ps.stats[STAT_ARMOR] = 100;
 			client->ps.stats[STAT_MAX_HEALTH] = 100;
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			break;
 		case BCLASS_WEEQUAY:
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_EWEB;
@@ -8208,23 +8200,29 @@ void ClientSpawn(gentity_t* ent)
 			break;
 		case BCLASS_SERENITY:
 			client->ps.stats[STAT_ARMOR] = 500;
-			client->ps.stats[STAT_MAX_HEALTH] = 500;
+			client->ps.stats[STAT_MAX_HEALTH] = 100;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SEEKER;
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SHIELD;
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SENTRY_GUN;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_EWEB;
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SHIELD;
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SWOOP;
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_DROIDEKA;
 			break;
 		case BCLASS_CADENCE:
 			client->ps.stats[STAT_ARMOR] = 500;
-			client->ps.stats[STAT_MAX_HEALTH] = 500;
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_HEALTHDISP;
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
+			client->ps.stats[STAT_MAX_HEALTH] = 100;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SHIELD;
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_HEALTHDISP;
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_AMMODISP;
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_EWEB;
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_CLOAK;
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_HEALTHDISP;
 			break;
 		case BCLASS_YODA:
 			client->ps.stats[STAT_ARMOR] = 500;
-			client->ps.stats[STAT_MAX_HEALTH] = 150;
+			client->ps.stats[STAT_MAX_HEALTH] = 100;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			break;
 		case BCLASS_PADAWAN:
@@ -8244,7 +8242,7 @@ void ClientSpawn(gentity_t* ent)
 			break;
 		case BCLASS_VADER:
 			client->ps.stats[STAT_ARMOR] = 500;
-			client->ps.stats[STAT_MAX_HEALTH] = 150;
+			client->ps.stats[STAT_MAX_HEALTH] = 100;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			break;
 		case BCLASS_SITH:
@@ -8267,8 +8265,7 @@ void ClientSpawn(gentity_t* ent)
 			client->ps.stats[STAT_MAX_HEALTH] = 100;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_JETPACK;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_FLAMETHROWER;
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_EWEB;
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SWOOP;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_GRAPPLE;
 			ent->flags |= FL_SABERDAMAGE_RESIST;
 			ent->flags |= FL_DINDJARIN;
@@ -8278,20 +8275,17 @@ void ClientSpawn(gentity_t* ent)
 			client->ps.stats[STAT_MAX_HEALTH] = 100;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_JETPACK;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_FLAMETHROWER;
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_EWEB;
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SWOOP;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_GRAPPLE;
 			ent->flags |= FL_SABERDAMAGE_RESIST;
 			ent->flags |= FL_DINDJARIN;
 			break;
 		case BCLASS_MANDOLORIAN2:
 			client->ps.stats[STAT_ARMOR] = 300;
-			client->ps.stats[STAT_MAX_HEALTH] = 150;
+			client->ps.stats[STAT_MAX_HEALTH] = 100;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_JETPACK;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_FLAMETHROWER;
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SENTRY_GUN;
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_EWEB;
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SWOOP;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_GRAPPLE;
 			ent->flags |= FL_SABERDAMAGE_RESIST;
 			ent->flags |= FL_DINDJARIN;
@@ -8303,21 +8297,23 @@ void ClientSpawn(gentity_t* ent)
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			break;
 		case BCLASS_BATTLEDROID:
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SHIELD;
 			client->ps.stats[STAT_ARMOR] = 100;
 			client->ps.stats[STAT_MAX_HEALTH] = 100;
 			break;
 		case BCLASS_SBD:
+			//client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_DROIDEKA;
 			client->ps.stats[STAT_ARMOR] = 500;
 			client->ps.stats[STAT_MAX_HEALTH] = 100;
 			break;
 		case BCLASS_WOOKIE:
 			client->ps.stats[STAT_ARMOR] = 500;
-			client->ps.stats[STAT_MAX_HEALTH] = 110;
+			client->ps.stats[STAT_MAX_HEALTH] = 100;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			break;
 		case BCLASS_WOOKIEMELEE:
 			client->ps.stats[STAT_ARMOR] = 500;
-			client->ps.stats[STAT_MAX_HEALTH] = 110;
+			client->ps.stats[STAT_MAX_HEALTH] = 100;
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			break;
 		case BCLASS_TROOPER1:
@@ -8438,11 +8434,10 @@ void ClientSpawn(gentity_t* ent)
 			break;
 		case BCLASS_CLONETROOPER:
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SEEKER;
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_EWEB;
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SHIELD;
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
+			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_SPHERESHIELD;
 			client->ps.stats[STAT_ARMOR] = 100;
 			client->ps.stats[STAT_MAX_HEALTH] = 100;
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= 1 << HI_MEDPAC;
 			break;
 		case BCLASS_PLAYER:
 			client->ps.stats[STAT_ARMOR] = 100;

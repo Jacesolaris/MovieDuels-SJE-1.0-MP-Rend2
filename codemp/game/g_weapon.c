@@ -58,6 +58,7 @@ extern int wp_player_must_dodge(const gentity_t* self, const gentity_t* shooter)
 extern qboolean WP_SaberBlockBolt(gentity_t* self, vec3_t hitloc, qboolean missileBlock);
 extern void g_missile_reflect_effect(const gentity_t* ent, vec3_t dir);
 extern void WP_ForcePowerDrain(playerState_t* ps, forcePowers_t force_power, int override_amt);
+extern void Sphereshield_Off(gentity_t* self);
 
 #define RUNNING_SPREAD			1.7f
 #define WALKING_SPREAD			1.4f
@@ -1810,6 +1811,11 @@ static void DEMP2_AltRadiusDamage(gentity_t* ent)
 				{
 					//disable cloak temporarily
 					Jedi_Decloak(gent);
+					gent->client->cloakToggleTime = level.time + Q_irand(3000, 10000);
+				}
+				if (gent->client->ps.powerups[PW_SPHERESHIELDED])
+				{//disable cloak temporarily
+					Sphereshield_Off(gent);
 					gent->client->cloakToggleTime = level.time + Q_irand(3000, 10000);
 				}
 			}

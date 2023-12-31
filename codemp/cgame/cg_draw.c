@@ -593,10 +593,10 @@ static void CG_DrawZoomMask(void)
 	//	int val[5];
 
 	// Check for Binocular specific zooming since we'll want to render different bits in each case
-	if (cg.predicted_player_state.zoomMode == 2)
+	if (cg.predictedPlayerState.zoomMode == 2)
 	{
 		// zoom level
-		level = (80.0f - cg.predicted_player_state.zoomFov) / 80.0f;
+		level = (80.0f - cg.predictedPlayerState.zoomFov) / 80.0f;
 
 		// ...so we'll clamp it
 		if (level < 0.0f)
@@ -688,7 +688,7 @@ static void CG_DrawZoomMask(void)
 			flip = !flip;
 		}
 	}
-	else if (cg.predicted_player_state.zoomMode)
+	else if (cg.predictedPlayerState.zoomMode)
 	{
 		float max;
 		// disruptor zoom mode
@@ -774,12 +774,12 @@ static void CG_DrawZoomMask(void)
 			CG_DrawRotatePic2(cx, cy, 12, 24, 90 - fi, cgs.media.disruptorInsertTick);
 		}
 
-		if (cg.predicted_player_state.weaponstate == WEAPON_CHARGING_ALT)
+		if (cg.predictedPlayerState.weaponstate == WEAPON_CHARGING_ALT)
 		{
 			trap->R_SetColor(colorTable[CT_WHITE]);
 
 			// draw the charge level
-			max = (cg.time - cg.predicted_player_state.weaponChargeTime) / (50.0f * 30.0f);
+			max = (cg.time - cg.predictedPlayerState.weaponChargeTime) / (50.0f * 30.0f);
 			// bad hardcodedness 50 is disruptor charge unit and 30 is max charge units allowed.
 
 			if (max > 1.0f)
@@ -1792,7 +1792,7 @@ void CG_DrawMDSaberstyleFatigueVert(const centity_t* cent, const menuDef_t* menu
 	}
 
 	// draw the current saber style in this window
-	switch (cg.predicted_player_state.fd.saberDrawAnimLevel)
+	switch (cg.predictedPlayerState.fd.saberDrawAnimLevel)
 	{
 	case 1: //FORCE_LEVEL_1:
 
@@ -1944,7 +1944,7 @@ void CG_DrawMDHiltVert(const centity_t* cent, const menuDef_t* menu_hud)
 	const itemDef_t* focus_block_icon = Menu_FindItemByName(menu_hud, "md_block_vert");
 	const itemDef_t* focus_mblock_icon = Menu_FindItemByName(menu_hud, "md_mblock_vert");
 
-	if (cg.predicted_player_state.ManualBlockingFlags & 1 << HOLDINGBLOCK)
+	if (cg.predictedPlayerState.ManualBlockingFlags & 1 << HOLDINGBLOCK)
 	{
 		CG_DrawPic(
 			focus_block_icon->window.rect.x,
@@ -1955,7 +1955,7 @@ void CG_DrawMDHiltVert(const centity_t* cent, const menuDef_t* menu_hud)
 		);
 	}
 
-	if (cg.predicted_player_state.ManualBlockingFlags & 1 << PERFECTBLOCKING)
+	if (cg.predictedPlayerState.ManualBlockingFlags & 1 << PERFECTBLOCKING)
 	{
 		CG_DrawPic(
 			focus_mblock_icon->window.rect.x,
@@ -3308,7 +3308,7 @@ void CG_DrawMDSaberstyleFatigueHoz(const centity_t* cent, const menuDef_t* menu_
 	}
 
 	// draw the current saber style in this window
-	switch (cg.predicted_player_state.fd.saberDrawAnimLevel)
+	switch (cg.predictedPlayerState.fd.saberDrawAnimLevel)
 	{
 	case 1: //FORCE_LEVEL_1:
 
@@ -3467,7 +3467,7 @@ void CG_DrawMDHiltHoz(const centity_t* cent, const menuDef_t* menu_hud)
 	const itemDef_t* focus_block_icon = Menu_FindItemByName(menu_hud, "md_block_hoz");
 	const itemDef_t* focus_mblock_icon = Menu_FindItemByName(menu_hud, "md_mblock_hoz");
 
-	if (cg.predicted_player_state.ManualBlockingFlags & 1 << HOLDINGBLOCK)
+	if (cg.predictedPlayerState.ManualBlockingFlags & 1 << HOLDINGBLOCK)
 	{
 		CG_DrawRotatePic2(
 			focus_block_icon->window.rect.x,
@@ -3479,7 +3479,7 @@ void CG_DrawMDHiltHoz(const centity_t* cent, const menuDef_t* menu_hud)
 		);
 	}
 
-	if (cg.predicted_player_state.ManualBlockingFlags & 1 << PERFECTBLOCKING)
+	if (cg.predictedPlayerState.ManualBlockingFlags & 1 << PERFECTBLOCKING)
 	{
 		CG_DrawRotatePic2(
 			focus_mblock_icon->window.rect.x,
@@ -3650,7 +3650,7 @@ static void CG_DrawJK2blockPoints(const int x, const int y, const menuDef_t* men
 	//	Outer block circular
 	//==========================================================================================================//
 
-	if (cg.predicted_player_state.ManualBlockingFlags & 1 << PERFECTBLOCKING)
+	if (cg.predictedPlayerState.ManualBlockingFlags & 1 << PERFECTBLOCKING)
 	{
 		memcpy(calc_color, colorTable[CT_GREEN], sizeof(vec4_t));
 	}
@@ -3697,7 +3697,7 @@ static void CG_DrawJK2blockPoints(const int x, const int y, const menuDef_t* men
 
 	trap->R_SetColor(calc_color);
 
-	if (cg.predicted_player_state.ManualBlockingFlags & 1 << PERFECTBLOCKING)
+	if (cg.predictedPlayerState.ManualBlockingFlags & 1 << PERFECTBLOCKING)
 	{
 		CG_DrawPic(x, y, 35, 35, cgs.media.HUDblockpointMB1);
 	}
@@ -3717,7 +3717,7 @@ static void CG_DrawJK2blockPoints(const int x, const int y, const menuDef_t* men
 		block_percent = (float)cg.snap->ps.fd.blockPoints / (BLOCK_POINTS_MAX / 2);
 	}
 
-	if (cg.predicted_player_state.ManualBlockingFlags & 1 << PERFECTBLOCKING)
+	if (cg.predictedPlayerState.ManualBlockingFlags & 1 << PERFECTBLOCKING)
 	{
 		memcpy(calc_color, colorTable[CT_GREEN], sizeof(vec4_t));
 	}
@@ -3732,7 +3732,7 @@ static void CG_DrawJK2blockPoints(const int x, const int y, const menuDef_t* men
 
 	trap->R_SetColor(calc_color);
 
-	if (cg.predicted_player_state.ManualBlockingFlags & 1 << PERFECTBLOCKING)
+	if (cg.predictedPlayerState.ManualBlockingFlags & 1 << PERFECTBLOCKING)
 	{
 		CG_DrawPic(x, y, 35, 35, cgs.media.HUDblockpointMB2);
 	}
@@ -3797,7 +3797,7 @@ void CG_Draw_JKA_Armor(const menuDef_t* menu_hud)
 	itemDef_t* focus_item;
 
 	//ps = &cg.snap->ps;
-	const playerState_t* ps = &cg.predicted_player_state;
+	const playerState_t* ps = &cg.predictedPlayerState;
 
 	// Can we find the menu?
 	if (!menu_hud)
@@ -4132,7 +4132,7 @@ static void CG_DrawCusSaberStyle(const centity_t* cent, const menuDef_t* menu_hu
 	}
 
 	// draw the current saber style in this window
-	switch (cg.predicted_player_state.fd.saberDrawAnimLevel)
+	switch (cg.predictedPlayerState.fd.saberDrawAnimLevel)
 	{
 	case 1: //FORCE_LEVEL_1:
 
@@ -4509,7 +4509,7 @@ static void CG_DrawCusblockPoints(const int x, const int y, const menuDef_t* men
 	//	Outer block circular
 	//==========================================================================================================//
 
-	if (cg.predicted_player_state.ManualBlockingFlags & 1 << PERFECTBLOCKING)
+	if (cg.predictedPlayerState.ManualBlockingFlags & 1 << PERFECTBLOCKING)
 	{
 		memcpy(calc_color, colorTable[CT_GREEN], sizeof(vec4_t));
 	}
@@ -4556,7 +4556,7 @@ static void CG_DrawCusblockPoints(const int x, const int y, const menuDef_t* men
 
 	trap->R_SetColor(calc_color);
 
-	if (cg.predicted_player_state.ManualBlockingFlags & 1 << PERFECTBLOCKING)
+	if (cg.predictedPlayerState.ManualBlockingFlags & 1 << PERFECTBLOCKING)
 	{
 		CG_DrawPic(x - 3.4, y + 3.5, 40, 40, cgs.media.HUDblockpointMB1);
 	}
@@ -4576,7 +4576,7 @@ static void CG_DrawCusblockPoints(const int x, const int y, const menuDef_t* men
 		block_percent = (float)cg.snap->ps.fd.blockPoints / (BLOCK_POINTS_MAX / 2);
 	}
 
-	if (cg.predicted_player_state.ManualBlockingFlags & 1 << PERFECTBLOCKING)
+	if (cg.predictedPlayerState.ManualBlockingFlags & 1 << PERFECTBLOCKING)
 	{
 		memcpy(calc_color, colorTable[CT_GREEN], sizeof(vec4_t));
 	}
@@ -4591,7 +4591,7 @@ static void CG_DrawCusblockPoints(const int x, const int y, const menuDef_t* men
 
 	trap->R_SetColor(calc_color);
 
-	if (cg.predicted_player_state.ManualBlockingFlags & 1 << PERFECTBLOCKING)
+	if (cg.predictedPlayerState.ManualBlockingFlags & 1 << PERFECTBLOCKING)
 	{
 		CG_DrawPic(x - 3.4, y + 3.5, 40, 40, cgs.media.HUDblockpointMB2);
 	}
@@ -4686,8 +4686,8 @@ static void CG_DrawCusAmmo(const centity_t* cent, const menuDef_t* menu_hud)
 		focus_item = Menu_FindItemByName(menu_hud, "ammoamount");
 
 		// Firing or reloading?
-		if (cg.predicted_player_state.weaponstate == WEAPON_FIRING
-			&& cg.predicted_player_state.weaponTime > 100)
+		if (cg.predictedPlayerState.weaponstate == WEAPON_FIRING
+			&& cg.predictedPlayerState.weaponTime > 100)
 		{
 			memcpy(calc_color, colorTable[CT_LTGREY], sizeof(vec4_t));
 		}
@@ -4788,7 +4788,7 @@ static void CG_DrawJK2Ammo(const centity_t* cent, const int x, const int y)
 	{
 		trap->R_SetColor(colorTable[CT_WHITE]);
 		// don't need to draw ammo, but we will draw the current saber style in this window
-		switch (cg.predicted_player_state.fd.saberDrawAnimLevel)
+		switch (cg.predictedPlayerState.fd.saberDrawAnimLevel)
 		{
 		case 1: //FORCE_LEVEL_1:
 			CG_DrawPic(x, y, 80, 40, cgs.media.JK2HUDSaberStyleFast);
@@ -5431,7 +5431,7 @@ void CG_DrawJK2blockingMode(const centity_t* cent, const menuDef_t* menu_hud)
 
 	if (g_SerenityJediEngineHudMode.integer == 1) //jko
 	{
-		if (cg.predicted_player_state.ManualBlockingFlags & 1 << HOLDINGBLOCKANDATTACK)
+		if (cg.predictedPlayerState.ManualBlockingFlags & 1 << HOLDINGBLOCKANDATTACK)
 		{
 			blockindex = Menu_FindItemByName(menu_hud, "jk2MBlockingMode");
 
@@ -5448,7 +5448,7 @@ void CG_DrawJK2blockingMode(const centity_t* cent, const menuDef_t* menu_hud)
 				);
 			}
 		}
-		else if (cg.predicted_player_state.ManualBlockingFlags & 1 << HOLDINGBLOCK)
+		else if (cg.predictedPlayerState.ManualBlockingFlags & 1 << HOLDINGBLOCK)
 		{
 			blockindex = Menu_FindItemByName(menu_hud, "jk2BlockingMode");
 
@@ -5485,7 +5485,7 @@ void CG_DrawJK2blockingMode(const centity_t* cent, const menuDef_t* menu_hud)
 	}
 	else
 	{
-		if (cg.predicted_player_state.ManualBlockingFlags & 1 << HOLDINGBLOCKANDATTACK)
+		if (cg.predictedPlayerState.ManualBlockingFlags & 1 << HOLDINGBLOCKANDATTACK)
 		{
 			blockindex = Menu_FindItemByName(menu_hud, "jk2MBlockingMode");
 
@@ -5502,7 +5502,7 @@ void CG_DrawJK2blockingMode(const centity_t* cent, const menuDef_t* menu_hud)
 				);
 			}
 		}
-		else if (cg.predicted_player_state.ManualBlockingFlags & 1 << HOLDINGBLOCK)
+		else if (cg.predictedPlayerState.ManualBlockingFlags & 1 << HOLDINGBLOCK)
 		{
 			blockindex = Menu_FindItemByName(menu_hud, "jk2BlockingMode");
 
@@ -5555,7 +5555,7 @@ static void CG_DrawSimpleSaberStyle(const centity_t* cent)
 		return;
 	}
 
-	switch (cg.predicted_player_state.fd.saberDrawAnimLevel)
+	switch (cg.predictedPlayerState.fd.saberDrawAnimLevel)
 	{
 	default:
 	case SS_FAST:
@@ -5629,8 +5629,8 @@ static void CG_DrawSimpleAmmo(const centity_t* cent)
 	// Determine the color of the numeric field
 
 	// Firing or reloading?
-	if (cg.predicted_player_state.weaponstate == WEAPON_FIRING
-		&& cg.predicted_player_state.weaponTime > 100)
+	if (cg.predictedPlayerState.weaponstate == WEAPON_FIRING
+		&& cg.predictedPlayerState.weaponTime > 100)
 	{
 		calc_color = CT_LTGREY;
 	}
@@ -5850,17 +5850,17 @@ void CG_DrawHUD(const centity_t* cent)
 		return;
 	}
 
-	if (cg.predicted_player_state.pm_flags & PMF_FOLLOW || cg.predicted_player_state.persistant[PERS_TEAM] == TEAM_SPECTATOR)
+	if (cg.predictedPlayerState.pm_flags & PMF_FOLLOW || cg.predictedPlayerState.persistant[PERS_TEAM] == TEAM_SPECTATOR)
 	{
 		return;
 	}
 
-	if (cg.predicted_player_state.communicatingflags & (1 << CF_SABERLOCKING) && g_saberLockCinematicCamera.integer)
+	if (cg.predictedPlayerState.communicatingflags & (1 << CF_SABERLOCKING) && g_saberLockCinematicCamera.integer)
 	{
 		return;
 	}
 
-	if (cg.predicted_player_state.m_iVehicleNum)
+	if (cg.predictedPlayerState.m_iVehicleNum)
 	{
 		//I'm in a vehicle
 		return;
@@ -5870,7 +5870,7 @@ void CG_DrawHUD(const centity_t* cent)
 	{
 		const int y1 = SCREEN_HEIGHT - 80;
 
-		if (cg.predicted_player_state.pm_type != PM_SPECTATOR)
+		if (cg.predictedPlayerState.pm_type != PM_SPECTATOR)
 		{
 			const int i = 0;
 			CG_DrawProportionalString(i + 16, y1 + 40, va("%i", cg.snap->ps.stats[STAT_HEALTH]),
@@ -5923,7 +5923,7 @@ void CG_DrawHUD(const centity_t* cent)
 	}
 
 	// Draw the left HUD
-	if (cg.predicted_player_state.pm_type != PM_SPECTATOR)
+	if (cg.predictedPlayerState.pm_type != PM_SPECTATOR)
 	{
 		const char* score_str;
 		menuDef_t* menu_hud = Menus_FindByName("lefthud");
@@ -6448,7 +6448,7 @@ void CG_DrawForceSelect(void)
 		return;
 	}
 
-	if (cg.predicted_player_state.communicatingflags & (1 << CF_SABERLOCKING) && g_saberLockCinematicCamera.integer)
+	if (cg.predictedPlayerState.communicatingflags & (1 << CF_SABERLOCKING) && g_saberLockCinematicCamera.integer)
 	{
 		return;
 	}
@@ -6936,7 +6936,7 @@ void cg_draw_inventory_select(void)
 		return;
 	}
 
-	if (cg.predicted_player_state.communicatingflags & (1 << CF_SABERLOCKING) && g_saberLockCinematicCamera.integer)
+	if (cg.predictedPlayerState.communicatingflags & (1 << CF_SABERLOCKING) && g_saberLockCinematicCamera.integer)
 	{
 		return;
 	}
@@ -7123,9 +7123,9 @@ qboolean CG_CheckTargetVehicle(centity_t** p_target_veh, float* alpha)
 	*alpha = 1.0f;
 
 	//FIXME: need to clear all of these when you die?
-	if (cg.predicted_player_state.rocketLockIndex < ENTITYNUM_WORLD)
+	if (cg.predictedPlayerState.rocketLockIndex < ENTITYNUM_WORLD)
 	{
-		target_num = cg.predicted_player_state.rocketLockIndex;
+		target_num = cg.predictedPlayerState.rocketLockIndex;
 	}
 	else if (cg.crosshairVehNum < ENTITYNUM_WORLD
 		&& cg.time - cg.crosshairVehTime < 3000)
@@ -7520,7 +7520,7 @@ void CG_DrawVehicleWeaponsLinked(const menuDef_t* menu_hud, const centity_t* veh
 	{
 		//state changed, play sound
 		cg_drawLink = draw_link;
-		trap->S_StartSound(NULL, cg.predicted_player_state.clientNum, CHAN_LOCAL,
+		trap->S_StartSound(NULL, cg.predictedPlayerState.clientNum, CHAN_LOCAL,
 			trap->S_RegisterSound("sound/vehicles/common/linkweaps.wav"));
 	}
 
@@ -7876,7 +7876,7 @@ qboolean CG_DrawVehicleHud(const centity_t* cent)
 		return qtrue; // Draw player HUD
 	}
 
-	const playerState_t* ps = &cg.predicted_player_state;
+	const playerState_t* ps = &cg.predictedPlayerState;
 
 	if (!ps || !ps->m_iVehicleNum)
 	{
@@ -7970,7 +7970,7 @@ static void CG_DrawStats(void)
 
 	if (cent)
 	{
-		const playerState_t* ps = &cg.predicted_player_state;
+		const playerState_t* ps = &cg.predictedPlayerState;
 
 		if (ps->m_iVehicleNum) // In a vehicle???
 		{
@@ -8110,7 +8110,7 @@ static float CG_DrawEnemyInfo(float y)
 		return y;
 	}
 
-	if (cg.predicted_player_state.stats[STAT_HEALTH] <= 0)
+	if (cg.predictedPlayerState.stats[STAT_HEALTH] <= 0)
 	{
 		return y;
 	}
@@ -8270,7 +8270,7 @@ static float CG_DrawFPS(const float y)
 	static int previous, lastupdate;
 	const int x_offset = 0;
 
-	if (cg.predicted_player_state.communicatingflags & (1 << CF_SABERLOCKING) && g_saberLockCinematicCamera.integer)
+	if (cg.predictedPlayerState.communicatingflags & (1 << CF_SABERLOCKING) && g_saberLockCinematicCamera.integer)
 	{
 		return y;
 	}
@@ -8396,13 +8396,13 @@ float cg_draw_radar(float y)
 		return y;
 	}
 
-	if (cg.predicted_player_state.pm_flags & PMF_FOLLOW || cg.predicted_player_state.persistant[PERS_TEAM] ==
+	if (cg.predictedPlayerState.pm_flags & PMF_FOLLOW || cg.predictedPlayerState.persistant[PERS_TEAM] ==
 		TEAM_SPECTATOR)
 	{
 		return y;
 	}
 
-	if (cg.predicted_player_state.communicatingflags & (1 << CF_SABERLOCKING) && g_saberLockCinematicCamera.integer)
+	if (cg.predictedPlayerState.communicatingflags & (1 << CF_SABERLOCKING) && g_saberLockCinematicCamera.integer)
 	{
 		return y;
 	}
@@ -8464,7 +8464,7 @@ float cg_draw_radar(float y)
 		cent = &cg_entities[cg.radarEntities[i]];
 
 		// Get the distances first
-		VectorSubtract(cg.predicted_player_state.origin, cent->lerpOrigin, dir_player);
+		VectorSubtract(cg.predictedPlayerState.origin, cent->lerpOrigin, dir_player);
 		dir_player[2] = 0;
 		actual_dist = distance = VectorNormalize(dir_player);
 
@@ -8487,7 +8487,7 @@ float cg_draw_radar(float y)
 		distance = distance / cg_radarRange;
 		distance *= RADAR_RADIUS;
 
-		AngleVectors(cg.predicted_player_state.viewangles, dir_look, NULL, NULL);
+		AngleVectors(cg.predictedPlayerState.viewangles, dir_look, NULL, NULL);
 
 		dir_look[2] = 0;
 		angle_player = atan2(dir_player[0], dir_player[1]);
@@ -8513,10 +8513,10 @@ float cg_draw_radar(float y)
 			if (!far_away)
 			{
 				//we want to scale the thing up/down based on the relative Z (up/down) positioning
-				if (cent->lerpOrigin[2] > cg.predicted_player_state.origin[2])
+				if (cent->lerpOrigin[2] > cg.predictedPlayerState.origin[2])
 				{
 					//higher, scale up (between 16 and 24)
-					float dif = cent->lerpOrigin[2] - cg.predicted_player_state.origin[2];
+					float dif = cent->lerpOrigin[2] - cg.predictedPlayerState.origin[2];
 
 					//max out to 1.5x scale at 512 units above local player's height
 					dif /= 1024.0f;
@@ -8526,10 +8526,10 @@ float cg_draw_radar(float y)
 					}
 					z_scale += dif;
 				}
-				else if (cent->lerpOrigin[2] < cg.predicted_player_state.origin[2])
+				else if (cent->lerpOrigin[2] < cg.predictedPlayerState.origin[2])
 				{
 					//lower, scale down (between 16 and 8)
-					float dif = cg.predicted_player_state.origin[2] - cent->lerpOrigin[2];
+					float dif = cg.predictedPlayerState.origin[2] - cent->lerpOrigin[2];
 
 					//half scale at 512 units below local player's height
 					dif /= 1024.0f;
@@ -8634,10 +8634,10 @@ float cg_draw_radar(float y)
 					z_scale = 1.0f;
 
 					//we want to scale the thing up/down based on the relative Z (up/down) positioning
-					if (cent->lerpOrigin[2] > cg.predicted_player_state.origin[2])
+					if (cent->lerpOrigin[2] > cg.predictedPlayerState.origin[2])
 					{
 						//higher, scale up (between 16 and 24)
-						float dif = cent->lerpOrigin[2] - cg.predicted_player_state.origin[2];
+						float dif = cent->lerpOrigin[2] - cg.predictedPlayerState.origin[2];
 
 						//max out to 1.5x scale at 512 units above local player's height
 						dif /= 4096.0f;
@@ -8647,10 +8647,10 @@ float cg_draw_radar(float y)
 						}
 						z_scale += dif;
 					}
-					else if (cent->lerpOrigin[2] < cg.predicted_player_state.origin[2])
+					else if (cent->lerpOrigin[2] < cg.predictedPlayerState.origin[2])
 					{
 						//lower, scale down (between 16 and 8)
-						float dif = cg.predicted_player_state.origin[2] - cent->lerpOrigin[2];
+						float dif = cg.predictedPlayerState.origin[2] - cent->lerpOrigin[2];
 
 						//half scale at 512 units below local player's height
 						dif /= 4096.0f;
@@ -8706,10 +8706,10 @@ float cg_draw_radar(float y)
 				trap->R_SetColor(colour);
 
 				//we want to scale the thing up/down based on the relative Z (up/down) positioning
-				if (cent->lerpOrigin[2] > cg.predicted_player_state.origin[2])
+				if (cent->lerpOrigin[2] > cg.predictedPlayerState.origin[2])
 				{
 					//higher, scale up (between 16 and 32)
-					float dif = cent->lerpOrigin[2] - cg.predicted_player_state.origin[2];
+					float dif = cent->lerpOrigin[2] - cg.predictedPlayerState.origin[2];
 
 					//max out to 2x scale at 1024 units above local player's height
 					dif /= 1024.0f;
@@ -8719,10 +8719,10 @@ float cg_draw_radar(float y)
 					}
 					z_scale += dif;
 				}
-				else if (cent->lerpOrigin[2] < cg.predicted_player_state.origin[2])
+				else if (cent->lerpOrigin[2] < cg.predictedPlayerState.origin[2])
 				{
 					//lower, scale down (between 16 and 8)
-					float dif = cg.predicted_player_state.origin[2] - cent->lerpOrigin[2];
+					float dif = cg.predictedPlayerState.origin[2] - cent->lerpOrigin[2];
 
 					//half scale at 512 units below local player's height
 					dif /= 1024.0f;
@@ -8741,7 +8741,7 @@ float cg_draw_radar(float y)
 				CG_DrawRotatePic2(RADAR_X + RADAR_RADIUS + sin(angle) * distance + x_offset,
 					y + RADAR_RADIUS + cos(angle) * distance,
 					arrow_w, arrow_h,
-					360 - cent->lerpAngles[YAW] + cg.predicted_player_state.viewangles[YAW],
+					360 - cent->lerpAngles[YAW] + cg.predictedPlayerState.viewangles[YAW],
 					cgs.media.mAutomapPlayerIcon);
 				break;
 			}
@@ -8750,7 +8750,7 @@ float cg_draw_radar(float y)
 		case ET_MOVER:
 			if (cent->currentState.speed //the mover's size, actually
 				&& actual_dist < cent->currentState.speed + RADAR_ASTEROID_RANGE
-				&& cg.predicted_player_state.m_iVehicleNum)
+				&& cg.predictedPlayerState.m_iVehicleNum)
 			{
 				//a mover that's close to me and I'm in a vehicle
 				qboolean may_impact = qfalse;
@@ -8872,12 +8872,12 @@ float cg_draw_radar(float y)
 				ly = y + (float)RADAR_RADIUS + (float)cos(angle) * distance;
 
 				arrow_base_scale = 3.0f;
-				if (cg.predicted_player_state.m_iVehicleNum)
+				if (cg.predictedPlayerState.m_iVehicleNum)
 				{
 					//I'm in a vehicle
 					//if it's targetting me, then play an alarm sound if I'm in a vehicle
-					if (cent->currentState.otherEntityNum == cg.predicted_player_state.clientNum || cent->currentState.
-						otherEntityNum == cg.predicted_player_state.m_iVehicleNum)
+					if (cent->currentState.otherEntityNum == cg.predictedPlayerState.clientNum || cent->currentState.
+						otherEntityNum == cg.predictedPlayerState.m_iVehicleNum)
 					{
 						if (radarLockSoundDebounceTime < cg.time)
 						{
@@ -8913,10 +8913,10 @@ float cg_draw_radar(float y)
 				z_scale = 1.0f;
 
 				//we want to scale the thing up/down based on the relative Z (up/down) positioning
-				if (cent->lerpOrigin[2] > cg.predicted_player_state.origin[2])
+				if (cent->lerpOrigin[2] > cg.predictedPlayerState.origin[2])
 				{
 					//higher, scale up (between 16 and 24)
-					float dif = cent->lerpOrigin[2] - cg.predicted_player_state.origin[2];
+					float dif = cent->lerpOrigin[2] - cg.predictedPlayerState.origin[2];
 
 					//max out to 1.5x scale at 512 units above local player's height
 					dif /= 1024.0f;
@@ -8926,10 +8926,10 @@ float cg_draw_radar(float y)
 					}
 					z_scale += dif;
 				}
-				else if (cent->lerpOrigin[2] < cg.predicted_player_state.origin[2])
+				else if (cent->lerpOrigin[2] < cg.predictedPlayerState.origin[2])
 				{
 					//lower, scale down (between 16 and 8)
-					float dif = cg.predicted_player_state.origin[2] - cent->lerpOrigin[2];
+					float dif = cg.predictedPlayerState.origin[2] - cent->lerpOrigin[2];
 
 					//half scale at 512 units below local player's height
 					dif /= 1024.0f;
@@ -8999,10 +8999,10 @@ float cg_draw_radar(float y)
 			if (!far_away)
 			{
 				//we want to scale the thing up/down based on the relative Z (up/down) positioning
-				if (cent->lerpOrigin[2] > cg.predicted_player_state.origin[2])
+				if (cent->lerpOrigin[2] > cg.predictedPlayerState.origin[2])
 				{
 					//higher, scale up (between 16 and 32)
-					float dif = cent->lerpOrigin[2] - cg.predicted_player_state.origin[2];
+					float dif = cent->lerpOrigin[2] - cg.predictedPlayerState.origin[2];
 
 					//max out to 2x scale at 1024 units above local player's height
 					dif /= 1024.0f;
@@ -9012,10 +9012,10 @@ float cg_draw_radar(float y)
 					}
 					z_scale += dif;
 				}
-				else if (cent->lerpOrigin[2] < cg.predicted_player_state.origin[2])
+				else if (cent->lerpOrigin[2] < cg.predictedPlayerState.origin[2])
 				{
 					//lower, scale down (between 16 and 8)
-					float dif = cg.predicted_player_state.origin[2] - cent->lerpOrigin[2];
+					float dif = cg.predictedPlayerState.origin[2] - cent->lerpOrigin[2];
 
 					//half scale at 512 units below local player's height
 					dif /= 1024.0f;
@@ -9035,7 +9035,7 @@ float cg_draw_radar(float y)
 			CG_DrawRotatePic2(RADAR_X + RADAR_RADIUS + sin(angle) * distance + x_offset,
 				y + RADAR_RADIUS + cos(angle) * distance,
 				arrow_w, arrow_h,
-				360 - cent->lerpAngles[YAW] + cg.predicted_player_state.viewangles[YAW],
+				360 - cent->lerpAngles[YAW] + cg.predictedPlayerState.viewangles[YAW],
 				cgs.media.mAutomapPlayerIcon);
 			break;
 		}
@@ -9065,7 +9065,7 @@ static float CG_DrawTimer(const float y)
 
 	const int msec = cg.time - cgs.levelStartTime;
 
-	if (cg.predicted_player_state.communicatingflags & (1 << CF_SABERLOCKING) && g_saberLockCinematicCamera.integer)
+	if (cg.predictedPlayerState.communicatingflags & (1 << CF_SABERLOCKING) && g_saberLockCinematicCamera.integer)
 	{
 		return y;
 	}
@@ -9901,13 +9901,13 @@ void CG_DrawSiegeInfo(const centity_t* cent, const float ch_x, const float ch_y,
 	}
 
 	const clientInfo_t* ci = &cgs.clientinfo[cent->currentState.number];
-	if (ci->team != cg.predicted_player_state.persistant[PERS_TEAM])
+	if (ci->team != cg.predictedPlayerState.persistant[PERS_TEAM])
 	{
 		//not on the same team
 		return;
 	}
 
-	const char* configstring = CG_ConfigString(cg.predicted_player_state.clientNum + CS_PLAYERS);
+	const char* configstring = CG_ConfigString(cg.predictedPlayerState.clientNum + CS_PLAYERS);
 	const char* v = Info_ValueForKey(configstring, "siegeclass");
 
 	if (!v || !v[0])
@@ -10026,7 +10026,7 @@ void CG_DrawHealthBar(const centity_t* cent, const float ch_x, const float ch_y,
 		a_color[2] = 0.0f;
 		a_color[3] = 0.4f;
 	}
-	else if (cent->currentState.teamowner == cg.predicted_player_state.persistant[PERS_TEAM])
+	else if (cent->currentState.teamowner == cg.predictedPlayerState.persistant[PERS_TEAM])
 	{
 		//owned by my team
 		a_color[0] = 0.0f;
@@ -10067,7 +10067,7 @@ void CG_DrawHealthBar(const centity_t* cent, const float ch_x, const float ch_y,
 //	float y = (chY + chH) + 8.0f;
 //
 //	//float percent = ((float)cent->currentState.blockPoints / (float)BLOCK_POINTS_MAX);
-//	float percent = ((float)cg.predicted_player_state.blockPoints / (float)BLOCK_POINTS_MAX);
+//	float percent = ((float)cg.predictedPlayerState.blockPoints / (float)BLOCK_POINTS_MAX);
 //
 //	if (percent <= 0)
 //	{
@@ -10104,7 +10104,7 @@ void CG_DrawHaqrBar(const float ch_x, const float ch_y, const float ch_w, const 
 	vec4_t c_color;
 	const float x = ch_x + (ch_w / 2 - HEALTH_WIDTH / 2);
 	const float y = ch_y + ch_h + 8.0f;
-	const float percent = ((float)cg.predicted_player_state.hackingTime - (float)cg.time) / (float)cg.predicted_player_state
+	const float percent = ((float)cg.predictedPlayerState.hackingTime - (float)cg.time) / (float)cg.predictedPlayerState
 		.hackingBaseTime * HEALTH_WIDTH;
 
 	if (percent > HEALTH_WIDTH ||
@@ -10264,7 +10264,7 @@ static void CG_DrawCrosshair(vec3_t world_point, const int ch_ent_valid)
 		return;
 	}
 
-	if (cg.predicted_player_state.communicatingflags & (1 << CF_SABERLOCKING) && g_saberLockCinematicCamera.integer)
+	if (cg.predictedPlayerState.communicatingflags & (1 << CF_SABERLOCKING) && g_saberLockCinematicCamera.integer)
 	{
 		return;
 	}
@@ -10284,7 +10284,7 @@ static void CG_DrawCrosshair(vec3_t world_point, const int ch_ent_valid)
 		return;
 	}
 
-	if (cg.predicted_player_state.zoomMode != 0)
+	if (cg.predictedPlayerState.zoomMode != 0)
 	{
 		//not while scoped
 		return;
@@ -10312,7 +10312,7 @@ static void CG_DrawCrosshair(vec3_t world_point, const int ch_ent_valid)
 				//always show ents with health data under crosshair
 				cg_entities[cg.crosshairclient_num].currentState.eType == ET_MOVER && cg_entities[cg.
 				crosshairclient_num].
-				currentState.bolt1 && cg.predicted_player_state.weapon == WP_SABER ||
+				currentState.bolt1 && cg.predictedPlayerState.weapon == WP_SABER ||
 				cg_entities[cg.crosshairclient_num].currentState.eType == ET_MOVER && cg_entities[cg.
 				crosshairclient_num].
 				currentState.teamowner))
@@ -10391,7 +10391,7 @@ static void CG_DrawCrosshair(vec3_t world_point, const int ch_ent_valid)
 					int pl_team;
 					if (cgs.gametype == GT_MOVIEDUELS_SIEGE)
 					{
-						pl_team = cg.predicted_player_state.persistant[PERS_TEAM];
+						pl_team = cg.predictedPlayerState.persistant[PERS_TEAM];
 					}
 					else
 					{
@@ -10416,7 +10416,7 @@ static void CG_DrawCrosshair(vec3_t world_point, const int ch_ent_valid)
 								//base color on who is pilotting this thing
 								const clientInfo_t* ci = &cgs.clientinfo[cross_ent->currentState.owner];
 
-								if (cgs.gametype >= GT_MOVIEDUELS_TEAM && ci->team == cg.predicted_player_state.persistant[
+								if (cgs.gametype >= GT_MOVIEDUELS_TEAM && ci->team == cg.predictedPlayerState.persistant[
 									PERS_TEAM])
 								{
 									//friendly
@@ -10505,7 +10505,7 @@ static void CG_DrawCrosshair(vec3_t world_point, const int ch_ent_valid)
 				}
 			}
 			else if (cross_ent->currentState.eType == ET_MOVER && cross_ent->currentState.bolt1 && cg.
-				predicted_player_state
+				predictedPlayerState
 				.weapon == WP_SABER)
 			{
 				//can push/pull this mover. Only show it if we're using the saber.
@@ -10524,7 +10524,7 @@ static void CG_DrawCrosshair(vec3_t world_point, const int ch_ent_valid)
 					ecolor[1] = 1.0f; //G
 					ecolor[2] = 0.0f; //B
 				}
-				else if (cg.predicted_player_state.persistant[PERS_TEAM] != cross_ent->currentState.teamowner)
+				else if (cg.predictedPlayerState.persistant[PERS_TEAM] != cross_ent->currentState.teamowner)
 				{
 					//not my team
 					ecolor[0] = 1.0f; //R
@@ -10548,7 +10548,7 @@ static void CG_DrawCrosshair(vec3_t world_point, const int ch_ent_valid)
 					ecolor[1] = 1.0f;
 					ecolor[2] = 0.0f;
 				}
-				else if (cross_ent->currentState.teamowner == cg.predicted_player_state.persistant[PERS_TEAM])
+				else if (cross_ent->currentState.teamowner == cg.predictedPlayerState.persistant[PERS_TEAM])
 				{
 					//owned by my team
 					ecolor[0] = 0.0f;
@@ -10570,10 +10570,10 @@ static void CG_DrawCrosshair(vec3_t world_point, const int ch_ent_valid)
 		}
 	}
 
-	if (cg.predicted_player_state.m_iVehicleNum)
+	if (cg.predictedPlayerState.m_iVehicleNum)
 	{
 		//I'm in a vehicle
-		const centity_t* veh_cent = &cg_entities[cg.predicted_player_state.m_iVehicleNum];
+		const centity_t* veh_cent = &cg_entities[cg.predictedPlayerState.m_iVehicleNum];
 		if (veh_cent
 			&& veh_cent->m_pVehicle
 			&& veh_cent->m_pVehicle->m_pVehicleInfo
@@ -10710,7 +10710,7 @@ static void CG_DrawCrosshair(vec3_t world_point, const int ch_ent_valid)
 		}
 	}
 
-	if (cg.predicted_player_state.hackingTime)
+	if (cg.predictedPlayerState.hackingTime)
 	{
 		//hacking something
 		CG_DrawHaqrBar(ch_x, ch_y, w, h);
@@ -10801,7 +10801,7 @@ void CG_SaberClashFlare(void)
 		return;
 	}
 
-	if (cg.predicted_player_state.communicatingflags & (1 << CF_SABERLOCKING))
+	if (cg.predictedPlayerState.communicatingflags & (1 << CF_SABERLOCKING))
 	{
 		return;
 	}
@@ -10993,7 +10993,7 @@ void CG_BracketEntity(centity_t* cent, const float radius)
 			is_enemy = qtrue;
 			trap->R_SetColor(g_color_table[ColorIndex(COLOR_RED)]);
 		}
-		else if (cent->currentState.teamowner != cg.predicted_player_state.persistant[PERS_TEAM])
+		else if (cent->currentState.teamowner != cg.predictedPlayerState.persistant[PERS_TEAM])
 		{
 			// on enemy team
 			is_enemy = qtrue;
@@ -11076,10 +11076,10 @@ void CG_BracketEntity(centity_t* cent, const float radius)
 				if (!VectorCompare(cent->currentState.pos.trDelta, vec3_origin))
 				{
 					//enemy vehicle is moving
-					if (cg.predicted_player_state.m_iVehicleNum)
+					if (cg.predictedPlayerState.m_iVehicleNum)
 					{
 						//I'm in a vehicle
-						const centity_t* veh = &cg_entities[cg.predicted_player_state.m_iVehicleNum];
+						const centity_t* veh = &cg_entities[cg.predictedPlayerState.m_iVehicleNum];
 						if (veh //vehicle cent
 							&& veh->m_pVehicle //vehicle
 							&& veh->m_pVehicle->m_pVehicleInfo //vehicle stats
@@ -11135,10 +11135,10 @@ void CG_BracketEntity(centity_t* cent, const float radius)
 
 qboolean CG_InFighter(void)
 {
-	if (cg.predicted_player_state.m_iVehicleNum)
+	if (cg.predictedPlayerState.m_iVehicleNum)
 	{
 		//I'm in a vehicle
-		const centity_t* veh_cent = &cg_entities[cg.predicted_player_state.m_iVehicleNum];
+		const centity_t* veh_cent = &cg_entities[cg.predictedPlayerState.m_iVehicleNum];
 		if (veh_cent
 			&& veh_cent->m_pVehicle
 			&& veh_cent->m_pVehicle->m_pVehicleInfo
@@ -11153,10 +11153,10 @@ qboolean CG_InFighter(void)
 
 qboolean CG_InATST(void)
 {
-	if (cg.predicted_player_state.m_iVehicleNum)
+	if (cg.predictedPlayerState.m_iVehicleNum)
 	{
 		//I'm in a vehicle
-		const centity_t* veh_cent = &cg_entities[cg.predicted_player_state.m_iVehicleNum];
+		const centity_t* veh_cent = &cg_entities[cg.predictedPlayerState.m_iVehicleNum];
 		if (veh_cent
 			&& veh_cent->m_pVehicle
 			&& veh_cent->m_pVehicle->m_pVehicleInfo
@@ -11524,7 +11524,7 @@ qboolean CG_CalcVehiclemuzzle_point(const int entityNum, vec3_t start, vec3_t d_
 	else
 	{
 		//check to see if we're a turret gunner on this vehicle
-		if (cg.predicted_player_state.generic1) //as a passenger
+		if (cg.predictedPlayerState.generic1) //as a passenger
 		{
 			//passenger in a vehicle
 			if (veh_cent->m_pVehicle
@@ -11538,7 +11538,7 @@ qboolean CG_CalcVehiclemuzzle_point(const int entityNum, vec3_t start, vec3_t d_
 					{
 						// valid turret
 						if (veh_cent->m_pVehicle->m_pVehicleInfo->turret[turret_num].passengerNum == cg.
-							predicted_player_state.generic1)
+							predictedPlayerState.generic1)
 						{
 							//I control this turret
 							//Go through all muzzles, average their positions and directions and use the result for crosshair trace
@@ -11618,25 +11618,25 @@ static void CG_ScanForCrosshairEntity(void)
 	vec3_t start, end;
 	qboolean b_veh_check_trace_from_cam_pos = qfalse;
 
-	int ignore = cg.predicted_player_state.clientNum;
+	int ignore = cg.predictedPlayerState.clientNum;
 
 	if (cg_dynamicCrosshair.integer)
 	{
 		vec3_t d_f, d_rt, d_up;
 		//For now we still want to draw the crosshair in relation to the player's world coordinates
 		//even if we have a melee weapon/no weapon.
-		if (cg.predicted_player_state.m_iVehicleNum && cg.predicted_player_state.eFlags & EF_NODRAW)
+		if (cg.predictedPlayerState.m_iVehicleNum && cg.predictedPlayerState.eFlags & EF_NODRAW)
 		{
 			//we're *inside* a vehicle
 			//do the vehicle's crosshair instead
-			const centity_t* veh = &cg_entities[cg.predicted_player_state.m_iVehicleNum];
+			const centity_t* veh = &cg_entities[cg.predictedPlayerState.m_iVehicleNum];
 			qboolean gunner;
 
-			//if (veh->currentState.owner == cg.predicted_player_state.clientNum)
+			//if (veh->currentState.owner == cg.predictedPlayerState.clientNum)
 			{
 				//the pilot
-				ignore = cg.predicted_player_state.m_iVehicleNum;
-				gunner = CG_CalcVehiclemuzzle_point(cg.predicted_player_state.m_iVehicleNum, start, d_f, d_rt, d_up);
+				ignore = cg.predictedPlayerState.m_iVehicleNum;
+				gunner = CG_CalcVehiclemuzzle_point(cg.predictedPlayerState.m_iVehicleNum, start, d_f, d_rt, d_up);
 			}
 			if (veh->m_pVehicle
 				&& veh->m_pVehicle->m_pVehicleInfo
@@ -11669,7 +11669,7 @@ static void CG_ScanForCrosshairEntity(void)
 
 				if (cg.renderingThirdPerson)
 				{
-					VectorCopy(cg.predicted_player_state.viewangles, pitch_constraint);
+					VectorCopy(cg.predictedPlayerState.viewangles, pitch_constraint);
 				}
 				else
 				{
@@ -11689,7 +11689,7 @@ static void CG_ScanForCrosshairEntity(void)
 
 				if (cg.renderingThirdPerson)
 				{
-					VectorCopy(cg.predicted_player_state.viewangles, pitchConstraint);
+					VectorCopy(cg.predictedPlayerState.viewangles, pitchConstraint);
 				}
 				else
 				{
@@ -11716,7 +11716,7 @@ static void CG_ScanForCrosshairEntity(void)
 		if (b_veh_check_trace_from_cam_pos)
 		{
 			//NOTE: this MUST stay up to date with the method used in WP_VehCheckTraceFromCamPos
-			const centity_t* veh = &cg_entities[cg.predicted_player_state.m_iVehicleNum];
+			const centity_t* veh = &cg_entities[cg.predictedPlayerState.m_iVehicleNum];
 			trace_t extra_trace;
 			vec3_t view_dir2_end, extra_end;
 			const float min_auto_aim_dist = Distance(veh->lerpOrigin, cg.refdef.vieworg) + veh->m_pVehicle->
@@ -12830,7 +12830,7 @@ void CG_DrawSprintFuel()
 	const float y = SPFUELBAR_Y;
 	float percent = (float)cg.snap->ps.sprintFuel / 100.0f * SPFUELBAR_H;
 
-	if (cg.predicted_player_state.pm_type == PM_SPECTATOR)
+	if (cg.predictedPlayerState.pm_type == PM_SPECTATOR)
 	{
 		return;
 	}
@@ -12895,7 +12895,7 @@ void CG_DrawJetpackFuel(void)
 	const float y = JPFUELBAR_Y;
 	float percent = (float)cg.snap->ps.jetpackFuel / 100.0f * JPFUELBAR_H;
 
-	if (cg.predicted_player_state.pm_type == PM_SPECTATOR)
+	if (cg.predictedPlayerState.pm_type == PM_SPECTATOR)
 	{
 		return;
 	}
@@ -12964,7 +12964,7 @@ void CG_DrawCloakFuel(void)
 	const float y = CLFUELBAR_Y;
 	float percent = (float)cg.snap->ps.cloakFuel / 100.0f * CLFUELBAR_H;
 
-	if (cg.predicted_player_state.pm_type == PM_SPECTATOR)
+	if (cg.predictedPlayerState.pm_type == PM_SPECTATOR)
 	{
 		return;
 	}
@@ -13035,10 +13035,10 @@ void CG_DrawEWebHealth(void)
 	vec4_t c_color;
 	float x = EWEBHEALTH_X;
 	const float y = EWEBHEALTH_Y;
-	const centity_t* eweb = &cg_entities[cg.predicted_player_state.emplacedIndex];
+	const centity_t* eweb = &cg_entities[cg.predictedPlayerState.emplacedIndex];
 	float percent = (float)eweb->currentState.health / eweb->currentState.maxhealth * EWEBHEALTH_H;
 
-	if (cg.predicted_player_state.pm_type == PM_SPECTATOR)
+	if (cg.predictedPlayerState.pm_type == PM_SPECTATOR)
 	{
 		return;
 	}
@@ -13968,7 +13968,7 @@ static void CG_Draw2D(void)
 	const float wp_time = cg.weaponSelectTime + WEAPON_SELECT_TIME;
 	const centity_t* cent = &cg_entities[cg.snap->ps.clientNum];
 
-	const playerState_t* ps = &cg.predicted_player_state;
+	const playerState_t* ps = &cg.predictedPlayerState;
 
 	// if we are taking a levelshot for the menu, don't draw anything
 	if (cg.levelShot)
@@ -14041,7 +14041,7 @@ static void CG_Draw2D(void)
 	}
 
 	//if (cg.snap->ps.userInt3 & (1 << FLAG_PERFECTBLOCK))
-	//if (cg.predicted_player_state.communicatingflags & (1 << CF_SABERLOCK_ADVANCE))
+	//if (cg.predictedPlayerState.communicatingflags & (1 << CF_SABERLOCK_ADVANCE))
 	//{//test for all sorts of shit... does it work? show me.
 		//CG_DrawPic(0, 0, 640, 480, trap->R_RegisterShader("gfx/2d/jsense"));
 		//CG_DrawPic(0, 0, 640, 480, trap->R_RegisterShader("gfx/2d/droid_view"));
@@ -14080,9 +14080,9 @@ static void CG_Draw2D(void)
 		//draw it as long as it isn't full
 		CG_DrawCloakFuel();
 	}
-	if (cg.predicted_player_state.emplacedIndex > 0)
+	if (cg.predictedPlayerState.emplacedIndex > 0)
 	{
-		const centity_t* eweb = &cg_entities[cg.predicted_player_state.emplacedIndex];
+		const centity_t* eweb = &cg_entities[cg.predictedPlayerState.emplacedIndex];
 
 		if (eweb->currentState.weapon == WP_NONE)
 		{
@@ -14404,7 +14404,7 @@ static void CG_Draw2D(void)
 				time_remaining /= 1000;
 			}
 
-			if (cg.predicted_player_state.persistant[PERS_TEAM] == timed_team)
+			if (cg.predictedPlayerState.persistant[PERS_TEAM] == timed_team)
 			{
 				//the team that's timed is the one this client is on
 				is_my_team = qtrue;

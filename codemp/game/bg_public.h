@@ -60,7 +60,7 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 #define DEFAULT_REDTEAM_NAME	"Empire"
 #define DEFAULT_BLUETEAM_NAME	"Rebellion"
 
-#define CURRENT_SJE_CLIENTVERSION		"Year-23,Month-12,Day-22,BuildNum-11" // build date
+#define CURRENT_SJE_CLIENTVERSION		"Year-24,Month-01,Day-01,BuildNum-01" // build date
 
 #define	STEPSIZE		18
 
@@ -811,11 +811,13 @@ typedef enum {
 	PW_FORCE_PUSH,
 	PW_FORCE_PUSH_RHAND,
 	PW_FORCE_PROJECTILE,
+	PW_SPHERESHIELDED,
 
 	PW_NUM_POWERUPS
 } powerup_t;
 
-typedef enum {
+typedef enum
+{
 	HI_NONE,
 
 	HI_SEEKER,
@@ -830,16 +832,13 @@ typedef enum {
 	HI_AMMODISP,
 	HI_EWEB,
 	HI_CLOAK,
-	HI_FLAMETHROWER,
 
-	HI_EOPIE,
-	HI_TAUNTAUN,
+	HI_FLAMETHROWER,
 	HI_SWOOP,
 	HI_DROIDEKA,
-	HI_RANCOR,
+	HI_SPHERESHIELD,
 
 	HI_GRAPPLE,
-	HI_BACTA,
 
 	HI_NUM_HOLDABLE
 } holdable_t;
@@ -974,6 +973,7 @@ typedef enum {
 	EV_USE_ITEM13,
 	EV_USE_ITEM14,
 	EV_USE_ITEM15,
+	EV_USE_ITEM16,
 
 	EV_ITEMUSEFAIL,
 

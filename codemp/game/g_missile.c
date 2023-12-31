@@ -998,6 +998,25 @@ qboolean G_MissileImpact(gentity_t* ent, trace_t* trace)
 		return qfalse;
 	}
 
+	if (other && other->client && other->client->ps.powerups[PW_SPHERESHIELDED])
+	{
+		bounce = qfalse;
+		// Check to see if there is a bounce count
+		if (ent->bounceCount)
+		{
+			// decrement number of bounces and then see if it should be done bouncing
+			if (!--ent->bounceCount)
+			{
+				// He (or she) will bounce no more (after this current bounce, that is).
+				ent->flags &= ~(FL_BOUNCE | FL_BOUNCE_HALF);
+			}
+		}
+
+		G_BounceMissile(ent, trace);
+		G_MissileBounceBeskarEffect(ent, ent->r.currentOrigin, fwd, trace->entityNum == ENTITYNUM_WORLD);
+		return qfalse;
+	}
+
 	// check for hitting a lightsaber
 	if (wp_saber_must_bolt_block(other, ent, qfalse, trace->endpos, -1, -1)
 		&& !WP_DoingForcedAnimationForForcePowers(other))
