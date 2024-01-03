@@ -408,7 +408,7 @@ void R_AddBrushModelSurfaces(trRefEntity_t* ent, int entityNum) {
 	}
 }
 
-float GetQuadArea(vec3_t v1, vec3_t v2, vec3_t v3, vec3_t v4)
+static float GetQuadArea(vec3_t v1, vec3_t v2, vec3_t v3, vec3_t v4)
 {
 	vec3_t	vec1, vec2, dis1, dis2;
 
@@ -523,8 +523,8 @@ R_RecursiveWorldNode
 void R_RecursiveWorldNode(mnode_t* node, int planeBits, int dlightBits, int pshadowBits)
 {
 	do {
-		int			newDlights[2];
-		unsigned int newPShadows[2];
+		int			newDlights[2]{};
+		unsigned int newPShadows[2]{};
 
 		// if the node wasn't marked as potentially visible, exit
 		// pvs is skipped for depth shadows
@@ -831,7 +831,9 @@ void R_MarkLeaves(void)
 	const byte* vis = R_ClusterPVS(tr.visClusters[tr.visIndex]);
 
 	int i;
-	for (i = 0, leaf = (tr.world->nodes + tr.world->numDecisionNodes); i < (tr.world->numnodes - tr.world->numDecisionNodes); i++, leaf++) {
+
+	for (i = 0, leaf = tr.world->nodes; i < tr.world->numnodes; i++, leaf++)
+	{
 		cluster = leaf->cluster;
 		if (cluster < 0 || cluster >= tr.world->numClusters) {
 			continue;

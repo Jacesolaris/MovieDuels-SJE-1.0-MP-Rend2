@@ -537,22 +537,14 @@ void R_AddBrushModelSurfaces(trRefEntity_t* ent) {
 		R_SetupEntityLighting(&tr.refdef, ent);
 	}
 
-	//rww - Take this into account later?
-//	if ( !ri->Cvar_VariableIntegerValue( "com_RMG" ) )
-//	{	// don't dlight bmodels on rmg, as multiple copies of the same instance will light up
 	R_DlightBmodel(bmodel, false);
-	//	}
-	//	else
-	//	{
-	//		R_DlightBmodel( bmodel, true );
-	//	}
 
 	for (int i = 0; i < bmodel->numSurfaces; i++) {
 		R_AddWorldSurface(bmodel->firstSurface + i, tr.currentEntity->dlight_bits, qtrue);
 	}
 }
 
-float GetQuadArea(vec3_t v1, vec3_t v2, vec3_t v3, vec3_t v4)
+static float GetQuadArea(vec3_t v1, vec3_t v2, vec3_t v3, vec3_t v4)
 {
 	vec3_t	vec1, vec2, dis1, dis2;
 
@@ -889,7 +881,7 @@ static void R_GenerateWireframeMap(const mnode_t* baseNode)
 }
 
 //clear out the wireframe map data -rww
-void R_DestroyWireframeMap(void)
+static void R_DestroyWireframeMap(void)
 {
 	if (!g_autoMapValid)
 	{ //not valid to begin with
@@ -917,7 +909,7 @@ void R_DestroyWireframeMap(void)
 }
 
 //save 3d automap data to file -rww
-qboolean R_WriteWireframeMapToFile(void)
+static qboolean R_WriteWireframeMapToFile(void)
 {
 	int requiredSize = 0;
 	const wireframeMapSurf_t* surf = g_autoMapFrame.surfs;
@@ -974,7 +966,7 @@ qboolean R_WriteWireframeMapToFile(void)
 }
 
 //load 3d automap data from file -rww
-qboolean R_GetWireframeMapFromFile(void)
+static qboolean R_GetWireframeMapFromFile(void)
 {
 	fileHandle_t f;
 	int i = 0;
@@ -1576,7 +1568,8 @@ static void R_MarkLeaves(void) {
 
 	const byte* vis = R_ClusterPVS(tr.viewCluster);
 
-	for (i = 0, leaf = tr.world->nodes; i < tr.world->numnodes; i++, leaf++) {
+	for (i = 0, leaf = tr.world->nodes; i < tr.world->numnodes; i++, leaf++)
+	{
 		cluster = leaf->cluster;
 		if (cluster < 0 || cluster >= tr.world->numClusters) {
 			continue;
