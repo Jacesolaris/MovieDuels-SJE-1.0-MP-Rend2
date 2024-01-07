@@ -2902,7 +2902,7 @@ void Noghri_StickTrace(void)
 		int lastHit = ENTITYNUM_NONE;
 		for (int time = curTime - 25; time <= curTime + 25 && !hit; time += 25)
 		{
-			mdxaBone_t bolt_matrix;
+			mdxaBone_t boltMatrix;
 			vec3_t tip, dir, base, angles;
 			vec3_t mins, maxs;
 			trace_t trace;
@@ -2913,10 +2913,10 @@ void Noghri_StickTrace(void)
 
 			trap->G2API_GetBoltMatrix(NPCS.NPC->ghoul2, 1,
 				bolt_index,
-				&bolt_matrix, angles, NPCS.NPC->r.currentOrigin, time,
+				&boltMatrix, angles, NPCS.NPC->r.currentOrigin, time,
 				NULL, NPCS.NPC->modelScale);
-			BG_GiveMeVectorFromMatrix(&bolt_matrix, ORIGIN, base);
-			BG_GiveMeVectorFromMatrix(&bolt_matrix, POSITIVE_Y, dir);
+			BG_GiveMeVectorFromMatrix(&boltMatrix, ORIGIN, base);
+			BG_GiveMeVectorFromMatrix(&boltMatrix, POSITIVE_Y, dir);
 			VectorMA(base, 48, dir, tip);
 			trap->Trace(&trace, base, mins, maxs, tip, NPCS.NPC->s.number, MASK_SHOT, qfalse, 0, 0);
 			if (trace.fraction < 1.0f && trace.entityNum != lastHit)

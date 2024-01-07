@@ -318,9 +318,9 @@ void Remote_Attack(void)
 	// Rate our distance to the target, and our visibilty
 	const float distance = (int)DistanceHorizontalSquared(NPCS.NPC->r.currentOrigin, NPCS.NPC->enemy->r.currentOrigin);
 	const qboolean visible = NPC_ClearLOS4(NPCS.NPC->enemy);
-	const float ideal_dist = MIN_DISTANCE_SQR + MIN_DISTANCE_SQR * Q_flrand(0, 1);
-	const qboolean advance = distance > ideal_dist * 1.25;
-	const qboolean retreat = distance < ideal_dist * 0.75;
+	const float idealDist = MIN_DISTANCE_SQR + MIN_DISTANCE_SQR * Q_flrand(0, 1);
+	const qboolean advance = distance > idealDist * 1.25;
+	const qboolean retreat = distance < idealDist * 0.75;
 
 	// If we cannot see our target, move to see it
 	if (visible == qfalse)

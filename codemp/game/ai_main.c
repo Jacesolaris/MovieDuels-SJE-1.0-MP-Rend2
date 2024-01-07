@@ -8782,7 +8782,7 @@ static void saber_combat_handling(bot_state_t* bs)
 			{
 				vec3_t vs;
 				vec3_t groundcheck;
-				int ideal_dist;
+				int idealDist;
 				int check_incr = 0;
 
 				VectorSubtract(bs->origin, bs->goalPosition, vs);
@@ -8793,14 +8793,14 @@ static void saber_combat_handling(bot_state_t* bs)
 					|| bs->currentEnemy->client->ps.saber_move == LS_SPINATTACK_GRIEV
 					|| bs->currentEnemy->client->ps.saber_move == LS_SPINATTACK_DUAL)
 				{
-					ideal_dist = 256;
+					idealDist = 256;
 				}
 				else
 				{
-					ideal_dist = 64;
+					idealDist = 64;
 				}
 
-				while (check_incr < ideal_dist)
+				while (check_incr < idealDist)
 				{
 					bs->goalPosition[0] = bs->origin[0] + vs[0] * check_incr;
 					bs->goalPosition[1] = bs->origin[1] + vs[1] * check_incr;
@@ -10697,7 +10697,7 @@ static void select_best_siege_class(const int clientNum, const qboolean force_jo
 	}
 }
 
-extern saberInfo_t* BG_MySaber(int clientNum, int saber_num);
+extern saberInfo_t* BG_MySaber(int clientNum, int saberNum);
 //the main AI loop.
 //please don't be too frightened.
 void standard_bot_ai(bot_state_t* bs)

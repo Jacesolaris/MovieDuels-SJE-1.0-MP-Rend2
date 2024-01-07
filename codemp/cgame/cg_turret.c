@@ -187,14 +187,14 @@ void TurretClientRun(centity_t* ent)
 	if (ent->currentState.fireflag && ent->bolt4 != ent->currentState.fireflag)
 	{
 		vec3_t muzzle_org, muzzle_dir;
-		mdxaBone_t bolt_matrix;
+		mdxaBone_t boltMatrix;
 
 		int doit = 1;
 
-		trap->G2API_GetBoltMatrix(ent->ghoul2, 0, ent->torsoBolt, &bolt_matrix, /*ent->lerpAngles*/vec3_origin,
+		trap->G2API_GetBoltMatrix(ent->ghoul2, 0, ent->torsoBolt, &boltMatrix, /*ent->lerpAngles*/vec3_origin,
 			ent->lerpOrigin, cg.time, cgs.game_models, ent->modelScale);
-		BG_GiveMeVectorFromMatrix(&bolt_matrix, ORIGIN, muzzle_org);
-		BG_GiveMeVectorFromMatrix(&bolt_matrix, NEGATIVE_X, muzzle_dir);
+		BG_GiveMeVectorFromMatrix(&boltMatrix, ORIGIN, muzzle_org);
+		BG_GiveMeVectorFromMatrix(&boltMatrix, NEGATIVE_X, muzzle_dir);
 
 		if (cg.snap->ps.duelInProgress)
 		{ // this client is dueling

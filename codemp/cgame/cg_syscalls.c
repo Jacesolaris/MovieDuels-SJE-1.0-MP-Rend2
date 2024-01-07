@@ -1232,21 +1232,21 @@ void CGSyscall_R_AddPolysToScene(const qhandle_t h_shader, const int numVerts, c
 	trap_R_AddPolyToScene(h_shader, numVerts, verts);
 }
 
-float CGSyscall_R_GetDistanceCull(void)
+static float CGSyscall_R_GetDistanceCull(void)
 {
 	float tmp;
 	trap_R_GetDistanceCull(&tmp);
 	return tmp;
 }
 
-void CGSyscall_FX_PlayEffectID(const int id, vec3_t org, vec3_t fwd, const int vol, const int rad,
+static void CGSyscall_FX_PlayEffectID(const int id, vec3_t org, vec3_t fwd, const int vol, const int rad,
 	const qboolean isPortal)
 {
 	if (isPortal) trap_FX_PlayPortalEffectID(id, org, fwd, vol, rad);
 	else trap_FX_PlayEffectID(id, org, fwd, vol, rad);
 }
 
-void CGSyscall_G2API_CollisionDetect(CollisionRecord_t* collRecMap, void* ghoul2, const vec3_t angles,
+static void CGSyscall_G2API_CollisionDetect(CollisionRecord_t* collRecMap, void* ghoul2, const vec3_t angles,
 	const vec3_t position, const int frameNumber, const int entNum, vec3_t rayStart,
 	vec3_t rayEnd, vec3_t scale, const int traceFlags, const int useLod,
 	const float fRadius)
@@ -1255,7 +1255,7 @@ void CGSyscall_G2API_CollisionDetect(CollisionRecord_t* collRecMap, void* ghoul2
 		traceFlags, useLod, fRadius);
 }
 
-void QDECL CG_Error(int level, const char* error, ...)
+static void QDECL CG_Error(int level, const char* error, ...)
 {
 	va_list argptr;
 	char text[1024] = { 0 };
@@ -1267,7 +1267,7 @@ void QDECL CG_Error(int level, const char* error, ...)
 	trap_Error(text);
 }
 
-void QDECL CG_Printf(const char* msg, ...)
+static void QDECL CG_Printf(const char* msg, ...)
 {
 	va_list argptr;
 	char text[4096] = { 0 };

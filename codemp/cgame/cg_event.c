@@ -1400,7 +1400,7 @@ void CG_G2MarkEvent(entityState_t* es)
 
 void CG_CalcVehMuzzle(Vehicle_t* p_veh, centity_t* ent, const int muzzle_num)
 {
-	mdxaBone_t bolt_matrix;
+	mdxaBone_t boltMatrix;
 	vec3_t veh_angles;
 
 	assert(p_veh);
@@ -1426,10 +1426,10 @@ void CG_CalcVehMuzzle(Vehicle_t* p_veh, centity_t* ent, const int muzzle_num)
 			veh_angles[PITCH] = 0.0f;
 		}
 	}
-	trap->G2API_GetBoltMatrix_NoRecNoRot(ent->ghoul2, 0, p_veh->m_iMuzzleTag[muzzle_num], &bolt_matrix, veh_angles,
+	trap->G2API_GetBoltMatrix_NoRecNoRot(ent->ghoul2, 0, p_veh->m_iMuzzleTag[muzzle_num], &boltMatrix, veh_angles,
 		ent->lerpOrigin, cg.time, NULL, ent->modelScale);
-	BG_GiveMeVectorFromMatrix(&bolt_matrix, ORIGIN, p_veh->m_vMuzzlePos[muzzle_num]);
-	BG_GiveMeVectorFromMatrix(&bolt_matrix, NEGATIVE_Y, p_veh->m_vMuzzleDir[muzzle_num]);
+	BG_GiveMeVectorFromMatrix(&boltMatrix, ORIGIN, p_veh->m_vMuzzlePos[muzzle_num]);
+	BG_GiveMeVectorFromMatrix(&boltMatrix, NEGATIVE_Y, p_veh->m_vMuzzleDir[muzzle_num]);
 }
 
 //corresponds to G_VehMuzzleFireFX -rww
@@ -1817,20 +1817,20 @@ void CG_EntityEvent(centity_t* cent, vec3_t position)
 			if (client && client->infoValid && enemy_client && enemy_client->infoValid)
 			{
 				vec3_t our_base, our_tip, their_base, their_tip;
-				mdxaBone_t bolt_matrix;
+				mdxaBone_t boltMatrix;
 				vec3_t flash_point, temp;
 				qboolean cull_pass = qfalse;
 				qhandle_t lock_sound = trap->S_RegisterSound(va("sound/weapons/saber/saberlock%d.mp3", index));
 
 				//get our blade
-				trap->G2API_GetBoltMatrix(cent->ghoul2, 1, 0, &bolt_matrix, cent->lerpAngles, cent->lerpOrigin, cg.time, cgs.game_models, cent->modelScale);
-				BG_GiveMeVectorFromMatrix(&bolt_matrix, ORIGIN, our_base);
-				BG_GiveMeVectorFromMatrix(&bolt_matrix, NEGATIVE_Y, temp);
+				trap->G2API_GetBoltMatrix(cent->ghoul2, 1, 0, &boltMatrix, cent->lerpAngles, cent->lerpOrigin, cg.time, cgs.game_models, cent->modelScale);
+				BG_GiveMeVectorFromMatrix(&boltMatrix, ORIGIN, our_base);
+				BG_GiveMeVectorFromMatrix(&boltMatrix, NEGATIVE_Y, temp);
 				VectorMA(our_base, client->saber[0].blade[0].length, temp, our_tip);
 				//get their blade.
-				trap->G2API_GetBoltMatrix(enemy->ghoul2, 1, 0, &bolt_matrix, enemy->lerpAngles, enemy->lerpOrigin, cg.time, cgs.game_models, enemy->modelScale);
-				BG_GiveMeVectorFromMatrix(&bolt_matrix, ORIGIN, their_base);
-				BG_GiveMeVectorFromMatrix(&bolt_matrix, NEGATIVE_Y, temp);
+				trap->G2API_GetBoltMatrix(enemy->ghoul2, 1, 0, &boltMatrix, enemy->lerpAngles, enemy->lerpOrigin, cg.time, cgs.game_models, enemy->modelScale);
+				BG_GiveMeVectorFromMatrix(&boltMatrix, ORIGIN, their_base);
+				BG_GiveMeVectorFromMatrix(&boltMatrix, NEGATIVE_Y, temp);
 				VectorMA(their_base, client->saber[0].blade[0].length, temp, their_tip);
 
 				ShortestLineSegBewteen2LineSegs(our_base, our_tip, their_base, their_tip, flash_point, temp);
@@ -2921,33 +2921,33 @@ void CG_EntityEvent(centity_t* cent, vec3_t position)
 
 					if (client && client->infoValid)
 					{
-						int saber_num = es->weapon;
+						int saberNum = es->weapon;
 						int blade_num = es->legsAnim;
 
-						if (WP_SaberBladeUseSecondBladeStyle(&client->saber[saber_num], blade_num))
+						if (WP_SaberBladeUseSecondBladeStyle(&client->saber[saberNum], blade_num))
 						{
 							//use second blade style values
-							if (client->saber[saber_num].hitPersonEffect2)
+							if (client->saber[saberNum].hitPersonEffect2)
 							{
 								//custom hit person effect
-								hit_person_fx_id = hit_person_small_fx_id = hit_person_mid_fx_id = client->saber[saber_num].
+								hit_person_fx_id = hit_person_small_fx_id = hit_person_mid_fx_id = client->saber[saberNum].
 									hitPersonEffect2;
 							}
-							if (client->saber[saber_num].hitOtherEffect2)
+							if (client->saber[saberNum].hitOtherEffect2)
 							{
 								//custom hit other effect
-								hit_other_fx_id = client->saber[saber_num].hitOtherEffect2;
+								hit_other_fx_id = client->saber[saberNum].hitOtherEffect2;
 							}
-							if (client->saber[saber_num].hit2Sound[0])
+							if (client->saber[saberNum].hit2Sound[0])
 							{
 								//custom hit sound
-								hit_sound = client->saber[saber_num].hit2Sound[Q_irand(0, 2)];
+								hit_sound = client->saber[saberNum].hit2Sound[Q_irand(0, 2)];
 							}
 						}
 						else
 						{
 							//use first blade style values
-							if (client->saber[saber_num].hitPersonEffect)
+							if (client->saber[saberNum].hitPersonEffect)
 							{
 								//custom hit person effect
 								if (cent->currentState.botclass == BCLASS_SBD
@@ -2965,16 +2965,16 @@ void CG_EntityEvent(centity_t* cent, vec3_t position)
 									|| cent->currentState.botclass == BCLASS_MANDOLORIAN1
 									|| cent->currentState.botclass == BCLASS_MANDOLORIAN2)
 								{
-									hit_droid_fx_id = hit_person_small_fx_id = hit_person_mid_fx_id = client->saber[saber_num].
+									hit_droid_fx_id = hit_person_small_fx_id = hit_person_mid_fx_id = client->saber[saberNum].
 										hitPersonEffect;
 								}
 								else
 								{
-									hit_person_fx_id = hit_person_small_fx_id = hit_person_mid_fx_id = client->saber[saber_num].
+									hit_person_fx_id = hit_person_small_fx_id = hit_person_mid_fx_id = client->saber[saberNum].
 										hitPersonEffect;
 								}
 							}
-							if (client->saber[saber_num].hitOtherEffect)
+							if (client->saber[saberNum].hitOtherEffect)
 							{
 								//custom hit other effect
 								if (cent->currentState.botclass == BCLASS_SBD
@@ -2999,10 +2999,10 @@ void CG_EntityEvent(centity_t* cent, vec3_t position)
 									hit_other_fx_id = client->saber[0].hitOtherEffect;
 								}
 							}
-							if (client->saber[saber_num].hit_sound[0])
+							if (client->saber[saberNum].hit_sound[0])
 							{
 								//custom hit sound
-								hit_sound = client->saber[saber_num].hit_sound[Q_irand(0, 2)];
+								hit_sound = client->saber[saberNum].hit_sound[Q_irand(0, 2)];
 							}
 						}
 					}
@@ -3219,54 +3219,54 @@ void CG_EntityEvent(centity_t* cent, vec3_t position)
 					}
 					if (client && client->infoValid)
 					{
-						int saber_num = es->weapon;
+						int saberNum = es->weapon;
 						int blade_num = es->legsAnim;
 
-						if (WP_SaberBladeUseSecondBladeStyle(&client->saber[saber_num], blade_num))
+						if (WP_SaberBladeUseSecondBladeStyle(&client->saber[saberNum], blade_num))
 						{
 							//use second blade style values
-							if (client->saber[saber_num].blockEffect2)
+							if (client->saber[saberNum].blockEffect2)
 							{
 								//custom saber block effect
-								block_fxid = client->saber[saber_num].blockEffect2;
+								block_fxid = client->saber[saberNum].blockEffect2;
 							}
-							if (client->saber[saber_num].block2Sound[0])
+							if (client->saber[saberNum].block2Sound[0])
 							{
 								//custom hit sound
 								if (cg.snap->ps.fd.blockPoints > BLOCKPOINTS_HALF || cent->currentState.userInt3 & 1 << FLAG_PERFECTBLOCK)
 								{
-									block_sound = client->saber[saber_num].block2Sound[Q_irand(0, 2)];
+									block_sound = client->saber[saberNum].block2Sound[Q_irand(0, 2)];
 								}
 								else
 								{
-									knock_sound = client->saber[saber_num].block2Sound[Q_irand(0, 2)];
+									knock_sound = client->saber[saberNum].block2Sound[Q_irand(0, 2)];
 								}
 							}
 						}
 						else
 						{
-							if (client->saber[saber_num].blockEffect)
+							if (client->saber[saberNum].blockEffect)
 							{
 								//custom saber block effect
 								if (cg.snap->ps.fd.blockPoints > BLOCKPOINTS_HALF || cent->currentState.userInt3 & 1 << FLAG_PERFECTBLOCK)
 								{
-									perfectblock_fxid = client->saber[saber_num].blockEffect;
+									perfectblock_fxid = client->saber[saberNum].blockEffect;
 								}
 								else
 								{
-									block_fxid = client->saber[saber_num].blockEffect;
+									block_fxid = client->saber[saberNum].blockEffect;
 								}
 							}
-							if (client->saber[saber_num].blockSound[0])
+							if (client->saber[saberNum].blockSound[0])
 							{
 								//custom hit sound
 								if (cg.snap->ps.fd.blockPoints > BLOCKPOINTS_HALF || cent->currentState.userInt3 & 1 << FLAG_PERFECTBLOCK)
 								{
-									block_sound = client->saber[saber_num].blockSound[Q_irand(0, 2)];
+									block_sound = client->saber[saberNum].blockSound[Q_irand(0, 2)];
 								}
 								else
 								{
-									knock_sound = client->saber[saber_num].blockSound[Q_irand(0, 2)];
+									knock_sound = client->saber[saberNum].blockSound[Q_irand(0, 2)];
 								}
 							}
 						}
@@ -3371,31 +3371,31 @@ void CG_EntityEvent(centity_t* cent, vec3_t position)
 						}
 						if (client && client->infoValid)
 						{
-							int saber_num = es->weapon;
+							int saberNum = es->weapon;
 							int blade_num = es->legsAnim;
 
-							if (WP_SaberBladeUseSecondBladeStyle(&client->saber[saber_num], blade_num))
+							if (WP_SaberBladeUseSecondBladeStyle(&client->saber[saberNum], blade_num))
 							{
 								//use second blade style values
-								if (client->saber[saber_num].blockEffect2)
+								if (client->saber[saberNum].blockEffect2)
 								{
 									//custom saber block effect
-									perfectblock_fxid = client->saber[saber_num].blockEffect2;
+									perfectblock_fxid = client->saber[saberNum].blockEffect2;
 								}
-								if (client->saber[saber_num].block2Sound[0])
+								if (client->saber[saberNum].block2Sound[0])
 								{
-									block_sound = client->saber[saber_num].block2Sound[Q_irand(0, 2)];
+									block_sound = client->saber[saberNum].block2Sound[Q_irand(0, 2)];
 								}
 							}
 							else
 							{
-								if (client->saber[saber_num].blockEffect)
+								if (client->saber[saberNum].blockEffect)
 								{
-									perfectblock_fxid = client->saber[saber_num].blockEffect;
+									perfectblock_fxid = client->saber[saberNum].blockEffect;
 								}
-								if (client->saber[saber_num].blockSound[0])
+								if (client->saber[saberNum].blockSound[0])
 								{
-									block_sound = client->saber[saber_num].blockSound[Q_irand(0, 2)];
+									block_sound = client->saber[saberNum].blockSound[Q_irand(0, 2)];
 								}
 							}
 						}

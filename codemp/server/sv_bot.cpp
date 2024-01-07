@@ -279,14 +279,14 @@ void BotDrawDebugPolygons(void (*drawPoly)(int color, int num_points, const floa
 BotImport_Print
 ==================
 */
-void QDECL BotImport_Print(const int type, char* fmt, ...)
+static void QDECL BotImport_Print(const int type, char* fmt, ...)
 {
 	char str[2048];
-	va_list ap;
+	va_list argptr;
 
-	va_start(ap, fmt);
-	Q_vsnprintf(str, sizeof str, fmt, ap);
-	va_end(ap);
+	va_start(argptr, fmt);
+	Q_vsnprintf(str, sizeof str, fmt, argptr);
+	va_end(argptr);
 
 	switch (type)
 	{
@@ -327,7 +327,7 @@ void QDECL BotImport_Print(const int type, char* fmt, ...)
 BotImport_Trace
 ==================
 */
-void BotImport_Trace(bsp_trace_t* bsptrace, vec3_t start, vec3_t mins, vec3_t maxs, vec3_t end, const int passent,
+static void BotImport_Trace(bsp_trace_t* bsptrace, vec3_t start, vec3_t mins, vec3_t maxs, vec3_t end, const int passent,
 	const int contentmask)
 {
 	trace_t trace;
@@ -354,7 +354,7 @@ void BotImport_Trace(bsp_trace_t* bsptrace, vec3_t start, vec3_t mins, vec3_t ma
 BotImport_EntityTrace
 ==================
 */
-void BotImport_EntityTrace(bsp_trace_t* bsptrace, vec3_t start, vec3_t mins, vec3_t maxs, vec3_t end, const int entnum,
+static void BotImport_EntityTrace(bsp_trace_t* bsptrace, vec3_t start, vec3_t mins, vec3_t maxs, vec3_t end, const int entnum,
 	const int contentmask)
 {
 	trace_t trace;
@@ -381,7 +381,7 @@ void BotImport_EntityTrace(bsp_trace_t* bsptrace, vec3_t start, vec3_t mins, vec
 BotImport_PointContents
 ==================
 */
-int BotImport_PointContents(vec3_t point)
+static int BotImport_PointContents(vec3_t point)
 {
 	return SV_PointContents(point, -1);
 }
@@ -391,7 +391,7 @@ int BotImport_PointContents(vec3_t point)
 BotImport_inPVS
 ==================
 */
-int BotImport_inPVS(vec3_t p1, vec3_t p2)
+static int BotImport_inPVS(vec3_t p1, vec3_t p2)
 {
 	return SV_inPVS(p1, p2);
 }
@@ -401,7 +401,7 @@ int BotImport_inPVS(vec3_t p1, vec3_t p2)
 BotImport_BSPEntityData
 ==================
 */
-char* BotImport_BSPEntityData(void)
+static char* BotImport_BSPEntityData(void)
 {
 	return CM_EntityString();
 }
@@ -411,7 +411,7 @@ char* BotImport_BSPEntityData(void)
 BotImport_BSPModelMinsMaxsOrigin
 ==================
 */
-void BotImport_BSPModelMinsMaxsOrigin(const int modelnum, vec3_t angles, vec3_t outmins, vec3_t outmaxs, vec3_t origin)
+static void BotImport_BSPModelMinsMaxsOrigin(const int modelnum, vec3_t angles, vec3_t outmins, vec3_t outmaxs, vec3_t origin)
 {
 	vec3_t mins, maxs;
 
@@ -461,7 +461,7 @@ void Bot_FreeMemoryGame(void* ptr)
 BotImport_GetMemory
 ==================
 */
-void* BotImport_GetMemory(const int size)
+static void* BotImport_GetMemory(const int size)
 {
 	void* ptr = Z_Malloc(size, TAG_BOTLIB, qtrue);
 	return ptr;
@@ -472,7 +472,7 @@ void* BotImport_GetMemory(const int size)
 BotImport_FreeMemory
 ==================
 */
-void BotImport_FreeMemory(void* ptr)
+static void BotImport_FreeMemory(void* ptr)
 {
 	Z_Free(ptr);
 }
@@ -482,7 +482,7 @@ void BotImport_FreeMemory(void* ptr)
 BotImport_HunkAlloc
 =================
 */
-void* BotImport_HunkAlloc(const int size)
+static void* BotImport_HunkAlloc(const int size)
 {
 	if (Hunk_CheckMark())
 	{
@@ -524,7 +524,7 @@ int BotImport_DebugPolygonCreate(const int color, const int num_points, const ve
 BotImport_DebugPolygonShow
 ==================
 */
-void BotImport_DebugPolygonShow(const int id, const int color, const int num_points, const vec3_t* points)
+static void BotImport_DebugPolygonShow(const int id, const int color, const int num_points, const vec3_t* points)
 {
 	if (!debugpolygons) return;
 	bot_debugpoly_t* poly = &debugpolygons[id];
@@ -550,7 +550,7 @@ void BotImport_DebugPolygonDelete(const int id)
 BotImport_DebugLineCreate
 ==================
 */
-int BotImport_DebugLineCreate(void)
+static int BotImport_DebugLineCreate(void)
 {
 	vec3_t points[1]{};
 	return BotImport_DebugPolygonCreate(0, 0, points);
@@ -561,7 +561,7 @@ int BotImport_DebugLineCreate(void)
 BotImport_DebugLineDelete
 ==================
 */
-void BotImport_DebugLineDelete(const int line)
+static void BotImport_DebugLineDelete(const int line)
 {
 	BotImport_DebugPolygonDelete(line);
 }
@@ -571,7 +571,7 @@ void BotImport_DebugLineDelete(const int line)
 BotImport_DebugLineShow
 ==================
 */
-void BotImport_DebugLineShow(const int line, vec3_t start, vec3_t end, const int color)
+static void BotImport_DebugLineShow(const int line, vec3_t start, vec3_t end, const int color)
 {
 	vec3_t points[4]{}, dir, cross;
 	constexpr vec3_t up = { 0, 0, 1 };
@@ -604,7 +604,7 @@ void BotImport_DebugLineShow(const int line, vec3_t start, vec3_t end, const int
 SV_BotClientCommand
 ==================
 */
-void BotClientCommand(const int client, const char* command)
+static void BotClientCommand(const int client, const char* command)
 {
 	SV_ExecuteClientCommand(&svs.clients[client], command, qtrue);
 }
@@ -629,7 +629,7 @@ void SV_BotFrame(const int time)
 SV_BotLibSetup
 ===============
 */
-int SV_BotLibSetup(void)
+static int SV_BotLibSetup(void)
 {
 	if (!bot_enable)
 	{
@@ -653,7 +653,7 @@ Called when either the entire server is being killed, or
 it is changing to a different game directory.
 ===============
 */
-int SV_BotLibShutdown(void)
+static int SV_BotLibShutdown(void)
 {
 	if (!botlib_export)
 	{
@@ -800,7 +800,7 @@ int SV_BotGetConsoleMessage(const int client, char* buf, const int size)
 EntityInPVS
 ==================
 */
-int EntityInPVS(int client, int entityNum) {
+static int EntityInPVS(int client, int entityNum) {
 	client_t* cl;
 	clientSnapshot_t* frame;
 	int					i;

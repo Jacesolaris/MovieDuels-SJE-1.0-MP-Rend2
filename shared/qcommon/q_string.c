@@ -426,9 +426,9 @@ MinGW comes with its own snprintf() which is not broken.
 =============
 */
 
-int Q_vsnprintf(char* str, const size_t size, const char* format, const va_list ap)
+int Q_vsnprintf(char* str, const size_t size, const char* format, const va_list argptr)
 {
-	const int retval = _vsnprintf(str, size, format, ap);
+	const int retval = _vsnprintf(str, size, format, argptr);
 
 	if (retval < 0 || retval == size)
 	{

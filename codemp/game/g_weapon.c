@@ -53,7 +53,7 @@ const int FROZEN_TIME = 5000;
 
 extern qboolean WP_DoingForcedAnimationForForcePowers(const gentity_t* self);
 extern int wp_saber_must_bolt_block(gentity_t* self, const gentity_t* atk, qboolean check_b_box_block, vec3_t point,
-	int r_saber_num, int r_blade_num);
+	int rSaberNum, int rBladeNum);
 extern int wp_player_must_dodge(const gentity_t* self, const gentity_t* shooter);
 extern qboolean WP_SaberBlockBolt(gentity_t* self, vec3_t hitloc, qboolean missileBlock);
 extern void g_missile_reflect_effect(const gentity_t* ent, vec3_t dir);
@@ -4478,7 +4478,7 @@ static void WP_TouchVehMissile(gentity_t* ent, const gentity_t* other, const tra
 void WP_CalcVehMuzzle(gentity_t* ent, const int muzzle_num)
 {
 	Vehicle_t* p_veh = ent->m_pVehicle;
-	mdxaBone_t bolt_matrix;
+	mdxaBone_t boltMatrix;
 	vec3_t veh_angles;
 
 	assert(p_veh);
@@ -4500,10 +4500,10 @@ void WP_CalcVehMuzzle(gentity_t* ent, const int muzzle_num)
 		veh_angles[PITCH] = veh_angles[ROLL] = 0;
 	}
 
-	trap->G2API_GetBoltMatrix_NoRecNoRot(ent->ghoul2, 0, p_veh->m_iMuzzleTag[muzzle_num], &bolt_matrix, veh_angles,
+	trap->G2API_GetBoltMatrix_NoRecNoRot(ent->ghoul2, 0, p_veh->m_iMuzzleTag[muzzle_num], &boltMatrix, veh_angles,
 		ent->client->ps.origin, level.time, NULL, ent->modelScale);
-	BG_GiveMeVectorFromMatrix(&bolt_matrix, ORIGIN, p_veh->m_vMuzzlePos[muzzle_num]);
-	BG_GiveMeVectorFromMatrix(&bolt_matrix, NEGATIVE_Y, p_veh->m_vMuzzleDir[muzzle_num]);
+	BG_GiveMeVectorFromMatrix(&boltMatrix, ORIGIN, p_veh->m_vMuzzlePos[muzzle_num]);
+	BG_GiveMeVectorFromMatrix(&boltMatrix, NEGATIVE_Y, p_veh->m_vMuzzleDir[muzzle_num]);
 }
 
 static void WP_VehWeapSetSolidToOwner(gentity_t* self)
@@ -5512,11 +5512,11 @@ void FireWeapon(gentity_t* ent, const qboolean alt_fire)
 	{
 		//riding a vehicle...with blaster selected
 		vec3_t veh_turn_angles;
-		const gentity_t* veh_ent = &g_entities[ent->client->ps.m_iVehicleNum];
+		const gentity_t* vehEnt = &g_entities[ent->client->ps.m_iVehicleNum];
 
-		if (veh_ent->inuse && veh_ent->client && veh_ent->m_pVehicle)
+		if (vehEnt->inuse && vehEnt->client && vehEnt->m_pVehicle)
 		{
-			VectorCopy(veh_ent->m_pVehicle->m_vOrientation, veh_turn_angles);
+			VectorCopy(vehEnt->m_pVehicle->m_vOrientation, veh_turn_angles);
 			veh_turn_angles[PITCH] = ent->client->ps.viewangles[PITCH];
 		}
 		else

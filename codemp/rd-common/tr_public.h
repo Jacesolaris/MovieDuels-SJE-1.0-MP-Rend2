@@ -207,7 +207,7 @@ using refexport_t = struct refexport_s
 	int (*G2API_GetSurfaceRenderStatus)(CGhoul2Info_v& ghoul2, int model_index, const char* surface_name);
 	int (*G2API_GetTime)(int argTime);
 	int (*G2API_Ghoul2Size)(const CGhoul2Info_v& ghoul2);
-	void (*G2API_GiveMeVectorFromMatrix)(const mdxaBone_t* bolt_matrix, Eorientations flags, vec3_t vec);
+	void (*G2API_GiveMeVectorFromMatrix)(const mdxaBone_t* boltMatrix, Eorientations flags, vec3_t vec);
 	qboolean(*G2API_HasGhoul2ModelOnIndex)(CGhoul2Info_v** ghlRemove, int model_index);
 	qboolean(*G2API_HaveWeGhoul2Models)(const CGhoul2Info_v& ghoul2);
 	qboolean(*G2API_IKMove)(CGhoul2Info_v& ghoul2, int time, sharedIKMoveParams_t* params);

@@ -2264,7 +2264,7 @@ if desired.
 ============
 */
 
-qboolean G_SetSaber(gentity_t* ent, int saber_num, char* saberName, qboolean siegeOverride);
+qboolean G_SetSaber(gentity_t* ent, int saberNum, char* saberName, qboolean siegeOverride);
 void G_ValidateSiegeClassForTeam(const gentity_t* ent, int team);
 
 typedef struct userinfoValidate_s
@@ -5850,7 +5850,7 @@ char* ClientConnect(int clientNum, const qboolean firstTime, const qboolean isBo
 
 void G_WriteClientSessionData(const gclient_t* client);
 
-void WP_SetSaber(int entNum, saberInfo_t* sabers, int saber_num, const char* saberName);
+void WP_SetSaber(int entNum, saberInfo_t* sabers, int saberNum, const char* saberName);
 
 /*
 ===========

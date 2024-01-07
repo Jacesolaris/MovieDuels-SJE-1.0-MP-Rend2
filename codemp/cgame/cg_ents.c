@@ -566,7 +566,7 @@ static void G2_BoltToGhoul2Model(centity_t* cent, refEntity_t* ent)
 	int model_num = cent->boltInfo >> MODEL_SHIFT;
 	int bolt_num = cent->boltInfo >> BOLT_SHIFT;
 	int entNum = cent->boltInfo >> ENTITY_SHIFT;
-	mdxaBone_t bolt_matrix;
+	mdxaBone_t boltMatrix;
 
 	model_num &= MODEL_AND;
 	bolt_num &= BOLT_AND;
@@ -576,25 +576,25 @@ static void G2_BoltToGhoul2Model(centity_t* cent, refEntity_t* ent)
 	assert(0);
 
 	// go away and get me the bolt position for this frame please
-	trap->G2API_GetBoltMatrix(cent->ghoul2, model_num, bolt_num, &bolt_matrix, cg_entities[entNum].currentState.angles,
+	trap->G2API_GetBoltMatrix(cent->ghoul2, model_num, bolt_num, &boltMatrix, cg_entities[entNum].currentState.angles,
 		cg_entities[entNum].currentState.origin, cg.time, cgs.game_models, cent->modelScale);
 
 	// set up the axis and origin we need for the actual effect spawning
-	ent->origin[0] = bolt_matrix.matrix[0][3];
-	ent->origin[1] = bolt_matrix.matrix[1][3];
-	ent->origin[2] = bolt_matrix.matrix[2][3];
+	ent->origin[0] = boltMatrix.matrix[0][3];
+	ent->origin[1] = boltMatrix.matrix[1][3];
+	ent->origin[2] = boltMatrix.matrix[2][3];
 
-	ent->axis[0][0] = bolt_matrix.matrix[0][0];
-	ent->axis[0][1] = bolt_matrix.matrix[1][0];
-	ent->axis[0][2] = bolt_matrix.matrix[2][0];
+	ent->axis[0][0] = boltMatrix.matrix[0][0];
+	ent->axis[0][1] = boltMatrix.matrix[1][0];
+	ent->axis[0][2] = boltMatrix.matrix[2][0];
 
-	ent->axis[1][0] = bolt_matrix.matrix[0][1];
-	ent->axis[1][1] = bolt_matrix.matrix[1][1];
-	ent->axis[1][2] = bolt_matrix.matrix[2][1];
+	ent->axis[1][0] = boltMatrix.matrix[0][1];
+	ent->axis[1][1] = boltMatrix.matrix[1][1];
+	ent->axis[1][2] = boltMatrix.matrix[2][1];
 
-	ent->axis[2][0] = bolt_matrix.matrix[0][2];
-	ent->axis[2][1] = bolt_matrix.matrix[1][2];
-	ent->axis[2][2] = bolt_matrix.matrix[2][2];
+	ent->axis[2][0] = boltMatrix.matrix[0][2];
+	ent->axis[2][1] = boltMatrix.matrix[1][2];
+	ent->axis[2][2] = boltMatrix.matrix[2][2];
 }
 
 void ScaleModelAxis(refEntity_t* ent)
@@ -671,14 +671,14 @@ void CG_Disintegration(centity_t* cent, refEntity_t* ent)
 	if (cg.time - ent->endTime < 1000 && timescale.value * timescale.value * Q_flrand(0.0f, 1.0f) > 0.05f)
 	{
 		vec3_t fx_org, fx_dir;
-		mdxaBone_t bolt_matrix;
+		mdxaBone_t boltMatrix;
 		const int torso_bolt = trap->G2API_AddBolt(cent->ghoul2, 0, "lower_lumbar");
 
 		VectorSet(fx_dir, 0, 1, 0);
 
-		trap->G2API_GetBoltMatrix(cent->ghoul2, 0, torso_bolt, &bolt_matrix, cent->lerpAngles, cent->lerpOrigin, cg.time,
+		trap->G2API_GetBoltMatrix(cent->ghoul2, 0, torso_bolt, &boltMatrix, cent->lerpAngles, cent->lerpOrigin, cg.time,
 			cgs.game_models, cent->modelScale);
-		BG_GiveMeVectorFromMatrix(&bolt_matrix, ORIGIN, fx_org);
+		BG_GiveMeVectorFromMatrix(&boltMatrix, ORIGIN, fx_org);
 
 		VectorMA(fx_org, -18, cg.refdef.viewaxis[0], fx_org);
 		fx_org[2] += Q_flrand(-1.0f, 1.0f) * 20;
@@ -2760,7 +2760,7 @@ static void CG_CreateDistortionTrailPart(const centity_t* cent, const float scal
 CG_Missile
 ===============
 */
-extern void CG_AddSaberBlade(centity_t* cent, centity_t* scent, int renderfx, int saber_num, int blade_num, vec3_t origin, vec3_t angles, qboolean from_saber, qboolean dont_draw);
+extern void CG_AddSaberBlade(centity_t* cent, centity_t* scent, int renderfx, int saberNum, int blade_num, vec3_t origin, vec3_t angles, qboolean from_saber, qboolean dont_draw);
 extern void CG_DoSaberLight(const saberInfo_t* saber, int cnum, int bnum);
 
 static void CG_Missile(centity_t* cent)

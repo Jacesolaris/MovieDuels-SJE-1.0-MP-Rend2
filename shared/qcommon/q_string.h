@@ -42,7 +42,7 @@ extern "C" {
 #if defined (_MSC_VER)
 	// vsnprintf is ISO/IEC 9899:1999
 	// abstracting this to make it portable
-	int Q_vsnprintf(char* str, size_t size, const char* format, va_list ap);
+	int Q_vsnprintf(char* str, const size_t size, const char* format, const va_list argptr);
 #else // not using MSVC
 #define Q_vsnprintf vsnprintf
 #endif

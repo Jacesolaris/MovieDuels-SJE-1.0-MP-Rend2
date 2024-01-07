@@ -4519,9 +4519,9 @@ static void G_GetDismemberLoc(const gentity_t* self, vec3_t bolt_point, const in
 
 static void G_GetDismemberBolt(gentity_t* self, vec3_t bolt_point, const int limbType)
 {
-	vec3_t proper_origin, proper_angles, add_vel;
+	vec3_t properOrigin, properAngles, add_vel;
 	//matrix3_t legAxis;
-	mdxaBone_t bolt_matrix;
+	mdxaBone_t boltMatrix;
 	float f_v_speed = 0;
 	const char* rotate_bone;
 
@@ -4563,8 +4563,8 @@ static void G_GetDismemberBolt(gentity_t* self, vec3_t bolt_point, const int lim
 
 	const int use_bolt = trap->G2API_AddBolt(self->ghoul2, 0, rotate_bone);
 
-	VectorCopy(self->client->ps.origin, proper_origin);
-	VectorCopy(self->client->ps.viewangles, proper_angles);
+	VectorCopy(self->client->ps.origin, properOrigin);
+	VectorCopy(self->client->ps.viewangles, properAngles);
 
 	//try to predict the origin based on velocity so it's more like what the client is seeing
 	VectorCopy(self->client->ps.velocity, add_vel);
@@ -4597,41 +4597,41 @@ static void G_GetDismemberBolt(gentity_t* self, vec3_t bolt_point, const int lim
 
 	f_v_speed *= 0.08f;
 
-	proper_origin[0] += add_vel[0] * f_v_speed;
-	proper_origin[1] += add_vel[1] * f_v_speed;
-	proper_origin[2] += add_vel[2] * f_v_speed;
+	properOrigin[0] += add_vel[0] * f_v_speed;
+	properOrigin[1] += add_vel[1] * f_v_speed;
+	properOrigin[2] += add_vel[2] * f_v_speed;
 
-	proper_angles[0] = 0;
-	proper_angles[1] = self->client->ps.viewangles[YAW];
-	proper_angles[2] = 0;
+	properAngles[0] = 0;
+	properAngles[1] = self->client->ps.viewangles[YAW];
+	properAngles[2] = 0;
 
-	trap->G2API_GetBoltMatrix(self->ghoul2, 0, use_bolt, &bolt_matrix, proper_angles, proper_origin, level.time, NULL,
+	trap->G2API_GetBoltMatrix(self->ghoul2, 0, use_bolt, &boltMatrix, properAngles, properOrigin, level.time, NULL,
 		self->modelScale);
 
-	bolt_point[0] = bolt_matrix.matrix[0][3];
-	bolt_point[1] = bolt_matrix.matrix[1][3];
-	bolt_point[2] = bolt_matrix.matrix[2][3];
+	bolt_point[0] = boltMatrix.matrix[0][3];
+	bolt_point[1] = boltMatrix.matrix[1][3];
+	bolt_point[2] = boltMatrix.matrix[2][3];
 
-	trap->G2API_GetBoltMatrix(self->ghoul2, 1, 0, &bolt_matrix, proper_angles, proper_origin, level.time, NULL,
+	trap->G2API_GetBoltMatrix(self->ghoul2, 1, 0, &boltMatrix, properAngles, properOrigin, level.time, NULL,
 		self->modelScale);
 
 	if (self->client && limbType == G2_MODELPART_RHAND)
 	{
 		//Make some saber hit sparks over the severed wrist area
-		vec3_t bolt_angles;
+		vec3_t boltAngles;
 
-		bolt_angles[0] = -bolt_matrix.matrix[0][1];
-		bolt_angles[1] = -bolt_matrix.matrix[1][1];
-		bolt_angles[2] = -bolt_matrix.matrix[2][1];
+		boltAngles[0] = -boltMatrix.matrix[0][1];
+		boltAngles[1] = -boltMatrix.matrix[1][1];
+		boltAngles[2] = -boltMatrix.matrix[2][1];
 
 		gentity_t* te = G_TempEntity(bolt_point, EV_SABER_BODY_HIT);
 		te->s.otherEntityNum = self->s.number;
 		te->s.otherEntityNum2 = ENTITYNUM_NONE;
-		te->s.weapon = 0; //saber_num
+		te->s.weapon = 0; //saberNum
 		te->s.legsAnim = 0; //blade_num
 
 		VectorCopy(bolt_point, te->s.origin);
-		VectorCopy(bolt_angles, te->s.angles);
+		VectorCopy(boltAngles, te->s.angles);
 
 		if (!te->s.angles[0] && !te->s.angles[1] && !te->s.angles[2])
 		{
@@ -5190,16 +5190,16 @@ qboolean G_GetHitLocFromSurfName(gentity_t* ent, const char* surfName, int* hit_
 		*hit_loc = HL_WAIST;
 		if (ent->client != NULL && ent->ghoul2)
 		{
-			mdxaBone_t bolt_matrix;
+			mdxaBone_t boltMatrix;
 			vec3_t tagOrg, angles;
 
 			VectorSet(angles, 0, ent->r.currentAngles[YAW], 0);
 			if (knee_l_bolt >= 0)
 			{
 				trap->G2API_GetBoltMatrix(ent->ghoul2, 0, knee_l_bolt,
-					&bolt_matrix, angles, ent->r.currentOrigin,
+					&boltMatrix, angles, ent->r.currentOrigin,
 					actual_time, NULL, ent->modelScale);
-				BG_GiveMeVectorFromMatrix(&bolt_matrix, ORIGIN, tagOrg);
+				BG_GiveMeVectorFromMatrix(&boltMatrix, ORIGIN, tagOrg);
 				if (DistanceSquared(point, tagOrg) < 100)
 				{
 					//actually hit the knee
@@ -5211,9 +5211,9 @@ qboolean G_GetHitLocFromSurfName(gentity_t* ent, const char* surfName, int* hit_
 				if (knee_r_bolt >= 0)
 				{
 					trap->G2API_GetBoltMatrix(ent->ghoul2, 0, knee_r_bolt,
-						&bolt_matrix, angles, ent->r.currentOrigin,
+						&boltMatrix, angles, ent->r.currentOrigin,
 						actual_time, NULL, ent->modelScale);
-					BG_GiveMeVectorFromMatrix(&bolt_matrix, ORIGIN, tagOrg);
+					BG_GiveMeVectorFromMatrix(&boltMatrix, ORIGIN, tagOrg);
 					if (DistanceSquared(point, tagOrg) < 100)
 					{
 						//actually hit the knee
@@ -5311,7 +5311,7 @@ qboolean G_GetHitLocFromSurfName(gentity_t* ent, const char* surfName, int* hit_
 		*hit_loc = HL_ARM_RT;
 		if (ent->client != NULL && ent->ghoul2)
 		{
-			mdxaBone_t bolt_matrix;
+			mdxaBone_t boltMatrix;
 			vec3_t angles;
 
 			VectorSet(angles, 0, ent->r.currentAngles[YAW], 0);
@@ -5319,9 +5319,9 @@ qboolean G_GetHitLocFromSurfName(gentity_t* ent, const char* surfName, int* hit_
 			{
 				vec3_t tag_org;
 				trap->G2API_GetBoltMatrix(ent->ghoul2, 0, hand_r_bolt,
-					&bolt_matrix, angles, ent->r.currentOrigin,
+					&boltMatrix, angles, ent->r.currentOrigin,
 					actual_time, NULL, ent->modelScale);
-				BG_GiveMeVectorFromMatrix(&bolt_matrix, ORIGIN, tag_org);
+				BG_GiveMeVectorFromMatrix(&boltMatrix, ORIGIN, tag_org);
 				if (DistanceSquared(point, tag_org) < 256)
 				{
 					//actually hit the hand
@@ -5335,7 +5335,7 @@ qboolean G_GetHitLocFromSurfName(gentity_t* ent, const char* surfName, int* hit_
 		*hit_loc = HL_ARM_LT;
 		if (ent->client != NULL && ent->ghoul2)
 		{
-			mdxaBone_t bolt_matrix;
+			mdxaBone_t boltMatrix;
 			vec3_t angles;
 
 			VectorSet(angles, 0, ent->r.currentAngles[YAW], 0);
@@ -5343,9 +5343,9 @@ qboolean G_GetHitLocFromSurfName(gentity_t* ent, const char* surfName, int* hit_
 			{
 				vec3_t tag_org;
 				trap->G2API_GetBoltMatrix(ent->ghoul2, 0, hand_l_bolt,
-					&bolt_matrix, angles, ent->r.currentOrigin,
+					&boltMatrix, angles, ent->r.currentOrigin,
 					actual_time, NULL, ent->modelScale);
-				BG_GiveMeVectorFromMatrix(&bolt_matrix, ORIGIN, tag_org);
+				BG_GiveMeVectorFromMatrix(&boltMatrix, ORIGIN, tag_org);
 				if (DistanceSquared(point, tag_org) < 256)
 				{
 					//actually hit the hand
@@ -5359,7 +5359,7 @@ qboolean G_GetHitLocFromSurfName(gentity_t* ent, const char* surfName, int* hit_
 		*hit_loc = HL_LEG_RT;
 		if (ent->client != NULL && ent->ghoul2)
 		{
-			mdxaBone_t bolt_matrix;
+			mdxaBone_t boltMatrix;
 			vec3_t angles;
 
 			VectorSet(angles, 0, ent->r.currentAngles[YAW], 0);
@@ -5367,9 +5367,9 @@ qboolean G_GetHitLocFromSurfName(gentity_t* ent, const char* surfName, int* hit_
 			{
 				vec3_t tag_org;
 				trap->G2API_GetBoltMatrix(ent->ghoul2, 0, foot_r_bolt,
-					&bolt_matrix, angles, ent->r.currentOrigin,
+					&boltMatrix, angles, ent->r.currentOrigin,
 					actual_time, NULL, ent->modelScale);
-				BG_GiveMeVectorFromMatrix(&bolt_matrix, ORIGIN, tag_org);
+				BG_GiveMeVectorFromMatrix(&boltMatrix, ORIGIN, tag_org);
 				if (DistanceSquared(point, tag_org) < 100)
 				{
 					//actually hit the foot
@@ -5383,7 +5383,7 @@ qboolean G_GetHitLocFromSurfName(gentity_t* ent, const char* surfName, int* hit_
 		*hit_loc = HL_LEG_LT;
 		if (ent->client != NULL && ent->ghoul2)
 		{
-			mdxaBone_t bolt_matrix;
+			mdxaBone_t boltMatrix;
 			vec3_t angles;
 
 			VectorSet(angles, 0, ent->r.currentAngles[YAW], 0);
@@ -5391,9 +5391,9 @@ qboolean G_GetHitLocFromSurfName(gentity_t* ent, const char* surfName, int* hit_
 			{
 				vec3_t tag_org;
 				trap->G2API_GetBoltMatrix(ent->ghoul2, 0, foot_l_bolt,
-					&bolt_matrix, angles, ent->r.currentOrigin,
+					&boltMatrix, angles, ent->r.currentOrigin,
 					actual_time, NULL, ent->modelScale);
-				BG_GiveMeVectorFromMatrix(&bolt_matrix, ORIGIN, tag_org);
+				BG_GiveMeVectorFromMatrix(&boltMatrix, ORIGIN, tag_org);
 				if (DistanceSquared(point, tag_org) < 100)
 				{
 					//actually hit the foot
@@ -5487,15 +5487,15 @@ qboolean G_GetHitLocFromSurfName(gentity_t* ent, const char* surfName, int* hit_
 					const int tag_bolt = trap->G2API_AddBolt(ent->ghoul2, 0, tag_name);
 					if (tag_bolt != -1)
 					{
-						mdxaBone_t bolt_matrix;
+						mdxaBone_t boltMatrix;
 						vec3_t tag_org, tag_dir, angles;
 
 						VectorSet(angles, 0, ent->r.currentAngles[YAW], 0);
 						trap->G2API_GetBoltMatrix(ent->ghoul2, 0, tag_bolt,
-							&bolt_matrix, angles, ent->r.currentOrigin,
+							&boltMatrix, angles, ent->r.currentOrigin,
 							actual_time, NULL, ent->modelScale);
-						BG_GiveMeVectorFromMatrix(&bolt_matrix, ORIGIN, tag_org);
-						BG_GiveMeVectorFromMatrix(&bolt_matrix, NEGATIVE_Y, tag_dir);
+						BG_GiveMeVectorFromMatrix(&boltMatrix, ORIGIN, tag_org);
+						BG_GiveMeVectorFromMatrix(&boltMatrix, NEGATIVE_Y, tag_dir);
 						if (DistanceSquared(point, tag_org) < 256)
 						{
 							//hit close

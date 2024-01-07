@@ -2219,7 +2219,7 @@ void UI_SaberDrawBlade(itemDef_t* item, const char* saberName, int saberModel, s
 	char bladeColorString[MAX_QPATH];
 	vec3_t	bladeOrigin = { 0 };
 	matrix3_t	axis;
-	mdxaBone_t	bolt_matrix;
+	mdxaBone_t	boltMatrix;
 	qboolean tagHack = qfalse;
 	int snum;
 
@@ -2260,14 +2260,14 @@ void UI_SaberDrawBlade(itemDef_t* item, const char* saberName, int saberModel, s
 		}
 	}
 
-	trap->G2API_GetBoltMatrix(item->ghoul2, saberModel, bolt, &bolt_matrix, angles, origin, uiInfo.uiDC.realTime, NULL, vec3_origin);//NULL was cgs.model_draw
+	trap->G2API_GetBoltMatrix(item->ghoul2, saberModel, bolt, &boltMatrix, angles, origin, uiInfo.uiDC.realTime, NULL, vec3_origin);//NULL was cgs.model_draw
 
 	// work the matrix axis stuff into the original axis and origins used.
-	BG_GiveMeVectorFromMatrix(&bolt_matrix, ORIGIN, bladeOrigin);
-	BG_GiveMeVectorFromMatrix(&bolt_matrix, NEGATIVE_Y, axis[0]);//front (was NEGATIVE_Y, but the md3->glm exporter screws up this tag somethin' awful)
+	BG_GiveMeVectorFromMatrix(&boltMatrix, ORIGIN, bladeOrigin);
+	BG_GiveMeVectorFromMatrix(&boltMatrix, NEGATIVE_Y, axis[0]);//front (was NEGATIVE_Y, but the md3->glm exporter screws up this tag somethin' awful)
 	//		...changed this back to NEGATIVE_Y
-	BG_GiveMeVectorFromMatrix(&bolt_matrix, NEGATIVE_X, axis[1]);//right ... and changed this to NEGATIVE_X
-	BG_GiveMeVectorFromMatrix(&bolt_matrix, POSITIVE_Z, axis[2]);//up
+	BG_GiveMeVectorFromMatrix(&boltMatrix, NEGATIVE_X, axis[1]);//right ... and changed this to NEGATIVE_X
+	BG_GiveMeVectorFromMatrix(&boltMatrix, POSITIVE_Z, axis[2]);//up
 
 	// Where do I get scale from?
 
@@ -2577,12 +2577,12 @@ void UI_SaberDrawBlade(itemDef_t* item, const char* saberName, int saberModel, s
 	}
 }
 
-void UI_GetSaberForMenu(char* saber, int saber_num)
+void UI_GetSaberForMenu(char* saber, int saberNum)
 {
 	char saberTypeString[MAX_QPATH] = { 0 };
 	saberType_t saberType = SABER_NONE;
 
-	if (saber_num == 0)
+	if (saberNum == 0)
 	{
 		trap->Cvar_VariableStringBuffer("ui_saber", saber, MAX_QPATH);
 		if (!UI_SaberValidForPlayerInMP(saber))
@@ -2647,13 +2647,13 @@ void UI_SaberDrawBlades(itemDef_t* item, vec3_t origin, vec3_t angles)
 		numSabers = 2;
 	}
 
-	for (int saber_num = 0; saber_num < numSabers; saber_num++)
+	for (int saberNum = 0; saberNum < numSabers; saberNum++)
 	{
 		char saber[MAX_QPATH];
 		if (item->flags & ITF_ISCHARACTER)//hacked saber_moves sabers in character's hand
 		{
-			UI_GetSaberForMenu(saber, saber_num);
-			saberModel = saber_num + 1;
+			UI_GetSaberForMenu(saber, saberNum);
+			saberModel = saberNum + 1;
 		}
 		else if (item->flags & ITF_ISSABER)
 		{
@@ -2717,13 +2717,13 @@ void UI_SaberAttachToChar(itemDef_t* item)
 		numSabers = 2;
 	}
 
-	for (int saber_num = 0; saber_num < numSabers; saber_num++)
+	for (int saberNum = 0; saberNum < numSabers; saberNum++)
 	{
 		//bolt sabers
 		char modelPath[MAX_QPATH];
 		char saber[MAX_QPATH];
 
-		UI_GetSaberForMenu(saber, saber_num);
+		UI_GetSaberForMenu(saber, saberNum);
 
 		if (UI_SaberModelForSaber(saber, modelPath))
 		{//successfully found a model
@@ -2742,7 +2742,7 @@ void UI_SaberAttachToChar(itemDef_t* item)
 				{
 					trap->G2API_SetSkin(item->ghoul2, g2Saber, 0, 0);//turn off custom skin
 				}
-				if (saber_num == 0)
+				if (saberNum == 0)
 				{
 					boltNum = trap->G2API_AddBolt(item->ghoul2, 0, "*r_hand");
 				}

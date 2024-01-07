@@ -67,7 +67,7 @@ extern qboolean PM_RunningAnim(int anim);
 extern void g_reflect_missile_auto(const gentity_t* ent, gentity_t* missile, vec3_t forward);
 extern void g_reflect_missile_bot(const gentity_t* ent, gentity_t* missile, vec3_t forward);
 extern void G_SoundOnEnt(gentity_t* ent, soundChannel_t channel, const char* sound_path);
-extern saberInfo_t* BG_MySaber(int clientNum, int saber_num);
+extern saberInfo_t* BG_MySaber(int clientNum, int saberNum);
 extern qboolean G_ControlledByPlayer(const gentity_t* self);
 extern qboolean PM_SaberCanInterruptMove(int move, int anim);
 extern void Boba_FireWristMissile(gentity_t* self, int whichMissile);
@@ -6431,16 +6431,16 @@ void ForceThrow(gentity_t* self, qboolean pull)
 						else if (push_target[x]->client->ps.m_iVehicleNum && dir_len <= 128.0f)
 						{
 							//a player on a vehicle
-							gentity_t* veh_ent = &g_entities[push_target[x]->client->ps.m_iVehicleNum];
+							gentity_t* vehEnt = &g_entities[push_target[x]->client->ps.m_iVehicleNum];
 
-							if (veh_ent->inuse && veh_ent->client && veh_ent->m_pVehicle)
+							if (vehEnt->inuse && vehEnt->client && vehEnt->m_pVehicle)
 							{
-								if (veh_ent->m_pVehicle->m_pVehicleInfo->type == VH_SPEEDER ||
-									veh_ent->m_pVehicle->m_pVehicleInfo->type == VH_ANIMAL)
+								if (vehEnt->m_pVehicle->m_pVehicleInfo->type == VH_SPEEDER ||
+									vehEnt->m_pVehicle->m_pVehicleInfo->type == VH_ANIMAL)
 								{
 									//push the guy off
-									veh_ent->m_pVehicle->m_pVehicleInfo->Eject(
-										veh_ent->m_pVehicle, (bgEntity_t*)push_target[x], qfalse);
+									vehEnt->m_pVehicle->m_pVehicleInfo->Eject(
+										vehEnt->m_pVehicle, (bgEntity_t*)push_target[x], qfalse);
 								}
 							}
 						}

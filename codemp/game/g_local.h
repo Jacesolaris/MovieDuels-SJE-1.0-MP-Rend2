@@ -790,7 +790,7 @@ typedef struct
 {
 	int EntityNum;
 	int Debounce;
-	int saber_num;
+	int saberNum;
 	int blade_num;
 } sabimpact_t;
 
@@ -1039,7 +1039,7 @@ struct gclient_s
 	vec3_t prevviewangle;
 	int prevviewtime;
 
-	//the saber_num of the last enemy blade that you hit.
+	//the saberNum of the last enemy blade that you hit.
 	int lastSaberCollided;
 	//the blade_num of the last enemy blade that you hit.
 	int lastBladeCollided;

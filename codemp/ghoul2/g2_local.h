@@ -343,7 +343,7 @@ qboolean G2API_GetAnimFileName(CGhoul2Info* ghlInfo, char** filename);
 void G2API_CollisionDetect(CollisionRecord_t* collRecMap, CGhoul2Info_v& ghoul2, const vec3_t angles, const vec3_t position, int frameNumber, int entNum, vec3_t rayStart, vec3_t rayEnd, vec3_t scale, IHeapAllocator* G2VertSpace, int traceFlags, int useLod, float fRadius);
 void G2API_CollisionDetectCache(CollisionRecord_t* collRecMap, CGhoul2Info_v& ghoul2, const vec3_t angles, const vec3_t position, int frameNumber, int entNum, vec3_t rayStart, vec3_t rayEnd, vec3_t scale, IHeapAllocator* G2VertSpace, int traceFlags, int useLod, float fRadius);
 
-void G2API_GiveMeVectorFromMatrix(const mdxaBone_t* bolt_matrix, const Eorientations flags, vec3_t vec);
+void G2API_GiveMeVectorFromMatrix(const mdxaBone_t* boltMatrix, const Eorientations flags, vec3_t vec);
 int G2API_CopyGhoul2Instance(const CGhoul2Info_v& g2_from, CGhoul2Info_v& g2To, const int model_index);
 void G2API_CleanGhoul2Models(CGhoul2Info_v** ghoul2Ptr);
 int G2API_GetParentSurface(CGhoul2Info* ghlInfo, const int index);

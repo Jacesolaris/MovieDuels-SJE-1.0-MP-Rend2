@@ -1040,16 +1040,16 @@ void Rancor_CheckAnimDamage()
 //{
 //	const int damage = Q_irand(10, 15);
 //	trace_t tr;
-//	mdxaBone_t bolt_matrix;
+//	mdxaBone_t boltMatrix;
 //	vec3_t start, end, dir;
 //	constexpr vec3_t trace_maxs = { 4, 4, 4 };
 //	constexpr vec3_t trace_mins = { -4, -4, -4 };
 //	const vec3_t ranc_angles = { 0, NPC->client->ps.viewangles[YAW], 0 };
 //
-//	gi.G2API_GetBoltMatrix(NPC->ghoul2, NPC->playerModel, NPC->gutBolt,	&bolt_matrix, ranc_angles, NPC->currentOrigin, cg.time ? cg.time : level.time,	nullptr, NPC->s.modelScale);
+//	gi.G2API_GetBoltMatrix(NPC->ghoul2, NPC->playerModel, NPC->gutBolt,	&boltMatrix, ranc_angles, NPC->currentOrigin, cg.time ? cg.time : level.time,	nullptr, NPC->s.modelScale);
 //
-//	gi.G2API_GiveMeVectorFromMatrix(bolt_matrix, ORIGIN, start);
-//	gi.G2API_GiveMeVectorFromMatrix(bolt_matrix, NEGATIVE_Z, dir);
+//	gi.G2API_GiveMeVectorFromMatrix(boltMatrix, ORIGIN, start);
+//	gi.G2API_GiveMeVectorFromMatrix(boltMatrix, NEGATIVE_Z, dir);
 //	VectorMA(start, 512, dir, end);
 //
 //	gi.trace(&tr, start, trace_mins, trace_maxs, end, NPC->s.number, MASK_SHOT, static_cast<EG2_Collision>(0), 0);

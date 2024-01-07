@@ -2142,7 +2142,7 @@ static void EWeb_SetBoneAnim(gentity_t* eweb, const int startFrame, const int en
 
 static void EWebFire(gentity_t* owner, gentity_t* eweb)
 {
-	mdxaBone_t bolt_matrix;
+	mdxaBone_t boltMatrix;
 	vec3_t p, d, bPoint;
 
 	if (eweb->genericValue10 == -1)
@@ -2153,10 +2153,10 @@ static void EWebFire(gentity_t* owner, gentity_t* eweb)
 	}
 
 	//get the muzzle point
-	trap->G2API_GetBoltMatrix(eweb->ghoul2, 0, eweb->genericValue10, &bolt_matrix, eweb->s.apos.trBase,
+	trap->G2API_GetBoltMatrix(eweb->ghoul2, 0, eweb->genericValue10, &boltMatrix, eweb->s.apos.trBase,
 		eweb->r.currentOrigin, level.time, NULL, eweb->modelScale);
-	BG_GiveMeVectorFromMatrix(&bolt_matrix, ORIGIN, p);
-	BG_GiveMeVectorFromMatrix(&bolt_matrix, NEGATIVE_Y, d);
+	BG_GiveMeVectorFromMatrix(&boltMatrix, ORIGIN, p);
+	BG_GiveMeVectorFromMatrix(&boltMatrix, NEGATIVE_Y, d);
 
 	//Start the thing backwards into the bounding box so it can't start inside other solid things
 	VectorMA(p, -16.0f, d, bPoint);
@@ -2186,14 +2186,14 @@ static void EWebFire(gentity_t* owner, gentity_t* eweb)
 //lock the owner into place relative to the cannon pos
 static void EWebPositionUser(gentity_t* owner, gentity_t* eweb)
 {
-	mdxaBone_t bolt_matrix;
+	mdxaBone_t boltMatrix;
 	vec3_t p, d;
 	trace_t tr;
 
-	trap->G2API_GetBoltMatrix(eweb->ghoul2, 0, eweb->genericValue9, &bolt_matrix, eweb->s.apos.trBase,
+	trap->G2API_GetBoltMatrix(eweb->ghoul2, 0, eweb->genericValue9, &boltMatrix, eweb->s.apos.trBase,
 		eweb->r.currentOrigin, level.time, NULL, eweb->modelScale);
-	BG_GiveMeVectorFromMatrix(&bolt_matrix, ORIGIN, p);
-	BG_GiveMeVectorFromMatrix(&bolt_matrix, NEGATIVE_X, d);
+	BG_GiveMeVectorFromMatrix(&boltMatrix, ORIGIN, p);
+	BG_GiveMeVectorFromMatrix(&boltMatrix, NEGATIVE_X, d);
 
 	VectorMA(p, 32.0f, d, p);
 	p[2] = eweb->r.currentOrigin[2];

@@ -1537,7 +1537,7 @@ void G_CheckCharmed(gentity_t* self)
 
 void G_GetBoltPosition(gentity_t* self, const int bolt_index, vec3_t pos, const int model_index)
 {
-	mdxaBone_t bolt_matrix;
+	mdxaBone_t boltMatrix;
 	vec3_t angles;
 
 	if (!self || !self->inuse)
@@ -1562,12 +1562,12 @@ void G_GetBoltPosition(gentity_t* self, const int bolt_index, vec3_t pos, const 
 
 	trap->G2API_GetBoltMatrix(self->ghoul2, model_index,
 		bolt_index,
-		&bolt_matrix, angles, self->r.currentOrigin, level.time,
+		&boltMatrix, angles, self->r.currentOrigin, level.time,
 		NULL, self->modelScale);
 	if (pos)
 	{
 		vec3_t result;
-		BG_GiveMeVectorFromMatrix(&bolt_matrix, ORIGIN, result);
+		BG_GiveMeVectorFromMatrix(&boltMatrix, ORIGIN, result);
 		VectorCopy(result, pos);
 	}
 }

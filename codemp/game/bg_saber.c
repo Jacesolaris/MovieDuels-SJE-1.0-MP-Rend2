@@ -44,7 +44,7 @@ extern stringID_table_t saber_moveTable[];
 #endif
 
 extern qboolean BG_SabersOff(const playerState_t* ps);
-saberInfo_t* BG_MySaber(int clientNum, int saber_num);
+saberInfo_t* BG_MySaber(int clientNum, int saberNum);
 extern qboolean PM_SaberInDamageMove(int move);
 void PM_AddFatigue(playerState_t* ps, int fatigue);
 extern qboolean PM_InCartwheel(int anim);
@@ -7274,19 +7274,19 @@ void PM_Setsaber_move(saber_moveName_t new_move)
 	}
 }
 
-saberInfo_t* BG_MySaber(int clientNum, int saber_num)
+saberInfo_t* BG_MySaber(int clientNum, int saberNum)
 {
-	//returns a pointer to the requested saber_num
+	//returns a pointer to the requested saberNum
 #ifdef _GAME
 	const gentity_t* ent = &g_entities[clientNum];
 	if (ent->inuse && ent->client)
 	{
-		if (!ent->client->saber[saber_num].model[0])
+		if (!ent->client->saber[saberNum].model[0])
 		{
 			//don't have saber anymore!
 			return NULL;
 		}
-		return &ent->client->saber[saber_num];
+		return &ent->client->saber[saberNum];
 	}
 #elif defined(_CGAME)
 	clientInfo_t* ci = NULL;
@@ -7305,12 +7305,12 @@ saberInfo_t* BG_MySaber(int clientNum, int saber_num)
 	if (ci
 		&& ci->infoValid)
 	{
-		if (!ci->saber[saber_num].model[0])
+		if (!ci->saber[saberNum].model[0])
 		{
 			//don't have sabers anymore!
 			return NULL;
 		}
-		return &ci->saber[saber_num];
+		return &ci->saber[saberNum];
 	}
 #endif
 
@@ -7520,7 +7520,7 @@ void PM_SaberPerfectBlockUpdate(const int new_move)
 
 extern float bg_get_torso_anim_point(const playerState_t* ps, int anim_index);
 
-qboolean BG_SaberInFullDamageMove(const playerState_t* ps, const int anim_index)
+qboolean PM_SaberInFullDamageMove(const playerState_t* ps, const int anim_index)
 {
 	//The player is attacking with a saber attack that does full damage
 	const float torso_anim_point = bg_get_torso_anim_point(ps, anim_index);
@@ -7614,7 +7614,7 @@ qboolean BG_SaberInTransitionDamageMove(const playerState_t* ps)
 qboolean BG_SaberInNonIdleDamageMove(const playerState_t* ps, const int anim_index)
 {
 	//player is in a saber move that does something more than idle saber damage
-	return BG_SaberInFullDamageMove(ps, anim_index);
+	return PM_SaberInFullDamageMove(ps, anim_index);
 }
 
 qboolean BG_InSlowBounce(const playerState_t* ps)
