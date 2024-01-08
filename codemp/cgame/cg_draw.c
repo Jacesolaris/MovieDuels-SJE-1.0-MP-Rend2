@@ -13360,7 +13360,7 @@ chatbox functionality -rww
 
 //utility func, insert a string into a string at the specified
 //place (assuming this will not overflow the buffer)
-void CG_ChatBox_StrInsert(char* buffer, const int place, const char* str)
+static void CG_ChatBox_StrInsert(char* buffer, const int place, const char* str)
 {
 	const int ins_len = strlen(str);
 	int i = strlen(buffer);
@@ -13455,7 +13455,7 @@ void CG_ChatBox_AddString(char* chat_str)
 }
 
 //insert item into array (rearranging the array if necessary)
-void CG_ChatBox_ArrayInsert(chatBoxItem_t** array, const int ins_point, const int max_num, chatBoxItem_t* item)
+static void CG_ChatBox_ArrayInsert(chatBoxItem_t** array, const int ins_point, const int max_num, chatBoxItem_t* item)
 {
 	if (array[ins_point])
 	{
@@ -13525,8 +13525,8 @@ static QINLINE void CG_ChatBox_DrawStrings(void)
 	i = 0;
 	while (i < num_to_draw)
 	{
-		const int x = 30;
-		CG_Text_Paint(x, y, font_scale, colorWhite, draw_these[i]->string, 0, 0, ITEM_TEXTSTYLE_OUTLINED, FONT_SMALL);
+		const int x = 10;
+		CG_Text_Paint(x, y - 50, font_scale, colorWhite, draw_these[i]->string, 0, 0, ITEM_TEXTSTYLE_OUTLINED, FONT_SMALL);
 		y += CHATBOX_FONT_HEIGHT * font_scale * draw_these[i]->lines;
 		i++;
 	}

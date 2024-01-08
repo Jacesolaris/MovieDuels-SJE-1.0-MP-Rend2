@@ -638,7 +638,7 @@ int PM_IdlePoseForsaber_anim_level(void)
 	if (g_entities[pm->ps->clientNum].r.svFlags & SVF_BOT || pm_entSelf->s.eType == ET_NPC)
 	{
 		anim = PM_ReadyPoseForsaber_anim_levelBOT();
-}
+	}
 #endif
 	if (PM_BoltBlockingAnim(pm->ps->torsoAnim)
 		|| PM_SaberInBounce(pm->ps->saber_move))
@@ -2076,7 +2076,7 @@ int PM_BlockingPoseForsaber_anim_levelStaff(void)
 
 static qboolean PM_DoSlowFall(void)
 {
-	if ((pm->ps->legsAnim == BOTH_WALL_RUN_RIGHT || pm->ps->legsAnim == BOTH_WALL_RUN_LEFT) && pm->ps->legsTimer >500)
+	if ((pm->ps->legsAnim == BOTH_WALL_RUN_RIGHT || pm->ps->legsAnim == BOTH_WALL_RUN_LEFT) && pm->ps->legsTimer > 500)
 	{
 		return qtrue;
 	}
@@ -18393,7 +18393,7 @@ PmoveSingle
 */
 extern int BG_EmplacedView(vec3_t base_angles, vec3_t angles, float* new_yaw, float constraint);
 extern qboolean BG_FighterUpdate(Vehicle_t* p_veh, const usercmd_t* pUcmd, vec3_t trMins, vec3_t trMaxs, float gravity,
-	void (*traceFunc)(trace_t* results, const vec3_t start, const vec3_t lmins,const vec3_t lmaxs, const vec3_t end, int pass_entity_num,int content_mask)); //FighterNPC.c
+	void (*traceFunc)(trace_t* results, const vec3_t start, const vec3_t lmins, const vec3_t lmaxs, const vec3_t end, int pass_entity_num, int content_mask)); //FighterNPC.c
 
 #define JETPACK_HOVER_HEIGHT	64
 

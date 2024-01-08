@@ -533,7 +533,6 @@ typedef struct centity_s {
 
 	int				unoverloading;
 	qboolean		overloaded;
-
 } centity_t;
 
 //======================================================================

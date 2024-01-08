@@ -3583,7 +3583,7 @@ void Cmd_SaberAttackCycle_f(gentity_t* ent)
 			return;
 		}
 
-		if (ent->client->ps.weapon == WP_SABER	&& ent->client->ps.saberInFlight)
+		if (ent->client->ps.weapon == WP_SABER && ent->client->ps.saberInFlight)
 		{
 			//saber not currently in use or available.
 			return;
@@ -4113,7 +4113,7 @@ static void Cmd_DebugSetBodyAnim_f(gentity_t* self)
 	G_SetAnim(self, NULL, SETANIM_BOTH, i, SETANIM_FLAG_OVERRIDE | SETANIM_FLAG_HOLD, 0);
 
 	Com_Printf("Set body anim to %s\n", arg);
-		}
+}
 #endif
 
 static void StandardSetBodyAnim(gentity_t* self, const int anim, const int flags)

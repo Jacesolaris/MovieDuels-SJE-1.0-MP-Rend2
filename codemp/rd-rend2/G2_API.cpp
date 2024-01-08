@@ -2452,10 +2452,10 @@ int G2API_CopyGhoul2Instance(const CGhoul2Info_v& g2_from, CGhoul2Info_v& g2To, 
 				CGoreSet* gore = FindGoreSet(g2To[model].mGoreSetTag);
 				assert(gore);
 				gore->mRefCount++;
-	}
+			}
 
 			model++;
-}
+		}
 #endif
 		//G2ANIM(ghoul2From,"G2API_CopyGhoul2Instance (source)");
 		//G2ANIM(ghoul2To,"G2API_CopyGhoul2Instance (dest)");
@@ -2504,8 +2504,8 @@ void G2API_CopySpecificG2Model(CGhoul2Info_v& ghoul2From, const int modelFrom, C
 			ghoul2To[0].mSkelFrameNum = 0;
 		}
 #endif
-		}
 	}
+}
 
 // This version will automatically copy everything about this model, and make a new one if necessary.
 void G2API_DuplicateGhoul2Instance(const CGhoul2Info_v& g2_from, CGhoul2Info_v** g2To)
@@ -2516,7 +2516,7 @@ void G2API_DuplicateGhoul2Instance(const CGhoul2Info_v& g2_from, CGhoul2Info_v**
 	{	// This is bad.  We only want to do this if there is not yet a to declared.
 		assert(0);
 		return;
-}
+	}
 
 	*g2To = new CGhoul2Info_v;
 #ifdef _FULL_G2_LEAK_CHECKING
@@ -2580,9 +2580,9 @@ char* G2API_GetSurfaceName(CGhoul2Info_v& ghoul2, const int model_index, const i
 			surfInfo = (mdxmSurfHierarchy_t*)((byte*)surfIndexes + surfIndexes->offsets[surf->thisSurfaceIndex]);
 			return surfInfo->name;
 		}
-		}
-	return noSurface;
 	}
+	return noSurface;
+}
 
 int	G2API_GetSurfaceIndex(CGhoul2Info* ghlInfo, const char* surface_name)
 {
@@ -2968,7 +2968,7 @@ qboolean G2_SetupModelPointers(CGhoul2Info_v& ghoul2) // returns true if any mod
 		ret = ret || r;
 	}
 	return (qboolean)ret;
-	}
+}
 
 qboolean G2API_IsGhoul2InfovValid(const CGhoul2Info_v& ghoul2)
 {

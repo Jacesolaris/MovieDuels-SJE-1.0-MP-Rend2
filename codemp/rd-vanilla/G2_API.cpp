@@ -2783,7 +2783,7 @@ void G2API_AddSkinGore(CGhoul2Info_v& ghoul2, SSkinGoreData& gore)
 		G2_TransformModel(ghoul2, gore.current_time, gore.scale, ri->GetG2VertSpaceServer(), lod, true);
 
 		// now walk each model and compute new texture coordinates
-		G2_TraceModels(ghoul2, transHitLocation, transRayDirection, nullptr, gore.entNum, 0, lod, 0.0f, gore.SSize,gore.TSize, gore.theta, gore.shader, &gore, qtrue);
+		G2_TraceModels(ghoul2, transHitLocation, transRayDirection, nullptr, gore.entNum, 0, lod, 0.0f, gore.SSize, gore.TSize, gore.theta, gore.shader, &gore, qtrue);
 	}
 }
 #endif

@@ -5116,7 +5116,7 @@ qboolean client_userinfo_changed(const int clientNum)
 			client->pers.nextbotclass = BCLASS_VADER;
 			if (!(ent->r.svFlags & SVF_BOT))
 			{
-				if (g_gametype.integer != GT_MOVIEDUELS_DUEL && g_gametype.integer != GT_MOVIEDUELS_POWERDUEL && g_gametype.integer !=	GT_MOVIEDUELS_SIEGE)
+				if (g_gametype.integer != GT_MOVIEDUELS_DUEL && g_gametype.integer != GT_MOVIEDUELS_POWERDUEL && g_gametype.integer != GT_MOVIEDUELS_SIEGE)
 				{
 					client->ps.stats[STAT_HEALTH] = ent->health = 0;
 					player_die(ent, ent, ent, 100000, MOD_TEAM_CHANGE);

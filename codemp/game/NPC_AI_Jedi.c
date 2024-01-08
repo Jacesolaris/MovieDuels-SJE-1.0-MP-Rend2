@@ -1123,7 +1123,7 @@ void Boba_ChooseWeapon(void)
 	}
 }
 
-void Boba_FireFlameThrower(gentity_t* self)
+static void Boba_FireFlameThrower(gentity_t* self)
 {
 	const int damage = Q_irand(8, 12);
 	trace_t tr;
@@ -1146,8 +1146,7 @@ void Boba_FireFlameThrower(gentity_t* self)
 
 	if (tr.entityNum < ENTITYNUM_WORLD && trace_ent->takedamage)
 	{
-		G_Damage(trace_ent, self, self, dir, tr.endpos, damage,
-			DAMAGE_NO_ARMOR | DAMAGE_NO_KNOCKBACK | DAMAGE_IGNORE_TEAM, MOD_BURNING);
+		G_Damage(trace_ent, self, self, dir, tr.endpos, damage, DAMAGE_NO_ARMOR | DAMAGE_NO_KNOCKBACK | DAMAGE_IGNORE_TEAM, MOD_BURNING);
 		g_throw(trace_ent, dir, 30);
 
 		if (trace_ent->health > 0 && trace_ent->painDebounceTime > level.time)
@@ -1199,7 +1198,7 @@ void Boba_StartFlameThrower(gentity_t* self)
 	G_PlayEffectID(G_EffectIndex("flamethrower/flamethrower_mp"), org, dir);
 }
 
-void Boba_DoFlameThrower(gentity_t* self)
+static void Boba_DoFlameThrower(gentity_t* self)
 {
 	if (self->client->ps.jetpackFuel < 10)
 	{

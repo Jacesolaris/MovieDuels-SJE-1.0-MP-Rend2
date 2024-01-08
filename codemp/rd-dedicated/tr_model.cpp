@@ -234,7 +234,7 @@ void* RE_RegisterModels_Malloc(const int iSize, void* pvDiskBufferIfJustLoaded, 
 
 // Unfortunately the dedicated server also hates shader loading. So we need an alternate of this func.
 //
-void* RE_RegisterServerModels_Malloc(const int iSize, void* pvDiskBufferIfJustLoaded, const char* psModelFileName,	qboolean* pqbAlreadyFound, const memtag_t eTag)
+void* RE_RegisterServerModels_Malloc(const int iSize, void* pvDiskBufferIfJustLoaded, const char* psModelFileName, qboolean* pqbAlreadyFound, const memtag_t eTag)
 {
 	char sModelName[MAX_QPATH];
 

@@ -11326,7 +11326,7 @@ void standard_bot_ai(bot_state_t* bs)
 				}
 			}
 		}
-}
+	}
 
 	if (!use_the_force)
 	{

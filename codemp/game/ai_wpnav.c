@@ -2020,16 +2020,16 @@ static void CalculateJumpRoutes(void)
 static int LoadPathData(const char* filename)
 {
 	fileHandle_t f;
-	char file_string[WPARRAY_BUFFER_SIZE];
-	char route_path[MAX_QPATH];
+	char fileString[WPARRAY_BUFFER_SIZE];
+	char routePath[MAX_QPATH];
 	wpobject_t thiswp;
 
 	int i = 0;
 	int i_cv;
 
-	Com_sprintf(route_path, sizeof route_path, "botroutes/%s.wnt\0", filename);
+	Com_sprintf(routePath, sizeof routePath, "botroutes/%s.wnt\0", filename);
 
-	const int len = trap->FS_Open(route_path, &f, FS_READ);
+	const int len = trap->FS_Open(routePath, &f, FS_READ);
 
 	if (!f)
 	{
@@ -2046,22 +2046,22 @@ static int LoadPathData(const char* filename)
 
 	char* current_var = B_TempAlloc(2048);
 
-	trap->FS_Read(file_string, len, f);
+	trap->FS_Read(fileString, len, f);
 
-	if (file_string[i] == 'l')
+	if (fileString[i] == 'l')
 	{
 		//contains a "levelflags" entry..
 		char read_l_flags[64];
 		i_cv = 0;
 
-		while (file_string[i] != ' ')
+		while (fileString[i] != ' ')
 		{
 			i++;
 		}
 		i++;
-		while (file_string[i] != '\n')
+		while (fileString[i] != '\n')
 		{
-			read_l_flags[i_cv] = file_string[i];
+			read_l_flags[i_cv] = fileString[i];
 			i_cv++;
 			i++;
 		}
@@ -2100,9 +2100,9 @@ static int LoadPathData(const char* filename)
 			nei_num++;
 		}
 
-		while (file_string[i] != ' ')
+		while (fileString[i] != ' ')
 		{
-			current_var[i_cv] = file_string[i];
+			current_var[i_cv] = fileString[i];
 			i_cv++;
 			i++;
 		}
@@ -2113,9 +2113,9 @@ static int LoadPathData(const char* filename)
 		i_cv = 0;
 		i++;
 
-		while (file_string[i] != ' ')
+		while (fileString[i] != ' ')
 		{
-			current_var[i_cv] = file_string[i];
+			current_var[i_cv] = fileString[i];
 			i_cv++;
 			i++;
 		}
@@ -2126,9 +2126,9 @@ static int LoadPathData(const char* filename)
 		i_cv = 0;
 		i++;
 
-		while (file_string[i] != ' ')
+		while (fileString[i] != ' ')
 		{
-			current_var[i_cv] = file_string[i];
+			current_var[i_cv] = fileString[i];
 			i_cv++;
 			i++;
 		}
@@ -2140,9 +2140,9 @@ static int LoadPathData(const char* filename)
 		i++;
 		i++;
 
-		while (file_string[i] != ' ')
+		while (fileString[i] != ' ')
 		{
-			current_var[i_cv] = file_string[i];
+			current_var[i_cv] = fileString[i];
 			i_cv++;
 			i++;
 		}
@@ -2153,9 +2153,9 @@ static int LoadPathData(const char* filename)
 		i_cv = 0;
 		i++;
 
-		while (file_string[i] != ' ')
+		while (fileString[i] != ' ')
 		{
-			current_var[i_cv] = file_string[i];
+			current_var[i_cv] = fileString[i];
 			i_cv++;
 			i++;
 		}
@@ -2166,9 +2166,9 @@ static int LoadPathData(const char* filename)
 		i_cv = 0;
 		i++;
 
-		while (file_string[i] != ')')
+		while (fileString[i] != ')')
 		{
-			current_var[i_cv] = file_string[i];
+			current_var[i_cv] = fileString[i];
 			i_cv++;
 			i++;
 		}
@@ -2178,12 +2178,12 @@ static int LoadPathData(const char* filename)
 
 		i += 4;
 
-		while (file_string[i] != '}')
+		while (fileString[i] != '}')
 		{
 			i_cv = 0;
-			while (file_string[i] != ' ' && file_string[i] != '-')
+			while (fileString[i] != ' ' && fileString[i] != '-')
 			{
-				current_var[i_cv] = file_string[i];
+				current_var[i_cv] = fileString[i];
 				i_cv++;
 				i++;
 			}
@@ -2191,14 +2191,14 @@ static int LoadPathData(const char* filename)
 
 			thiswp.neighbors[thiswp.neighbornum].num = atoi(current_var);
 
-			if (file_string[i] == '-')
+			if (fileString[i] == '-')
 			{
 				i_cv = 0;
 				i++;
 
-				while (file_string[i] != ' ')
+				while (fileString[i] != ' ')
 				{
-					current_var[i_cv] = file_string[i];
+					current_var[i_cv] = fileString[i];
 					i_cv++;
 					i++;
 				}
@@ -2220,9 +2220,9 @@ static int LoadPathData(const char* filename)
 		i++;
 		i++;
 
-		while (file_string[i] != '\n')
+		while (fileString[i] != '\n')
 		{
-			current_var[i_cv] = file_string[i];
+			current_var[i_cv] = fileString[i];
 			i_cv++;
 			i++;
 		}
@@ -2376,7 +2376,7 @@ static void FlagObjects(void)
 static int SavePathData(const char* filename)
 {
 	fileHandle_t f;
-	char file_string[WPARRAY_BUFFER_SIZE];
+	char fileString[WPARRAY_BUFFER_SIZE];
 	vec3_t a;
 	float fl_len;
 
@@ -2387,9 +2387,9 @@ static int SavePathData(const char* filename)
 		return 0;
 	}
 
-	const char* route_path = va("botroutes/%s.wnt\0", filename);
+	const char* routePath = va("botroutes/%s.wnt\0", filename);
 
-	trap->FS_Open(route_path, &f, FS_WRITE);
+	trap->FS_Open(routePath, &f, FS_WRITE);
 
 	if (!f)
 	{
@@ -2407,9 +2407,9 @@ static int SavePathData(const char* filename)
 
 	FlagObjects(); //currently only used for flagging waypoints nearest CTF flags
 
-	char* store_string = B_TempAlloc(4096);
+	char* storeString = B_TempAlloc(4096);
 
-	Com_sprintf(file_string, WPARRAY_BUFFER_SIZE, "%i %i %f (%f %f %f) { ", gWPArray[i]->index, gWPArray[i]->flags,
+	Com_sprintf(fileString, WPARRAY_BUFFER_SIZE, "%i %i %f (%f %f %f) { ", gWPArray[i]->index, gWPArray[i]->flags,
 		gWPArray[i]->weight, gWPArray[i]->origin[0], gWPArray[i]->origin[1], gWPArray[i]->origin[2]);
 
 	int n = 0;
@@ -2418,12 +2418,12 @@ static int SavePathData(const char* filename)
 	{
 		if (gWPArray[i]->neighbors[n].forceJumpTo)
 		{
-			Com_sprintf(store_string, 4096, "%s%i-%i ", store_string, gWPArray[i]->neighbors[n].num,
+			Com_sprintf(storeString, 4096, "%s%i-%i ", storeString, gWPArray[i]->neighbors[n].num,
 				gWPArray[i]->neighbors[n].forceJumpTo);
 		}
 		else
 		{
-			Com_sprintf(store_string, 4096, "%s%i ", store_string, gWPArray[i]->neighbors[n].num);
+			Com_sprintf(storeString, 4096, "%s%i ", storeString, gWPArray[i]->neighbors[n].num);
 		}
 		n++;
 	}
@@ -2440,14 +2440,14 @@ static int SavePathData(const char* filename)
 
 	gWPArray[i]->disttonext = fl_len;
 
-	Com_sprintf(file_string, WPARRAY_BUFFER_SIZE, "%s} %f\n", file_string, fl_len);
+	Com_sprintf(fileString, WPARRAY_BUFFER_SIZE, "%s} %f\n", fileString, fl_len);
 
 	i++;
 
 	while (i < gWPNum)
 	{
 		//sprintf(fileString, "%s%i %i %f (%f %f %f) { ", fileString, gWPArray[i]->index, gWPArray[i]->flags, gWPArray[i]->weight, gWPArray[i]->origin[0], gWPArray[i]->origin[1], gWPArray[i]->origin[2]);
-		Com_sprintf(store_string, 4096, "%i %i %f (%f %f %f) { ", gWPArray[i]->index, gWPArray[i]->flags,
+		Com_sprintf(storeString, 4096, "%i %i %f (%f %f %f) { ", gWPArray[i]->index, gWPArray[i]->flags,
 			gWPArray[i]->weight, gWPArray[i]->origin[0], gWPArray[i]->origin[1], gWPArray[i]->origin[2]);
 
 		n = 0;
@@ -2456,12 +2456,12 @@ static int SavePathData(const char* filename)
 		{
 			if (gWPArray[i]->neighbors[n].forceJumpTo)
 			{
-				Com_sprintf(store_string, 4096, "%s%i-%i ", store_string, gWPArray[i]->neighbors[n].num,
+				Com_sprintf(storeString, 4096, "%s%i-%i ", storeString, gWPArray[i]->neighbors[n].num,
 					gWPArray[i]->neighbors[n].forceJumpTo);
 			}
 			else
 			{
-				Com_sprintf(store_string, 4096, "%s%i ", store_string, gWPArray[i]->neighbors[n].num);
+				Com_sprintf(storeString, 4096, "%s%i ", storeString, gWPArray[i]->neighbors[n].num);
 			}
 			n++;
 		}
@@ -2478,14 +2478,14 @@ static int SavePathData(const char* filename)
 
 		gWPArray[i]->disttonext = fl_len;
 
-		Com_sprintf(store_string, 4096, "%s} %f\n", store_string, fl_len);
+		Com_sprintf(storeString, 4096, "%s} %f\n", storeString, fl_len);
 
-		Q_strcat(file_string, WPARRAY_BUFFER_SIZE, store_string);
+		Q_strcat(fileString, WPARRAY_BUFFER_SIZE, storeString);
 
 		i++;
 	}
 
-	trap->FS_Write(file_string, strlen(file_string), f);
+	trap->FS_Write(fileString, strlen(fileString), f);
 
 	B_TempFree(4096); //storeString
 

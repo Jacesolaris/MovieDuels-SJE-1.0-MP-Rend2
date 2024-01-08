@@ -4087,6 +4087,15 @@ static int CheckArmor(const gentity_t* ent, const int damage, const int dflags, 
 		}
 		return damage;
 	}
+
+	//if (client->pers.botclass == BCLASS_VADER) // Vader takes half fire damage
+	//{
+	//	if (mod == MOD_BURNING || mod == MOD_LAVA)
+	//	{
+	//		return damage / 2;
+	//	}
+	//}
+
 	if (client->NPC_class == CLASS_VEHICLE
 		&& ent->m_pVehicle
 		&& ent->client->ps.electrifyTime > level.time)
@@ -6447,8 +6456,7 @@ void G_Damage(gentity_t* targ, gentity_t* inflictor, gentity_t* attacker, vec3_t
 		{
 			if (!PM_InKnockDown(&targ->client->ps))
 			{
-				G_SetAnim(targ, NULL, SETANIM_TORSO, BOTH_SONICPAIN_HOLD, SETANIM_FLAG_OVERRIDE | SETANIM_FLAG_HOLD,
-					100);
+				G_SetAnim(targ, NULL, SETANIM_TORSO, BOTH_SONICPAIN_HOLD, SETANIM_FLAG_OVERRIDE | SETANIM_FLAG_HOLD, 100);
 				targ->client->ps.torsoTimer += 100;
 				targ->client->ps.weaponTime = targ->client->ps.torsoTimer;
 			}
@@ -6595,6 +6603,14 @@ void G_Damage(gentity_t* targ, gentity_t* inflictor, gentity_t* attacker, vec3_t
 			}
 		}
 	}
+
+	//if (targ && targ->client && targ->client->pers.botclass == BCLASS_VADER) // Vader takes half fire damage
+	//{
+	//	if (mod == MOD_BURNING || mod == MOD_LAVA)
+	//	{
+	//		damage = ceil(damage * 0.50f);
+	//	}
+	//}
 
 	if (targ && targ->client && targ->client->ps.duelInProgress)
 	{

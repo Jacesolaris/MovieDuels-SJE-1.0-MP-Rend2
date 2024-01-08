@@ -1841,7 +1841,7 @@ RE_Shutdown
 */
 void RE_Shutdown(const qboolean destroyWindow, const qboolean restarting)
 {
-	ri->Printf( PRINT_ALL, "RE_Shutdown( %i )\n", destroyWindow );
+	ri->Printf(PRINT_ALL, "RE_Shutdown( %i )\n", destroyWindow);
 
 	for (const auto& command : commands)
 		ri->Cmd_RemoveCommand(command.cmd);
