@@ -1,0 +1,6 @@
+
+Command Arguments
++set sv_pure 0 +set fs_basepath "G:\Mods\MovieDuels-Rend2" +set r_fullscreen 0
+
+Working Directory
+G:\Mods\MovieDuels-Rend2
